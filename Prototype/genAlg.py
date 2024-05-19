@@ -87,4 +87,5 @@ def genetic_algorithm(person_traits, profession_traits, num_generations, populat
 
 def genetic_algorithm_code(person_traits, profession_traits, num_generations, population_size):
     matched_professions = genetic_algorithm(person_traits, profession_traits, num_generations, population_size)
-    return matched_professions
+    # return matched professions as a list of dictionaries representing professions
+    return [{'name': profession, 'traits': [trait['traits'] for trait in profession_traits if trait['name'] == profession][0]} for profession in matched_professions]
