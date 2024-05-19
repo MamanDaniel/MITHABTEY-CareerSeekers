@@ -19,6 +19,7 @@ def show_selected_traits():
     if not selected_traits:
         result_text_widget.delete("1.0", tk.END)
         result_text_widget.insert(tk.END, "Please select at least one trait")
+        print("No traits selected")
         return
 
     result_text.set(f"You chose: {', '.join(selected_traits)}")
@@ -56,12 +57,23 @@ def show_selected_traits():
         result_text_widget.delete("1.0", tk.END)
         result_text_widget.insert(tk.END, f"An error occurred: {e}")
 
-    print("Done")
+    print("Found jobs")
 
 
 # Create the main window
 root = tb.Window(themename="minty")
 root.title("Character Traits Selection")
+# make only the title bold
+root.option_add("*Font", "Helvetica 10")
+root.option_add("*Label.Font", "Helvetica 10 bold")
+root.option_add("*Checkbutton.Font", "Helvetica 9")
+
+# make the title green
+root.option_add("*Label.Foreground", "green")
+
+
+
+
 
 # Create a label
 label = tk.Label(root, text="Choose your character traits")
