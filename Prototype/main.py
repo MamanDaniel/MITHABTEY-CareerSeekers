@@ -1,5 +1,4 @@
 import tkinter as tk
-from ttkbootstrap.constants import *
 import ttkbootstrap as tb
 import genAlg
 
@@ -13,27 +12,16 @@ def open_centered_window(window, width=400, height=300):
     window.geometry(f"{width}x{height}+{x}+{y}")
     window.mainloop()
 
-# Function to show matched professions in a new window
-def show_matched_professions(professions):
-    # Create a new window
-    top = tk.Toplevel()
-    top.title("Matched Professions")
-    
-    # Create a label to display the matched professions
-    label = tk.Label(top, text="\n".join(professions))
-    label.pack()
-
-    # Open the window centered on the screen
-    open_centered_window(top,350,250)
-
 # Function to show selected traits and run genetic algorithm
 def show_selected_traits():
     selected_traits = [trait for trait, var in checkbox_vars.items() if var.get() == 1]
-    result_label.config(text=f"You chose: {', '.join(selected_traits)}")
 
     if not selected_traits:
-        result_label.config(text="Please select at least one trait")
+        result_text_widget.delete("1.0", tk.END)
+        result_text_widget.insert(tk.END, "Please select at least one trait")
         return
+
+    result_text.set(f"You chose: {', '.join(selected_traits)}")
 
     num_generations = 100
     population_size = 50
@@ -52,17 +40,23 @@ def show_selected_traits():
 
         matched_professions = genAlg.genetic_algorithm_code(selected_traits, profession_traits, num_generations, population_size)
         matched_profession_names = [profession['name'] for profession in matched_professions]
-        result_text = f"You chose: {', '.join(selected_traits)}\nMatched Professions: {', '.join(matched_profession_names)}"
-   
+        result_text_widget.delete("1.0", tk.END)
+
+        result_text_widget.insert(tk.END, f"You choose: ", 'bold')
+        result_text_widget.insert(tk.END, f"{', '.join(selected_traits)}\n", 'normal')
+        result_text_widget.insert(tk.END, f"\nThe three most suitable professions for you:\n", 'bold')
+        result_text_widget.insert(tk.END, f"{', '.join(matched_profession_names)}", 'normal')
+
+        # Configure the tag for bold text
+        result_text_widget.tag_configure('bold', font=('Helvetica', 10, 'bold'))
+        result_text_widget.tag_configure('normal', font=('Helvetica', 10))
+
+
     except Exception as e:
-        result_text = f"An error occurred: {e}"
+        result_text_widget.delete("1.0", tk.END)
+        result_text_widget.insert(tk.END, f"An error occurred: {e}")
 
-    result_label.config(text=result_text)
     print("Done")
-
-    #if matched_professions:
-    #    show_matched_professions(matched_profession_names)
-
 
 
 # Create the main window
@@ -90,10 +84,19 @@ for trait in traits:
 button = tk.Button(root, text="Find me jobs", command=show_selected_traits)
 button.pack(pady=10)
 
-# Create a label to display the result
-result_label = tk.Label(root, text="")
-result_label.pack(pady=10)
-open_centered_window(root, 500, 400)
+# Create a Scrollbar
+scrollbar = tk.Scrollbar(root)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+# Create a Text widget for the result
+result_text = tk.StringVar()
+result_text.set("")
+result_text_widget = tk.Text(root, yscrollcommand=scrollbar.set, wrap=tk.WORD, height=10)
+result_text_widget.pack(pady=10, fill=tk.BOTH, expand=True)
+
+# Configure the Scrollbar to scroll the Text widget
+scrollbar.config(command=result_text_widget.yview)
 
 # Run the main event loop
+open_centered_window(root, 500, 400)
 root.mainloop()
