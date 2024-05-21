@@ -82,29 +82,18 @@ def genetic_algorithm(person_traits, profession_traits, num_generations, populat
 
 # Example usage
 person_traits = ['smart', 'diligent', 'initiative']
-profession_traits = [
-    {'name': 'Designer', 'traits': ['smart']},
-    {'name': 'Manager', 'traits': ['diligent', 'responsible']},
-    {'name': 'Leader', 'traits': ['initiative', 'leadership']},
-    {'name': 'Scientist', 'traits': ['analytical', 'logical']},
-    {'name': 'Counselor', 'traits': ['communicative', 'empathetic']},
-    #{'name': 'one', 'traits': ['diligent', 'empathetic']},
-    #{'name': 'two', 'traits': ['diligent', 'initiative']},
-    #{'name': 'three', 'traits': ['smart', 'diligent', 'initiative']},
-    {'name': 'Accountant', 'traits': ['organized', 'detail-oriented','smart', 'diligent', 'initiative']}
-]
 
 # Example usage with RAMAK traits
-# professions = [
-#     {'name': 'Business Consultant', 'traits': ['Business', 'Organization']},
-#     {'name': 'Operations Manager', 'traits': ['Organization', 'Technology']},
-#     {'name': 'Cultural Researcher', 'traits': ['General culture', 'Arts and Entertainment']},
-#     {'name': 'Healthcare Administrator', 'traits': ['Service', 'Organization']},
-#     {'name': 'Actor', 'traits': ['Arts and Entertainment', 'General culture']},
-#     {'name': 'Wildlife Biologist', 'traits': ['Outdoor', 'Science']},
-#     {'name': 'Data Scientist', 'traits': ['Science', 'Technology']},
-#     {'name': 'Software Engineer', 'traits': ['Technology', 'Science', 'Arts and Entertainment']}
-# ]
+profession_traits = [
+     {'name': 'Business Consultant', 'traits': ['Business', 'Organization']},
+     {'name': 'Operations Manager', 'traits': ['Organization', 'Technology']},
+     {'name': 'Cultural Researcher', 'traits': ['General culture', 'Arts and Entertainment']},
+     {'name': 'Healthcare Administrator', 'traits': ['Service', 'Organization']},
+     {'name': 'Actor', 'traits': ['Arts and Entertainment', 'General culture']},
+     {'name': 'Wildlife Biologist', 'traits': ['Outdoor', 'Science']},
+     {'name': 'Data Scientist', 'traits': ['Science', 'Technology']},
+     {'name': 'Software Engineer', 'traits': ['Technology', 'Science', 'Arts and Entertainment']}
+ ]
 
 
 num_generations = 100
