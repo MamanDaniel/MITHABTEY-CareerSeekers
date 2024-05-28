@@ -66,15 +66,15 @@ def show_selected_traits():
 
 # Create the main window
 root = tb.Window(themename="minty")
-root.title("Character Traits Selection")
+root.title("MITHABTEY - Career Seeker")
 
 # Create a label
-tk.Label(root, text="Character Traits Selection", font=('Helvetica', 12, 'bold')).pack(pady=10)
+tk.Label(root, text="Match jobs to your character Traits", font=('Helvetica', 12, 'bold')).pack(pady=10)
 # Define the character traits
 traits = ["Business", "Organization", "General culture", "Service", "Arts and Entertainment", "Outdoor", "Science", "Technology"]
 
 # Add a button to open the survey
-tk.Button(root, text="Take Ramak Survey", command=lambda: open_survey(root, display_result, find_jobs_button)).pack(pady=10)
+tk.Button(root, text="Make RANAK questionnaire", command=lambda: open_survey(root, display_result, find_jobs_button)).pack(pady=10)
 
 # Create the button, initially hidden
 find_jobs_button = tk.Button(root, text="Find me jobs", command=show_selected_traits)
