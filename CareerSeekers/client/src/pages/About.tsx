@@ -1,7 +1,6 @@
-import React from 'react'
-
 export default function About() {
   return (
-    <div>About page</div>
+    
+    <div className="text-blue-700 border-l-2 ">About page</div>
   )
 }
