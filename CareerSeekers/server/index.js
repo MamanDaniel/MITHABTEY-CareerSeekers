@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRouter from './routes/userRoute.js';
 dotenv.config();
 
 // Connect to MongoDB database 
@@ -19,6 +20,4 @@ app.listen(PORT, () => {
 );
 
 // Test route the server is running
-app.get('/', (req, res) => {
-  res.send('Hello');
-});
+app.use("/server/user", userRouter);
