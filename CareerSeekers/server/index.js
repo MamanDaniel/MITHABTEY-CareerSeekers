@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/userRoute.js';
+import authRouter from './routes/authRoute.js';
+
 dotenv.config();
 
 // Connect to MongoDB database 
@@ -14,6 +16,7 @@ mongoose.connect(process.env.MONGO).then(() => {
 
 mongoose.connect(process.env.MONGO)
 const app = express();
+app.use(express.json());
 const PORT = 3000;
 
 app.listen(PORT, () => {
