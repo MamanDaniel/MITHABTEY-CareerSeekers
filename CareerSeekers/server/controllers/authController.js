@@ -26,7 +26,7 @@ export const signin = async (req, res, next) => {
         if(!validPassword){
             return next(errorHandler('Wrong email or password', 401));
         }
-        // create a token
+        // create a token for the user based on the user id in the database
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         // remove password from the user object
         const { password: pass, ...rest } = validUser._doc;
