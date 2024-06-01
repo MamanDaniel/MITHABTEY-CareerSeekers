@@ -26,8 +26,13 @@ export const signin = async (req, res, next) => {
         if(!validPassword){
             return next(errorHandler('Wrong email or password', 401));
         }
+        // create a token
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.cookie('access_token', token, { httpOnly: true }).status(200).json({ validUser});
+        // remove password from the user object
+        const { password: pass, ...rest } = validUser._doc;
+        // send the token in a cookie
+        res.cookie('access_token', token, { httpOnly: true }).status(200).json({ rest });
+    
     } catch (error) {
         next(error);
     }
