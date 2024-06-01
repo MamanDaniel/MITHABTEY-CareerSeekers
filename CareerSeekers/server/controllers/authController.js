@@ -20,11 +20,11 @@ export const signin = async (req, res, next) => {
     try {
         const validUser = await User.findOne({ email });
         if(!validUser){
-            return next(errorHandler('User not found', 404));
+            return next(errorHandler(404, 'User not found'));
         }
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if(!validPassword){
-            return next(errorHandler('Wrong email or password', 401));
+            return next(errorHandler(401, 'Wrong email or password'));
         }
         // create a token for the user based on the user id in the database
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
