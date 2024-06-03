@@ -31,7 +31,7 @@ export const signin = async (req, res, next) => {
         // remove password from the user object
         const { password: pass, ...rest } = validUser._doc;
         // send the token in a cookie
-        res.cookie('access_token', token, { httpOnly: true }).status(200).json({ rest });
+        res.cookie('access_token', token, { httpOnly: true }).status(200).json( rest );
     
     } catch (error) {
         next(error);
