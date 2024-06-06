@@ -22,9 +22,12 @@ export default function Header() {
           <Link to='home'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
           </Link>
-          <Link to='signup'>
-            <li className='hidden sm:inline text-slate-700 hover:underline'>Sign up</li>
-          </Link>
+
+          {!currentUser && (
+            <Link to='signup'>
+              <li className='hidden sm:inline text-slate-700 hover:underline'>Sign up</li>
+            </Link>
+          )}
 
           <Link to='/profile'>
             {currentUser ? (
