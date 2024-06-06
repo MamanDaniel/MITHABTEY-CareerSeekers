@@ -3,14 +3,15 @@ import jwt from 'jsonwebtoken';
 
 
 export const verifyToken = (req, res, next) => {
-    const token = req.cookies.access_token;
-    if (!token) {
-      return next(errorHandler(401, 'Unauthorized'));
+  const token = req.cookies.access_token;
+  // Check if token exists  
+  if (!token) {
+      return next(errorHandler(401, 'You need to login first to access this route!'));
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-        return next(errorHandler(401, 'Unauthorized'));
+        return next(errorHandler(401, 'Your token is invalid or has expired!'));
       }
       req.user = user;
       next();
