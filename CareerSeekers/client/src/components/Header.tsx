@@ -1,9 +1,28 @@
 import { FaSearch } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice';
 
 export default function Header() {
-  const { currentUser } = useSelector((state: any) => state.user)
+  const { currentUser } = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
+
+  // sign out the user 
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch('/server/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
+    }
+  };
+
   return (
 
     <header className='bg-slate-200 shadow-md'>
@@ -23,11 +42,9 @@ export default function Header() {
             <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
           </Link>
           
-          {/*if the user is logged in,show signout link. on click - sign out*/}
+          {/*if the user is logged in, show signout link. on click - sign out*/}
           {currentUser && (
-            <Link to='signin'>
-              <li className='hidden sm:inline text-slate-700 hover:underline'>Sign out</li>
-            </Link>
+            <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline'>Sign out</li>
           )}
          
           {/*if the user is not logged in, show the sign up link*/}
@@ -37,7 +54,6 @@ export default function Header() {
             </Link>
           )}
           
-
           <Link to='/profile'>
             {currentUser ? (
               // print the user avatar in console
