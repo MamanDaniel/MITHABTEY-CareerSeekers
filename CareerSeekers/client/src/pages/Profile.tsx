@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import {
   updateUserStart,
   updateUserSuccess,
@@ -7,7 +8,8 @@ import {
   signOutUserFailure,
   signOutUserSuccess,
   signOutUserStart,
-} from '../redux/user/userSlice';import { useDispatch } from 'react-redux';
+} from '../redux/user/userSlice'; import { useDispatch } from 'react-redux';
+
 
 
 export default function Profile() {
@@ -74,8 +76,8 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className='text-red-700 cursor-pointer'>Delete account</span>
-        <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>Sign out</span>
+        <Link to='/RamakQuestionnaire' className='text-blue-700 hover:underline cursor-pointer'>Update traits in questionnaire</Link>
+        <span onClick={handleSignOut} className='text-red-700 hover:underline cursor-pointer'>Sign out</span>
       </div>
       <p className='text-red-700 mt-5'>{error ? error : ''}</p>
       <p className='text-green-700 mt-5'>{updateSuccess ? 'User updated successfully' : ''}</p>
