@@ -52,7 +52,7 @@ export default function Header() {
           
           {/*if the user is logged in, show signout link. on click - sign out*/}
           {currentUser && (
-            <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline'>Sign out</li>
+            <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline cursor-pointer '>Sign out</li>
           )}
          
           {/*if the user is not logged in, show the sign up link*/}
