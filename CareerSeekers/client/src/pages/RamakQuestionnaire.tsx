@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 type QuestionProps = {
     question: string;
     index: number;
@@ -106,14 +107,17 @@ const RamakQuestionnaire: React.FC = () => {
                     />
                 ))}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+            <div  style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
                 <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
                     onClick={() => setCurrentTripletIndex(currentTripletIndex - 1)}
                     disabled={currentTripletIndex === 0}
                 >
-                    Previous
+                    Prev
                 </button>
+           
                 <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
                     onClick={() => setCurrentTripletIndex(currentTripletIndex + 1)}
                     disabled={currentTripletIndex === Math.ceil(questions.length / 3) - 1}
                 >
