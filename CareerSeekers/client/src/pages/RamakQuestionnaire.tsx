@@ -10,7 +10,7 @@ type QuestionProps = {
 const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, onAnswer }) => {
     return (
         <div style={{ margin: '20px 0', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-            <p>{question}</p>
+            <p>{index + 1}) {question}</p>
             <div>
                 <label style={{ display: 'block', margin: '5px 0' }}>
                     <input
@@ -79,17 +79,21 @@ const RamakQuestionnaire: React.FC = () => {
     };
 
     const isComplete = answers.every(answer => answer !== null);
+    const totalAnswered = answers.filter(answer => answer !== null).length;
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
             <div style={{ margin: '20px 0' }}>
                 <div
                     style={{
-                        width: `${(answers.filter(answer => answer !== null).length / questions.length) * 100}%`,
+                        width: `${(totalAnswered / questions.length) * 100}%`,
                         height: '10px',
                         backgroundColor: '#2c40bf'
                     }}
                 />
+                <div style={{ textAlign: 'right', marginTop: '5px' }}>
+                    {totalAnswered} / {questions.length}
+                </div>
             </div>
             <div>
                 {questions.slice(currentTripletIndex * 3, currentTripletIndex * 3 + 3).map((question, index) => (
@@ -102,17 +106,31 @@ const RamakQuestionnaire: React.FC = () => {
                     />
                 ))}
             </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <button
+                    onClick={() => setCurrentTripletIndex(currentTripletIndex - 1)}
+                    disabled={currentTripletIndex === 0}
+                >
+                    Previous
+                </button>
+                <button
+                    onClick={() => setCurrentTripletIndex(currentTripletIndex + 1)}
+                    disabled={currentTripletIndex === Math.ceil(questions.length / 3) - 1}
+                >
+                    Next
+                </button>
+            </div>
             {isComplete && (
                 <div>
                     <div>Your score is: {calculateScore()}</div>
-                    <button onClick={() => setShowLog(true)}>Watch tour answers</button>
+                    <button onClick={() => setShowLog(true)}>Watch your answers</button>
                     {showLog && (
                         <div>
                             <h3>RamakQuestionnaire Log:</h3>
                             <ul>
                                 {questions.map((question, index) => (
                                     <li key={index}>
-                                        <strong>{question}</strong> - {answers[index] === 2 ? 'Yes' : answers[index] === 0 ? 'No' : "Not Sure"}
+                                        <strong>{index + 1}) {question}</strong> - {answers[index] === 2 ? 'Yes' : answers[index] === 0 ? 'No' : "Not Sure"}
                                     </li>
                                 ))}
                             </ul>
