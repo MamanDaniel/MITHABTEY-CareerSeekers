@@ -14,8 +14,6 @@ mongoose.connect(process.env.MONGO).then(() => {
   console.log(err);
 });
 
-
-mongoose.connect(process.env.MONGO)
 const app = express();
 app.use(express.json());
 
@@ -29,8 +27,16 @@ app.listen(PORT, () => {
 
 // Test route the server is running
 app.use("/server/user", userRouter);
-app.get('/', (req, res) => {
-  res.send("Hello ads adsa fsa");
-})
+// server auth route to signup
+app.use("/server/auth", authRouter);
 
-
+// Error handling middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  return res.status(statusCode).json({
+    success: false,
+    status: statusCode,
+    message: message
+  });
+});
