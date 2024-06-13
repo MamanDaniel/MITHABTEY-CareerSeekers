@@ -19,7 +19,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                         value="2"
                         checked={selectedAnswer === 2}
                         onChange={() => onAnswer(index, 2)}
-                        style={{ marginRight: '7px' }}  
+                        style={{ marginRight: '7px' }}
                     />
                     Yes
                 </label>
@@ -30,7 +30,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                         value="0"
                         checked={selectedAnswer === 0}
                         onChange={() => onAnswer(index, 0)}
-                        style={{ marginRight: '7px' }}  
+                        style={{ marginRight: '7px' }}
                     />
                     No
                 </label>
@@ -41,7 +41,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                         value="1"
                         checked={selectedAnswer === 1}
                         onChange={() => onAnswer(index, 1)}
-                        style={{ marginRight: '7px' }}  
+                        style={{ marginRight: '7px' }}
                     />
                     Not sure
                 </label>
@@ -50,13 +50,14 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
     );
 };
 
+
 const RamakQuestionnaire: React.FC = () => {
     const [questions, setQuestions] = useState<string[]>([]);
     const [currentTripletIndex, setCurrentTripletIndex] = useState(0);
-    const [answers, setAnswers] = useState<number[]>([]);
-    const [showLog, setShowLog] = useState(false);
+    const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [calculatedScore, setCalculatedScore] = useState<{ [key: string]: number } | null>(null);
 
     useEffect(() => {
         const fetchQuestionnaire = async () => {
@@ -69,9 +70,7 @@ const RamakQuestionnaire: React.FC = () => {
                     body: JSON.stringify({ Questionnaire_Name: 'RAMAK' })
                 });
                 const questionnaire = await res.json();
-                console.log(questionnaire);
                 setQuestions(questionnaire.Questions.map((q: any) => q.question_en));
-                setAnswers(Array(questionnaire.Questions.length).fill(null));
                 setLoading(false);
             } catch (err) {
                 console.log(err);
@@ -84,21 +83,33 @@ const RamakQuestionnaire: React.FC = () => {
     }, []);
 
     const handleAnswer = (index: number, answer: number) => {
-        const newAnswers = [...answers];
-        newAnswers[index] = answer;
+        const newAnswers = { ...answers };
+        newAnswers[index] = answer === 2 ? 'Y' : answer === 0 ? 'N' : '?';
         setAnswers(newAnswers);
-
+    
         if ((index + 1) % 3 === 0 && index + 1 < questions.length) {
             setCurrentTripletIndex(currentTripletIndex + 1);
         }
     };
-
-    const calculateScore = () => {
-        return answers.reduce((acc, curr) => acc + (curr !== null ? curr : 0), 0);
+    // console log the answers object and each key value object
+    const calculateScore = async () => {
+        try {
+            const res = await fetch('/server/questionnaires/calculateScore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ answers })
+            });
+            const score = await res.json();
+            setCalculatedScore(score);
+        } catch (err) {
+            console.log(err);
+            setError('Failed to calculate score');
+        }
     };
 
-    const isComplete = answers.every(answer => answer !== null);
-    const totalAnswered = answers.filter(answer => answer !== null).length;
+    const isComplete = Object.keys(answers).length === questions.length;
 
     if (loading) {
         return <div>Loading...</div>;
@@ -110,25 +121,13 @@ const RamakQuestionnaire: React.FC = () => {
 
     return (
         <div style={{ maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
-            <div style={{ margin: '20px 0' }}>
-                <div
-                    style={{
-                        width: `${(totalAnswered / questions.length) * 100}%`,
-                        height: '10px',
-                        backgroundColor: '#2c40bf'
-                    }}
-                />
-                <div style={{ textAlign: 'right', marginTop: '5px' }}>
-                    {totalAnswered} / {questions.length}
-                </div>
-            </div>
             <div>
                 {questions.slice(currentTripletIndex * 3, currentTripletIndex * 3 + 3).map((question, index) => (
                     <Question
                         key={currentTripletIndex * 3 + index}
                         question={question}
                         index={currentTripletIndex * 3 + index}
-                        selectedAnswer={answers[currentTripletIndex * 3 + index]}
+                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : 1}
                         onAnswer={handleAnswer}
                     />
                 ))}
@@ -152,18 +151,17 @@ const RamakQuestionnaire: React.FC = () => {
             </div>
             {isComplete && (
                 <div>
-                    <div>Your score is: {calculateScore()}</div>
-                    <button onClick={() => setShowLog(true)}>Watch your answers</button>
-                    {showLog && (
+                    <button
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                        onClick={calculateScore}>Calculate score</button>
+                    {calculatedScore !== null && (
                         <div>
-                            <h3>RamakQuestionnaire Log:</h3>
-                            <ul>
-                                {questions.map((question, index) => (
-                                    <li key={index}>
-                                        <strong>{index + 1}) {question}</strong> - {answers[index] === 2 ? 'Yes' : answers[index] === 0 ? 'No' : "Not Sure"}
-                                    </li>
-                                ))}
-                            </ul>
+                            <h2 className='font-bold'>Your scores:</h2>
+                            {Object.keys(calculatedScore).map((trait) => (
+                                <div key={trait}>
+                                    {trait}: {calculatedScore[trait]}
+                                </div>
+                            ))}
                         </div>
                     )}
                 </div>
