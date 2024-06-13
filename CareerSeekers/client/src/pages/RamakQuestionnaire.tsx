@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 
 type QuestionProps = {
     question: string;
@@ -48,26 +47,41 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                 </label>
             </div>
         </div>
-
     );
 };
 
 const RamakQuestionnaire: React.FC = () => {
-    const questions = [
-        'Would you be interested in working as a social worker?',
-        'Would you be interested in working as a mining foreman?',
-        'Would you be interested in working as a car salesperson?',
-        'Would you be interested in working as a choreographer?',
-        'Would you be interested in working as an elementary school teacher?',
-        'Would you be interested in working as a furniture upholsterer?',
-        'Would you be interested in working as a legal secretary?',
-        'Would you be interested in working as a chemist?',
-        'Would you be interested in working as a deckhand?',
-    ];
-
+    const [questions, setQuestions] = useState<string[]>([]);
     const [currentTripletIndex, setCurrentTripletIndex] = useState(0);
-    const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(null));
+    const [answers, setAnswers] = useState<number[]>([]);
     const [showLog, setShowLog] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchQuestionnaire = async () => {
+            try {
+                const res = await fetch('/server/questionnaires/getQuestionnaire', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ Questionnaire_Name: 'RAMAK' })
+                });
+                const questionnaire = await res.json();
+                console.log(questionnaire);
+                setQuestions(questionnaire.Questions.map((q: any) => q.question_en));
+                setAnswers(Array(questionnaire.Questions.length).fill(null));
+                setLoading(false);
+            } catch (err) {
+                console.log(err);
+                setError('Failed to fetch questionnaire');
+                setLoading(false);
+            }
+        };
+
+        fetchQuestionnaire();
+    }, []);
 
     const handleAnswer = (index: number, answer: number) => {
         const newAnswers = [...answers];
@@ -86,6 +100,14 @@ const RamakQuestionnaire: React.FC = () => {
     const isComplete = answers.every(answer => answer !== null);
     const totalAnswered = answers.filter(answer => answer !== null).length;
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
         <div style={{ maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
             <div style={{ margin: '20px 0' }}>
@@ -103,7 +125,7 @@ const RamakQuestionnaire: React.FC = () => {
             <div>
                 {questions.slice(currentTripletIndex * 3, currentTripletIndex * 3 + 3).map((question, index) => (
                     <Question
-                        key={index}
+                        key={currentTripletIndex * 3 + index}
                         question={question}
                         index={currentTripletIndex * 3 + index}
                         selectedAnswer={answers[currentTripletIndex * 3 + index]}

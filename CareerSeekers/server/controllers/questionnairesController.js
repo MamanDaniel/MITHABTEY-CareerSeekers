@@ -1,8 +1,10 @@
 import Questionnaire from "../models/questionnaireModel.js";
 import { errorHandler } from "../utils/error.js";
 
-export const getQuestionnaires = async (req, res, next) => {
-    const  Questionnaire_Name  = req.body.Questionnaire_Name;
+// Get a questionnaire by name
+export const getQuestionnaire = async (req, res, next) => {
+    const Questionnaire_Name = req.body.Questionnaire_Name;
+    console.log('Questionnaire_Name: ', Questionnaire_Name);
     try {
         const questionnaireVal = await Questionnaire.findOne(({ Questionnaire_Name }));
         console.log(questionnaireVal);

@@ -1,9 +1,10 @@
 import express from 'express';
-import { getQuestionnaires } from '../controllers/questionnairesController.js';
+import { getQuestionnaire } from '../controllers/questionnairesController.js';
 
 const router = express.Router();
 
-router.get('/getQuestionnaires', getQuestionnaires);
+// Get a questionnaire by name
+router.post('/getQuestionnaire', getQuestionnaire);
 
 
 export default router;
