@@ -23,11 +23,11 @@ const userSchema = new mongoose.Schema({
             type: Number,
             default: 0
         },
-        GeneralCulture: {
+        'General Culture': {
             type: Number,
             default: 0
         },
-        ArtsAndEntertainment: {
+        'Arts and Entertainment': {
             type: Number,
             default: 0
         },
