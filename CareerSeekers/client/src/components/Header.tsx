@@ -2,7 +2,6 @@ import { FaSearch } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice';
-
 export default function Header() {
   const { currentUser } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
@@ -24,11 +23,11 @@ export default function Header() {
   };
 
   return (
-
     <header className='bg-slate-200 shadow-md'>
       <div className='flex justify-between items-center max-w-8xl mx auto p-3'>
         <Link to='home'>
-          <h1 className='font-bold text-sm:text-xl flex flex-wrap'>
+
+          <h1 className='font-bold text-sm:text-xl flex flex-wrap'>    
             <span className='text-slate-500'>Career</span>
             <span className='text-slate-700'>Seekers</span>
           </h1>
@@ -41,25 +40,25 @@ export default function Header() {
           <Link to='home'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
           </Link>
-          
+
           {/*if the user is logged in, show signout link. on click - sign out*/}
           {currentUser && (
             <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline cursor-pointer '>Sign out</li>
           )}
-         
+
           {/*if the user is not logged in, show the sign up link*/}
           {!currentUser && (
             <Link to='signup'>
               <li className='hidden sm:inline text-slate-700 hover:underline'>Sign up</li>
             </Link>
           )}
-          
+
           <Link to='/profile'>
             {currentUser ? (
               // print the user avatar in console
               <img
                 className='rounded-full h-7 w-7 object-cover'
-                src= {currentUser.avatar}
+                src={currentUser.avatar}
                 alt='profile'
               />
             ) : (

@@ -3,46 +3,47 @@ function calculateNormalizedScores(answers) {
     // Map of traits and their corresponding questions based on RAMAK questionnaire
     const traits = {
         'Business': {
-            'Level 1': [10, 46, 55],
-            'Level 2': [21, 29, 37],
-            'Level 3': [3, 60, 69]
+            'Level 1': [9, 45, 54],
+            'Level 2': [20, 28, 36],
+            'Level 3': [2, 59, 68]
         },
         'General Culture': {
-            'Level 1': [22, 31, 52],
-            'Level 2': [5, 11, 47],
-            'Level 3': [36, 63, 72]
+            'Level 1': [21, 30, 51],
+            'Level 2': [4, 10, 46],
+            'Level 3': [35, 62, 71]
         },
         'Arts and Entertainment': {
-            'Level 1': [4, 28, 53],
-            'Level 2': [14, 35, 61],
-            'Level 3': [24, 45, 68]
+            'Level 1': [3, 27, 52],
+            'Level 2': [13, 34, 60],
+            'Level 3': [23, 44, 67]
         },
         'Science': {
-            'Level 1': [8, 16, 58],
-            'Level 2': [23, 26, 44],
-            'Level 3': [33, 54, 66]
+            'Level 1': [7, 15, 57],
+            'Level 2': [22, 25, 43],
+            'Level 3': [32, 53, 65]
         },
         'Organization': {
-            'Level 1': [13, 19, 67],
-            'Level 2': [8, 38, 41],
-            'Level 3': [12, 30, 42]
+            'Level 1': [12, 18, 66],
+            'Level 2': [7, 37, 40],
+            'Level 3': [11, 29, 41]
         },
         'Service': {
-            'Level 1': [1, 34, 49],
-            'Level 2': [20, 59, 65],
-            'Level 3': [12, 30, 42]
+            'Level 1': [0, 33, 48],
+            'Level 2': [19, 58, 64],
+            'Level 3': [11, 29, 41]
         },
         'Outdoor': {
-            'Level 1': [39, 64, 70],
-            'Level 2': [2, 32, 51],
-            'Level 3': [3, 9, 18]
+            'Level 1': [38, 63, 69],
+            'Level 2': [1, 31, 50],
+            'Level 3': [2, 8, 17]
         },
         'Technology': {
-            'Level 1': [25, 40, 43],
-            'Level 2': [17, 50, 71],
-            'Level 3': [6, 15, 62]
+            'Level 1': [24, 39, 42],
+            'Level 2': [16, 49, 70],
+            'Level 3': [5, 14, 61]
         }
     };
+    
     
     const scoreMap = { 'Y': 2, '?': 1, 'N': 0 }; // Map of scores for each answer
     const weights = { "Level 1": 3, "Level 2": 2, "Level 3": 1 }; // Weights for each level
@@ -53,6 +54,7 @@ function calculateNormalizedScores(answers) {
 
     let totalWeightedScores = 0; // To accumulate the total weighted scores across all traits
     // Calculate the raw and weighted scores for each trait
+    console.log(answers);
     for (const trait in traits) {
         let totalRawScore = 0;
         let totalWeightedScore = 0;
