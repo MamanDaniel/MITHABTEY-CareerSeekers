@@ -54,7 +54,6 @@ function calculateNormalizedScores(answers) {
 
     let totalWeightedScores = 0; // To accumulate the total weighted scores across all traits
     // Calculate the raw and weighted scores for each trait
-    console.log(answers);
     for (const trait in traits) {
         let totalRawScore = 0;
         let totalWeightedScore = 0;

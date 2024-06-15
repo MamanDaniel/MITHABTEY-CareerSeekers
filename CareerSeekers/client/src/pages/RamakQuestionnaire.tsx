@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 type QuestionProps = {
     question: string;
@@ -58,7 +59,7 @@ const RamakQuestionnaire: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [calculatedScore, setCalculatedScore] = useState<{ [key: string]: number } | null>(null);
-
+    const { currentUser } = useSelector((state: any) => state.user);
     useEffect(() => {
         const fetchQuestionnaire = async () => {
             try {
@@ -91,7 +92,7 @@ const RamakQuestionnaire: React.FC = () => {
             setCurrentTripletIndex(currentTripletIndex + 1);
         }
     };
-    // console log the answers object and each key value object
+
     const calculateScore = async () => {
         try {
             const res = await fetch('/server/questionnaires/calculateScore', {
@@ -103,9 +104,24 @@ const RamakQuestionnaire: React.FC = () => {
             });
             const score = await res.json();
             setCalculatedScore(score);
+
+            // Assuming the user ID is stored in a variable userId
+            const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ traits: score })
+            });
+            const data = await updateRes.json();
+            if (data.success === false) {
+                setError('Failed to update user traits');
+                console.log(data.message);
+            }
+          
         } catch (err) {
             console.log(err);
-            setError('Failed to calculate score');
+            setError('Failed to calculate or update score');
         }
     };
 
@@ -156,7 +172,7 @@ const RamakQuestionnaire: React.FC = () => {
                         onClick={calculateScore}>Calculate score</button>
                     {calculatedScore !== null && (
                         <div>
-                            <h2 className='font-bold'>Your scores:</h2>
+                            <h2 className='font-bold'>These are your character traits:</h2>
                             {Object.keys(calculatedScore).map((trait) => (
                                 <div key={trait}>
                                     {trait}: {calculatedScore[trait]}
