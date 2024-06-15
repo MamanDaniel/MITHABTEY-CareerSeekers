@@ -95,6 +95,7 @@ const RamakQuestionnaire: React.FC = () => {
 
     const calculateScore = async () => {
         try {
+            console.log(answers);
             const res = await fetch('/server/questionnaires/calculateScore', {
                 method: 'POST',
                 headers: {
@@ -143,7 +144,7 @@ const RamakQuestionnaire: React.FC = () => {
                         key={currentTripletIndex * 3 + index}
                         question={question}
                         index={currentTripletIndex * 3 + index}
-                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : 1}
+                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : answers[currentTripletIndex * 3 + index] === '?' ? 1: 3}
                         onAnswer={handleAnswer}
                     />
                 ))}
