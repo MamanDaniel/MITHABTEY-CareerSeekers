@@ -1,6 +1,7 @@
 import Questionnaire from "../models/questionnaireModel.js";
 import { errorHandler } from "../utils/error.js";
 import { calculateNormalizedScores } from "../controllers/RAMAKcontroller.js";
+import User from "../models/userModel.js";
 
 // Get a questionnaire by name
 export const getQuestionnaire = async (req, res, next) => {
@@ -28,3 +29,24 @@ export const calculateScore = async (req, res, next) => {
     }
 
 };
+
+// update user traits in the database after calculating the score
+export const updateUserTraits = async (req, res, next) => {
+    if (req.user.id !== req.params.id) {
+        return next(errorHandler(401, 'You can update only your account!'));
+    }
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, {
+            $set: {
+                traits: req.body.traits               
+            }
+        }, { new: true });
+        const { password, ...rest } = updatedUser._doc;
+        res.status(200).json(rest);
+    }
+    catch (error) {
+        next(error);
+        console.log(error);
+    }
+}
+
