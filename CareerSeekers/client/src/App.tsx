@@ -6,6 +6,7 @@ import Signin from './pages/Signin'
 import { PrivateRouteNotLoggedIn, PrivateRouteLoggedIn } from './components/PrivateRouth'
 import Profile from './pages/Profile'
 import RamakQuestionnaire from './pages/RamakQuestionnaire'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path='/RamakQuestionnaire' element={<RamakQuestionnaire />} />
         </Route>
       </Routes>
+      <Footer />
 
     </BrowserRouter >
   )
