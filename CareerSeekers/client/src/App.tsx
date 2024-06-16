@@ -21,13 +21,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
         </Route>
-
         {/* Private route - all the rout inside this section require log in */}
         <Route element={<PrivateRouteNotLoggedIn />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/RamakQuestionnaire' element={<RamakQuestionnaire />} />
-
-
           <Route element={<ValidateAdmin />}>
             <Route path='/adminpanel' element={<AdminPanel />} />
             <Route path='/adminpanel/addjob' element={<AddJob />} />

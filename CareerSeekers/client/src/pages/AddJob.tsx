@@ -20,7 +20,6 @@ export default function AddJob () {
             Technology: 0,
         }
     });
-
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
