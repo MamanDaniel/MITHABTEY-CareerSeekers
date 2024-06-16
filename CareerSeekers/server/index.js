@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/userRoute.js';
 import authRouter from './routes/authRoute.js';
+import jobRouter from './routes/jobRoute.js';
 import questionnairesRouter from './routes/questionnairesRouth.js';
 import cookieParser from 'cookie-parser';
 
@@ -30,8 +31,12 @@ app.listen(PORT, () => {
 app.use("/server/user", userRouter);
 // server auth route to signup
 app.use("/server/auth", authRouter);
+// server job route 
+app.use("/server/job", jobRouter);
 // server questionnaires route to questionnaires
 app.use("/server/questionnaires", questionnairesRouter );
+// server job route 
+app.use("/server/job", jobRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -43,3 +48,5 @@ app.use((err, req, res, next) => {
     message: message
   });
 });
+
+app.get('/', (req, res) => { res.send('Server is running') }  );

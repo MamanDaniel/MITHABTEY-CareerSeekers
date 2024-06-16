@@ -32,6 +32,7 @@ export default function Header() {
             <span className='text-slate-700'>Seekers</span>
           </h1>
         </Link>
+      
         <form className='bg-slate-100 p-3 rounded-lg flex items-center'>
           <input type="text" placeholder='Search...' className='bg-transparent focus:outline-none w-24 sm:w-64 ' />
           <FaSearch className='text-slate-600' />
@@ -41,6 +42,13 @@ export default function Header() {
             <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
           </Link>
 
+          {/* Show the Admin Panel link if the user is an admin */}
+          {currentUser && currentUser.role === 'Admin' && (
+            <Link to='/adminpanel'>
+              <li className='hidden sm:inline text-slate-700 hover:underline'>Admin Panel</li>
+            </Link>
+          )}
+          
           {/*if the user is logged in, show signout link. on click - sign out*/}
           {currentUser && (
             <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline cursor-pointer '>Sign out</li>

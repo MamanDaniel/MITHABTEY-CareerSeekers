@@ -26,6 +26,6 @@ export const updateUser = async (req, res, next) => {
         // Send the updated user object
         res.status(200).json(rest);
     } catch (error) {
-        
+        next(error);
     }
 };
