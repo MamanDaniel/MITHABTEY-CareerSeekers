@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import bgImage from '../assets/job.jpg';
 
 export default function Home() {
     const navigate = useNavigate();
@@ -8,7 +9,12 @@ export default function Home() {
     };
 
     return (
-        <div className="bg-gray-250">
+        <div className="bg-gray-250"    style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+        }} >
             <div className="relative isolate px-6 pt-14 lg:px-8">
                 <div
                     className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"

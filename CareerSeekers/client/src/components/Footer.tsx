@@ -2,11 +2,12 @@ import logo from '../assets/logo.png';
 export default function Footer() {
     return (
         <footer className="w-full p-8 bg-gray-250">
-            <hr className="border-t border-blue-gray-50  my-6" />
+            <hr className="border-t border-blue-gray-50 " />
             <div
                 className="flex flex-row flex-wrap items-center justify-center text-center bg-gray-250 gap-y-6 gap-x-12 md:justify-between">
-                <img src={logo} alt="logo-ct" className="w-10 items-center" />
-                <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
+               
+                <ul className="flex flex-wrap items-center gap-y-2 gap-x-8 ">
+                <img src={logo} alt="logo-ct" className="w-10 items-center my-2" />
                     <li>
                         <a href="#"
                             className="block font-sans text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500">
