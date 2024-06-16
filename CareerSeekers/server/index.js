@@ -5,7 +5,6 @@ import userRouter from './routes/userRoute.js';
 import authRouter from './routes/authRoute.js';
 import jobRouter from './routes/jobRoute.js';
 import questionnairesRouter from './routes/questionnairesRouth.js';
-import jobRouter from './routes/jobRoute.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
