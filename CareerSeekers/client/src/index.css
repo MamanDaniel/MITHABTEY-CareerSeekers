@@ -12,36 +12,18 @@ body{
     text-align: center;
   }
   
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: #282c34;
-  }
-  
   .logo {
     color: #6361fb;
   }
   
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .nav-links li a {
-    color: #ffffff;
-    text-decoration: none;
-  }
   
   .hero-section {
-    background: url('hero-background.jpg') no-repeat center center/cover;
+    background: url('C:\Users\Daniel Maman\git\MITHABTEY-CareerSeekers\CareerSeekers\client\src\assets\job.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
+    color: #433c3c;
     text-align: center;
   }
   

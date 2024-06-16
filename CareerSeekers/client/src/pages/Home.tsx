@@ -6,10 +6,11 @@ function Home() {
     navigate('/RamakQuestionnaire');
   };
   return (
-    <div className="App">
+    <div className="relative isolate ">
     <main>
         <section className="hero-section" id="home">
-          <div className="hero-content">
+          <div className="hero-content font-bold 100% 'Poppins', sans-serif;
+" >
             <h2>Find Your Perfect Career Path</h2>
             <p>Match your character traits with the most suitable profession.</p>
             <button className="cta-button" onClick={handleClick} >Get Started</button>
