@@ -28,3 +28,34 @@ export const addJob = async (req, res, next) => {
         next(error);
     }
 };
+
+export const deleteJob = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+
+        // Validate the request body
+        if (!jobId) {
+            return next(errorHandler(400, 'Job ID is required.'));
+        }
+
+        // Find the job by ID and delete it
+        const deletedJob = await Job.findByIdAndDelete(jobId);
+
+        if (!deletedJob) {
+            return next(errorHandler(404, 'Job not found.'));
+        }
+
+        res.status(200).json({ success: true, data: deletedJob });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getAllJobsNames = async (req, res, next) => {
+    try {
+        const jobs = await Job.find({}, 'jobName');
+        res.status(200).json({ jobs });
+    } catch (error) {
+        next(error);
+    }
+}
