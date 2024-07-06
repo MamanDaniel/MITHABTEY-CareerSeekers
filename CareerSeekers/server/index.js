@@ -35,8 +35,6 @@ app.use("/server/auth", authRouter);
 app.use("/server/job", jobRouter);
 // server questionnaires route to questionnaires
 app.use("/server/questionnaires", questionnairesRouter );
-// server job route 
-app.use("/server/job", jobRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

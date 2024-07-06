@@ -28,3 +28,14 @@ export const addJob = async (req, res, next) => {
         next(error);
     }
 };
+
+// Get all jobs
+export const getAllJobs = async (req, res, next) => {
+    try {
+        const jobs = await Job.find();
+
+        res.status(200).json({ success: true, data: jobs });
+    } catch (error) {
+        next(error);
+    }
+};
