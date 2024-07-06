@@ -82,7 +82,7 @@ type SortableHeaderProps = {
     onClick: () => void;
 };
 
-const SortableHeader: React.FC<SortableHeaderProps> = ({ label, sortBy, onClick }) => (
+const SortableHeader: React.FC<SortableHeaderProps> = ({ label, onClick }) => (
     <th
         className="border border-gray-300 px-4 py-2 cursor-pointer relative"
         onClick={onClick}
