@@ -75,7 +75,7 @@ const Jobs: React.FC = () => {
 
     return (
         <div className="space-y-8">
-            <h1 className="text-2xl font-bold">Job Information</h1>
+            <h1 className="text-2xl font-bold text text-center my-4 ">Job Information</h1>
             <div className="w-full md:w-1/2 mx-auto">
                 {chartData.labels.length > 0 && <JobsChart data={chartData} />}
             </div>
