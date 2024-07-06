@@ -8,14 +8,17 @@ const Jobs: React.FC = () => {
     const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, joblField: string }[] }>({ data: [] });
     const [search, setSearch] = useState("");
     const [filteredData, setFilteredData] = useState(data.data);
-    
+    const [chartData, setChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
+
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
                 const res = await fetch('/server/job/getAllJobs');
                 const data = await res.json();
+                if (!res.ok) {
+                    throw new Error('Failed to fetch jobs');
+                }
                 setData(data);
-                setFilteredData(data.data);
                 setLoading(false);
             } catch (error) {
                 console.log(error);
@@ -26,6 +29,31 @@ const Jobs: React.FC = () => {
         fetchAllJobs();
     }, []);
 
+    useEffect(() => {
+        // Aggregate data for chart only once
+        const aggregateDataByJobField = (jobs: { joblField: string }[]) => {
+            const aggregatedData: { [key: string]: number } = {};
+
+            jobs.forEach(job => {
+                const jobField = job.joblField;
+                if (aggregatedData[jobField]) {
+                    aggregatedData[jobField] += 1;
+                } else {
+                    aggregatedData[jobField] = 1;
+                }
+            });
+
+            return aggregatedData;
+        };
+
+        const aggregatedData = aggregateDataByJobField(data.data);
+        setChartData({
+            labels: Object.keys(aggregatedData),
+            counts: Object.values(aggregatedData)
+        });
+
+    }, [data]);
+
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
         const filtered = data.data.filter(job =>
@@ -35,29 +63,6 @@ const Jobs: React.FC = () => {
             job.joblField.toLowerCase().includes(e.target.value.toLowerCase())
         );
         setFilteredData(filtered);
-    };
-
-    type JobData = typeof data.data;
-
-    const aggregateDataByJobField = (data: JobData) => {
-        const aggregatedData: { [key: string]: number } = {};
-
-        data.forEach(job => {
-            const jobField = job.joblField;
-            if (aggregatedData[jobField]) {
-                aggregatedData[jobField] += 1;
-            } else {
-                aggregatedData[jobField] = 1;
-            }
-        });
-
-        return aggregatedData;
-    };
-
-    const aggregatedData = aggregateDataByJobField(data.data);
-    const chartData = {
-        labels: Object.keys(aggregatedData),
-        counts: Object.values(aggregatedData)
     };
 
     if (loading) {
@@ -72,7 +77,7 @@ const Jobs: React.FC = () => {
         <div className="space-y-8">
             <h1 className="text-2xl font-bold">Job Information</h1>
             <div className="w-full md:w-1/2 mx-auto">
-                <JobsChart data={chartData} />
+                {chartData.labels.length > 0 && <JobsChart data={chartData} />}
             </div>
             <div className="w-full md:w-1/2 mx-auto">
                 <input
