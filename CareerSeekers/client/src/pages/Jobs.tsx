@@ -13,6 +13,8 @@ const Jobs: React.FC = () => {
     const [jobFieldChartData, setJobFieldChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
     const [prerequisitesChartData, setPrerequisitesChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
     const [salaryChartData, setSalaryChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
+    const [selectedJob, setSelectedJob] = useState<{ [key: string]: number }>({});
+    const [showPrerequisites, setShowPrerequisites] = useState(false);
 
     useEffect(() => {
         const fetchAllJobs = async () => {
@@ -119,6 +121,11 @@ const Jobs: React.FC = () => {
         setFilteredData(filtered);
     };
 
+    const handleJobClick = (job: { Prerequisites: { [key: string]: number } }) => {
+        setSelectedJob(job.Prerequisites);
+        setShowPrerequisites(true);
+    };
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -136,12 +143,15 @@ const Jobs: React.FC = () => {
                     {jobFieldChartData.labels.length > 0 && <JobsFieldCountChart data={jobFieldChartData} />}
                 </div>
                 <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '500px', maxWidth: '500px' }}>
-                    {prerequisitesChartData.labels.length > 0 && <PrerequisitesChart data={prerequisitesChartData} />}
-                </div>
-                <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '500px', maxWidth: '500px' }}>
                     {salaryChartData.labels.length > 0 && <SalaryChart data={salaryChartData} />}
                 </div>
+                <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
+                    {showPrerequisites && prerequisitesChartData.labels.length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }} />}
+                    {!showPrerequisites && <p>Select a job to view prerequisites</p>}
+               
+                </div>
             </div>
+           
             <div className="w-full md:w-1/2 mx-auto">
                 <input
                     type="text"
@@ -150,7 +160,7 @@ const Jobs: React.FC = () => {
                     placeholder="Search for jobs"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md"
                 />
-                <JobTable jobs={filteredData} />
+                <JobTable jobs={filteredData} onJobClick={handleJobClick} />
             </div>
         </div>
     );

@@ -11,9 +11,10 @@ type Job = {
 
 type Props = {
     jobs: Job[];
+    onJobClick: (job: Job) => void;
 };
 
-const JobTable: React.FC<Props> = ({ jobs }) => {
+const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
     const [sortBy, setSortBy] = useState<{ key: keyof Job; order: 'asc' | 'desc' }>({
         key: 'jobName', // Initial sort by Job Name alphabetically
         order: 'asc',
@@ -60,11 +61,11 @@ const JobTable: React.FC<Props> = ({ jobs }) => {
                 </thead>
                 <tbody>
                     {sortedData.map((job) => (
-                        <tr key={job._id}>
-                            <td className="border border-gray-300 px-4 py-2">{job.jobName}</td>
-                            <td className="border border-gray-300 px-4 py-2">{job.Description}</td>
-                            <td className="border border-gray-300 px-4 py-2">{job.AverageSalary}</td>
-                            <td className="border border-gray-300 px-4 py-2">{job.joblField}</td>
+                        <tr key={job._id} onClick={() => onJobClick(job)}>
+                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobName}</td>
+                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.Description}</td>
+                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.AverageSalary}</td>
+                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.joblField}</td>
                         </tr>
                     ))}
                 </tbody>
