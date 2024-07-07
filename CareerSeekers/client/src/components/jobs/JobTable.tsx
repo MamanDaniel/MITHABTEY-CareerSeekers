@@ -32,8 +32,8 @@ const JobTable: React.FC<Props> = ({ jobs }) => {
     });
 
     return (
-        <div className="w-full">
-            <table className="w-full table-auto border-collapse border border-gray-200">
+        <div className="w-full my-3 ">
+            <table className="w-full table-auto border-collapse border border-gray-200 ">
                 <thead>
                     <tr className="bg-gray-100">
                         <SortableHeader

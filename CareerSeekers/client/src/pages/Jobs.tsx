@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import JobFieldChart from '../components/jobs/JobsFieldCountChart';
+import JobsFieldCountChart from '../components/jobs/JobsFieldCountChart';
 import PrerequisitesChart from '../components/jobs/PrerequisitesChart';
 import SalaryChart from '../components/jobs/SalaryChart';
 import JobTable from '../components/jobs/JobTable';
@@ -128,27 +128,30 @@ const Jobs: React.FC = () => {
     }
 
     return (
-        <div className="space-y-8">
-            <h1 className="text-2xl font-bold text text-center my-4">Job Information</h1>
-            <div className="w-full md:w-1/2 mx-auto" style={{ maxHeight: '500px', maxWidth: '600px' }}>
-                <JobFieldChart data={jobFieldChartData} />
+        <div className="space-y-8 m-4">
+            <h1 className="text-2xl font-bold text-center my-4">Job Information</h1>
+           
+            <div className="flex flex-wrap justify-center gap-4">
+                <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
+                    {jobFieldChartData.labels.length > 0 && <JobsFieldCountChart data={jobFieldChartData} />}
+                </div>
+                <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '500px', maxWidth: '500px' }}>
+                    {prerequisitesChartData.labels.length > 0 && <PrerequisitesChart data={prerequisitesChartData} />}
+                </div>
+                <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '500px', maxWidth: '500px' }}>
+                    {salaryChartData.labels.length > 0 && <SalaryChart data={salaryChartData} />}
+                </div>
             </div>
-            <div className="w-full md:w-1/2 mx-auto" style={{ maxHeight: '500px', maxWidth: '600px' }}>
-                <SalaryChart data={salaryChartData} />
-            </div>
-            <div className="w-full md:w-1/2 mx-auto" style={{ maxHeight: '500px', maxWidth: '600px' }}>
-                <PrerequisitesChart data={prerequisitesChartData} />
-            </div>
-            <div className="mb-4">
+            <div className="w-full md:w-1/2 mx-auto">
                 <input
                     type="text"
-                    placeholder="Search jobs..."
                     value={search}
                     onChange={handleSearch}
-                    className="border border-gray-300 rounded-md p-2 w-full"
+                    placeholder="Search for jobs"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
                 />
+                <JobTable jobs={filteredData} />
             </div>
-            <JobTable jobs={filteredData} />
         </div>
     );
 };
