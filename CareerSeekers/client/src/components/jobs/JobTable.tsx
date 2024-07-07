@@ -1,5 +1,3 @@
-// JobTable.tsx
-
 import React, { useState } from 'react';
 
 type Job = {
@@ -8,13 +6,14 @@ type Job = {
     Description: string;
     AverageSalary: number;
     joblField: string;
+    Prerequisites: { [key: string]: number };
 };
 
 type Props = {
-    data: Job[];
+    jobs: Job[];
 };
 
-const JobTable: React.FC<Props> = ({ data }) => {
+const JobTable: React.FC<Props> = ({ jobs }) => {
     const [sortBy, setSortBy] = useState<{ key: keyof Job; order: 'asc' | 'desc' }>({
         key: 'jobName', // Initial sort by Job Name alphabetically
         order: 'asc',
@@ -27,7 +26,7 @@ const JobTable: React.FC<Props> = ({ data }) => {
         }));
     };
 
-    const sortedData = [...data].sort((a, b) => {
+    const sortedData = [...jobs].sort((a, b) => {
         const order = sortBy.order === 'asc' ? 1 : -1;
         return order * (a[sortBy.key].toString().localeCompare(b[sortBy.key].toString()));
     });
@@ -92,7 +91,6 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({ label, onClick }) => (
             <span className="ml-1">
                 ↑↓
             </span>
-
         </div>
     </th>
 );
