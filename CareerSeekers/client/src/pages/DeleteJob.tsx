@@ -3,6 +3,19 @@ import { useState, useEffect } from "react";
 export default function DeleteJob() {
     const [jobs, setJobs] = useState([]);
     const [error, setError] = useState('');
+    const [urls, setUrls] = useState([]);
+    useEffect(() => {
+        fetch('/server/job/getURLjobs')
+            .then(response => response.json())
+            .then(data => {
+                setUrls(data.jobs);
+            })
+            .catch(err => {
+                setError('Error fetching data');
+            });
+            
+    }, [urls]);
+
     useEffect(() => {
         fetch('/server/job/getalljobnames')
             .then(response => response.json())
@@ -36,10 +49,21 @@ export default function DeleteJob() {
 
  
     return (
+
         <div>
             <h1>Delete Job Page</h1>
+            <h2>URLs:</h2>
             <ul>
-                
+                {urls.map((url: any) => (
+                    <li key={url._id}>
+                        <a href={url.facebookPostUrl} target="_blank" rel="noopener noreferrer">
+                                    {url.facebookPostUrl}
+                                </a>
+                                </li>
+                ))}
+            </ul>
+            <h2>Jobs:</h2>
+            <ul>
                 {jobs.map((job: any) => (
                     <li key={job._id}>
                         {job.jobName}

@@ -2,9 +2,8 @@ import Job from '../models/jobModel.js';
 import { errorHandler } from "../utils/error.js";
 
 export const addJob = async (req, res, next) => {
-    console.log(req.body);
     try {
-        const { jobName, Description, AverageSalary, joblField, Prerequisites } = req.body;
+        const { jobName, Description, AverageSalary, joblField, Prerequisites, facebookPostUrl } = req.body;
 
         // Validate the request body
         if (!jobName || !Description || !AverageSalary || !joblField || !Prerequisites) {
@@ -17,12 +16,12 @@ export const addJob = async (req, res, next) => {
             Description,
             AverageSalary,
             joblField,
-            Prerequisites
+            Prerequisites,
+            facebookPostUrl
         });
 
         // Save the job to the database
         const savedJob = await newJob.save();
-
         res.status(201).json({ success: true, data: savedJob });
     } catch (error) {
         next(error);
@@ -59,3 +58,12 @@ export const getAllJobsNames = async (req, res, next) => {
         next(error);
     }
 }
+
+export const getURLofJob = async (req, res, next) => {
+    try {
+        const jobs = await Job.find({ facebookPostUrl: { $exists: true } }, 'jobName facebookPostUrl -_id');
+        res.status(200).json({ jobs });
+    } catch (error) {
+        next(error);
+    }
+};
