@@ -35,6 +35,20 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                         },
                     ],
                 },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,                      
+                        },
+                        title: {
+                            display: true,
+                            text: 'Amount of jobs by field',
+                            font: {
+                                size: 15,
+                            },
+                        },
+                    },
+                },
             });
 
             return () => {

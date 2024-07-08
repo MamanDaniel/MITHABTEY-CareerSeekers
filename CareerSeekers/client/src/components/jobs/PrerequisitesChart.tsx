@@ -11,7 +11,16 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data }) => {
         datasets: [
             {
                 data: data.counts,
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF9F40', '#4BC0C0'],
+                backgroundColor: [
+                    '#FF6384', // Red
+                    '#36A2EB', // Blue
+                    '#FFCE56', // Yellow
+                    '#FF9F40', // Orange
+                    '#4BC0C0', // Teal
+                    '#9966FF', // Purple
+                    '#C9CBCF', // Light Grey
+                    '#524e4b'  // Bright Red-Orange
+                ],
             }
         ]
     };
@@ -31,13 +40,14 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data }) => {
                 }
             },
             legend: {
-                display: false, // This will remove the labels above the chart
+                display: true, // This will remove the labels above the chart
+                position: 'left' as const
             },
             title: {
                 display: true,
                 text: 'Character Traits for the Job',
                 font: {
-                    size: 15 
+                    size: 15
                 }
             }
         }

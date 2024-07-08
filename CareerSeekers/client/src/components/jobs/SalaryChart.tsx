@@ -26,6 +26,20 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data }) => {
                         },
                     ],
                 },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Average Salary by Job Field',
+                            font: {
+                                size: 15,
+                            },
+                        },
+                    },
+                },
             });
 
             return () => {
