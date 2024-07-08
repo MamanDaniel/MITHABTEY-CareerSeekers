@@ -145,7 +145,7 @@ const Jobs: React.FC = () => {
                 <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '500px', maxWidth: '500px' }}>
                     {salaryChartData.labels.length > 0 && <SalaryChart data={salaryChartData} />}
                 </div>
-                <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
+                <div className="flex items-center justify-center  font-bold w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
                     {showPrerequisites && prerequisitesChartData.labels.length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }} />}
                     {!showPrerequisites && <p>Select a job to view prerequisites</p>}
                

@@ -24,10 +24,20 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data }) => {
                         let label = context.label || '';
                         if (label) {
                             const count = context.raw;
-                            return `${label}: ${count} ${'%'}`;
+                            return `${label}: ${count}%`;
                         }
                         return '';
                     }
+                }
+            },
+            legend: {
+                display: false, // This will remove the labels above the chart
+            },
+            title: {
+                display: true,
+                text: 'Character Traits for the Job',
+                font: {
+                    size: 15 
                 }
             }
         }
