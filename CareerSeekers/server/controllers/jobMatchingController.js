@@ -26,9 +26,9 @@ export const getAllJobs = async (req, res, next) => {
 export const getUserTraits = async (req, res, next) => {
     try {
         const user = await User.findById(req.body.id);
+        console.log("id: ", req.body.id);
         const personTraits = user.traits;
         const personTraitsConverted = convertPersonTraits(personTraits);
-        console.log("Person Traits Converted:", personTraitsConverted);
         if (!personTraits) {
             return next(errorHandler(404, 'User traits not found'));
         }
@@ -41,7 +41,6 @@ export const getUserTraits = async (req, res, next) => {
 
 // Find suitable professions by genetic algorithm
 // numGenerations = 100; populationSize = 50; professionTraits = getAllJobs(); personTraits = getUserTraits();
-// the function get id of the user to get the user traits
 export const findSuitableProfessions = async (req, res, next) => {
     try {
         const professionTraits = await getAllJobs(req, res, next);
@@ -49,7 +48,6 @@ export const findSuitableProfessions = async (req, res, next) => {
         let numGenerations = 100;
         let populationSize = 50;
         let matchedProfessions = geneticAlgorithm(personTraits, professionTraits, numGenerations, populationSize);
-        console.log("Matched Professions:", matchedProfessions);
         res.status(200).json(matchedProfessions);
     }
     catch (error) {

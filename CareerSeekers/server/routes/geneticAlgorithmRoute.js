@@ -3,6 +3,6 @@ import {findSuitableProfessions} from '../controllers/jobMatchingController.js';
 
 const router = express.Router();
 
-router.get('/findSuitableProfessions', findSuitableProfessions);
+router.post('/findSuitableProfessions', findSuitableProfessions);
 
 export default router;

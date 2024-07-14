@@ -10,6 +10,7 @@ import RamakQuestionnaire from './pages/RamakQuestionnaire'
 import AdminPanel from './pages/AdminPanel'
 import AddJob from './pages/AddJob'
 import Jobs from './pages/Jobs'
+import GeneticAlgorithm from './pages/GeneticAlgorithm'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route element={<PrivateRouteNotLoggedIn />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/RamakQuestionnaire' element={<RamakQuestionnaire />} />
+          <Route path='/geneticAlgorithm' element={<GeneticAlgorithm />} />
           <Route path='/jobs' element={<Jobs />} />
           <Route element={<ValidateAdmin />}>
             <Route path='/adminpanel' element={<AdminPanel />} />
