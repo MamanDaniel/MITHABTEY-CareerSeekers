@@ -95,7 +95,6 @@ const RamakQuestionnaire: React.FC = () => {
 
     const calculateScore = async () => {
         try {
-            console.log(answers);
             const res = await fetch('/server/questionnaires/calculateScore', {
                 method: 'POST',
                 headers: {

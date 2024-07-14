@@ -8,7 +8,7 @@ import Select from 'react-select';
 const Jobs: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, joblField: string, Prerequisites: { [key: string]: number } }[] }>({ data: [] });
+    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, jobField: string, Prerequisites: { [key: string]: number } }[] }>({ data: [] });
     const [search, setSearch] = useState("");
     const [filteredData, setFilteredData] = useState(data.data);
     const [jobFieldChartData, setJobFieldChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
@@ -18,11 +18,11 @@ const Jobs: React.FC = () => {
     const [showPrerequisites, setShowPrerequisites] = useState(false);
     const [options, setOptions] = useState<{ value: string, label: string }[]>([]);
     // Function to aggregate data by job field
-    const aggregateDataByJobField = (jobs: { joblField: string }[]) => {
+    const aggregateDataByJobField = (jobs: { jobField: string }[]) => {
         const aggregatedData: { [key: string]: number } = {};
 
         jobs.forEach(job => {
-            const jobField = job.joblField;
+            const jobField = job.jobField;
             if (aggregatedData[jobField]) {
                 aggregatedData[jobField] += 1;
             } else {
@@ -34,11 +34,11 @@ const Jobs: React.FC = () => {
     };
 
     // Function to aggregate average salary by job field
-    const aggregateAverageSalaryByJobField = (jobs: { joblField: string, AverageSalary: number }[]) => {
+    const aggregateAverageSalaryByJobField = (jobs: { jobField: string, AverageSalary: number }[]) => {
         const salaryData: { [key: string]: { totalSalary: number, count: number } } = {};
 
         jobs.forEach(job => {
-            const jobField = job.joblField;
+            const jobField = job.jobField;
             if (salaryData[jobField]) {
                 salaryData[jobField].totalSalary += job.AverageSalary;
                 salaryData[jobField].count += 1;
@@ -77,7 +77,7 @@ const Jobs: React.FC = () => {
     useEffect(() => {
         const aggregatedJobFieldData = aggregateDataByJobField(data.data);
         const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(data.data);
-        setOptions(data.data.map(job => job.joblField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
+        setOptions(data.data.map(job => job.jobField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
 
         setJobFieldChartData({
             labels: Object.keys(aggregatedJobFieldData),
@@ -97,7 +97,7 @@ const Jobs: React.FC = () => {
             job.jobName.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.Description.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.AverageSalary.toString().includes(e.target.value) ||
-            job.joblField.toLowerCase().includes(e.target.value.toLowerCase())
+            job.jobField.toLowerCase().includes(e.target.value.toLowerCase())
         );
         setFilteredData(filtered);
     };
@@ -114,7 +114,7 @@ const Jobs: React.FC = () => {
     const handleSubmit = () => {
         // Filter data based on selected job fields
         const selectedFields = selectedJobFields.map(field => field.value);
-        const filteredJobs = data.data.filter(job => selectedFields.includes(job.joblField));
+        const filteredJobs = data.data.filter(job => selectedFields.includes(job.jobField));
 
         // Update charts based on filtered jobs
         const filteredJobFieldData = aggregateDataByJobField(filteredJobs);
@@ -129,7 +129,7 @@ const Jobs: React.FC = () => {
             labels: Object.keys(filteredAverageSalaryData),
             counts: Object.values(filteredAverageSalaryData)
         });
-        setOptions(data.data.map(job => job.joblField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
+        setOptions(data.data.map(job => job.jobField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
     };
 
     if (loading) {

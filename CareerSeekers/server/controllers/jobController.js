@@ -4,10 +4,10 @@ import { errorHandler } from "../utils/error.js";
 export const addJob = async (req, res, next) => {
     console.log(req.body);
     try {
-        const { jobName, Description, AverageSalary, joblField, Prerequisites } = req.body;
+        const { jobName, Description, AverageSalary, jobField, Prerequisites } = req.body;
 
         // Validate the request body
-        if (!jobName || !Description || !AverageSalary || !joblField || !Prerequisites) {
+        if (!jobName || !Description || !AverageSalary || !jobField || !Prerequisites) {
             return next(errorHandler(400, 'All fields are required.'));
         }
 
@@ -16,7 +16,7 @@ export const addJob = async (req, res, next) => {
             jobName,
             Description,
             AverageSalary,
-            joblField,
+            jobField,
             Prerequisites
         });
 

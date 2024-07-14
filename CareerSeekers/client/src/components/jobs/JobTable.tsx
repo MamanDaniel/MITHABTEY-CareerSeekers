@@ -5,7 +5,7 @@ type Job = {
     jobName: string;
     Description: string;
     AverageSalary: number;
-    joblField: string;
+    jobField: string;
     Prerequisites: { [key: string]: number };
 };
 
@@ -55,7 +55,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                         <SortableHeader
                             label="Job Field"
                             sortBy={sortBy}
-                            onClick={() => handleSort('joblField')}
+                            onClick={() => handleSort('jobField')}
                         />
                     </tr>
                 </thead>
@@ -65,7 +65,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                             <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobName}</td>
                             <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.Description}</td>
                             <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.AverageSalary}</td>
-                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.joblField}</td>
+                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobField}</td>
                         </tr>
                     ))}
                 </tbody>

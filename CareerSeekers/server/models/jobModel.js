@@ -13,7 +13,7 @@ const jobSchema = new mongoose.Schema({
         type: Number, // Use Number for floating point values
         required: true
     },
-    joblField: {
+    jobField: {
         type: String,
         required: true
     },
