@@ -5,6 +5,7 @@ import userRouter from './routes/userRoute.js';
 import authRouter from './routes/authRoute.js';
 import jobRouter from './routes/jobRoute.js';
 import questionnairesRouter from './routes/questionnairesRouth.js';
+import geneticAlgorithmRouter from './routes/geneticAlgorithmRoute.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -34,7 +35,8 @@ app.use("/server/auth", authRouter);
 // server job route 
 app.use("/server/job", jobRouter);
 // server questionnaires route to questionnaires
-app.use("/server/questionnaires", questionnairesRouter );
+app.use("/server/questionnaires", questionnairesRouter);
+app.use("/server/geneticAlgorithm", geneticAlgorithmRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

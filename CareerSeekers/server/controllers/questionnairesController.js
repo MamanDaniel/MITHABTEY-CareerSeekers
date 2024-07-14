@@ -27,7 +27,6 @@ export const calculateScore = async (req, res, next) => {
         next(error);
         console.log(error);
     }
-
 };
 
 // update user traits in the database after calculating the score
