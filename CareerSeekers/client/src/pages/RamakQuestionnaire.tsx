@@ -60,7 +60,6 @@ const RamakQuestionnaire: React.FC = () => {
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [calculatedScore, setCalculatedScore] = useState<{ [key: string]: number } | null>(null);
     const { currentUser } = useSelector((state: any) => state.user);
     useEffect(() => {
         const fetchQuestionnaire = async () => {
@@ -105,8 +104,6 @@ const RamakQuestionnaire: React.FC = () => {
                 body: JSON.stringify({ answers })
             });
             const score = await res.json();
-            setCalculatedScore(score);
-
             // Assuming the user ID is stored in a variable userId
             const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
                 method: 'post',

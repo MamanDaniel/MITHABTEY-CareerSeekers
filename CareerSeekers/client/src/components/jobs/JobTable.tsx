@@ -16,7 +16,7 @@ type Props = {
 
 const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
     const [sortBy, setSortBy] = useState<{ key: keyof Job; order: 'asc' | 'desc' }>({
-        key: 'jobName', // Initial sort by Job Name alphabetically
+        key: 'jobName',
         order: 'asc',
     });
 
@@ -33,43 +33,45 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
     });
 
     return (
-        <div className="w-full my-3 ">
-            <table className="w-full table-auto border-collapse border border-gray-200 ">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <SortableHeader
-                            label="Job Name"
-                            sortBy={sortBy}
-                            onClick={() => handleSort('jobName')}
-                        />
-                        <SortableHeader
-                            label="Description"
-                            sortBy={sortBy}
-                            onClick={() => handleSort('Description')}
-                        />
-                        <SortableHeader
-                            label="Average Salary"
-                            sortBy={sortBy}
-                            onClick={() => handleSort('AverageSalary')}
-                        />
-                        <SortableHeader
-                            label="Job Field"
-                            sortBy={sortBy}
-                            onClick={() => handleSort('jobField')}
-                        />
-                    </tr>
-                </thead>
-                <tbody>
-                    {sortedData.map((job) => (
-                        <tr key={job._id} onClick={() => onJobClick(job)}>
-                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobName}</td>
-                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.Description}</td>
-                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.AverageSalary}</td>
-                            <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobField}</td>
+        <div className="w-full my-3">
+            <div className="overflow-x-auto ">
+                <table className=" max-h-96 w-full table-auto border-collapse border border-gray-200 block">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <SortableHeader
+                                label="Job Name"
+                                sortBy={sortBy}
+                                onClick={() => handleSort('jobName')}
+                            />
+                            <SortableHeader
+                                label="Description"
+                                sortBy={sortBy}
+                                onClick={() => handleSort('Description')}
+                            />
+                            <SortableHeader
+                                label="Average Salary"
+                                sortBy={sortBy}
+                                onClick={() => handleSort('AverageSalary')}
+                            />
+                            <SortableHeader
+                                label="Job Field"
+                                sortBy={sortBy}
+                                onClick={() => handleSort('jobField')}
+                            />
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="overflow-y-auto">
+                        {sortedData.map((job) => (
+                            <tr key={job._id} onClick={() => onJobClick(job)}>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobName}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.Description}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.AverageSalary}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobField}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
