@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'
+
 
 type QuestionProps = {
     question: string;
@@ -87,7 +89,7 @@ const RamakQuestionnaire: React.FC = () => {
         const newAnswers = { ...answers };
         newAnswers[index] = answer === 2 ? 'Y' : answer === 0 ? 'N' : '?';
         setAnswers(newAnswers);
-    
+
         if ((index + 1) % 3 === 0 && index + 1 < questions.length) {
             setCurrentTripletIndex(currentTripletIndex + 1);
         }
@@ -118,7 +120,7 @@ const RamakQuestionnaire: React.FC = () => {
                 setError('Failed to update user traits');
                 console.log(data.message);
             }
-          
+
         } catch (err) {
             console.log(err);
             setError('Failed to calculate or update score');
@@ -143,7 +145,7 @@ const RamakQuestionnaire: React.FC = () => {
                         key={currentTripletIndex * 3 + index}
                         question={question}
                         index={currentTripletIndex * 3 + index}
-                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : answers[currentTripletIndex * 3 + index] === '?' ? 1: 3}
+                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : answers[currentTripletIndex * 3 + index] === '?' ? 1 : 3}
                         onAnswer={handleAnswer}
                     />
                 ))}
@@ -167,19 +169,12 @@ const RamakQuestionnaire: React.FC = () => {
             </div>
             {isComplete && (
                 <div>
-                    <button
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                        onClick={calculateScore}>Calculate score</button>
-                    {calculatedScore !== null && (
-                        <div>
-                            <h2 className='font-bold'>These are your character traits:</h2>
-                            {Object.keys(calculatedScore).map((trait) => (
-                                <div key={trait}>
-                                    {trait}: {calculatedScore[trait]}
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    <Link to='/geneticAlgorithm'>
+                        <button
+                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                            onClick={calculateScore}>Calculate score</button>
+                    </Link>
+
                 </div>
             )}
         </div>

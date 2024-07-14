@@ -26,7 +26,6 @@ export const getAllJobs = async (req, res, next) => {
 export const getUserTraits = async (req, res, next) => {
     try {
         const user = await User.findById(req.body.id);
-        console.log("id: ", req.body.id);
         const personTraits = user.traits;
         const personTraitsConverted = convertPersonTraits(personTraits);
         if (!personTraits) {
