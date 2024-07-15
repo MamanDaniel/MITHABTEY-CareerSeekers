@@ -29,3 +29,22 @@ export const updateUser = async (req, res, next) => {
         next(error);
     }
 };
+
+// Update user SuitableJobs from Genetic Algorithm by id
+export const updateSuitableJobs = async (req, res, next) => {
+    console.log(req);
+    try {
+        // Update user in the database
+        const updatedUser = await User.findByIdAndUpdate(req.body.id, {
+            $set: {
+                SuitableJobs: req.body.SuitableJobs
+            }
+        }, { new: true });
+        // Remove password from the user object
+        const { password, ...rest } = updatedUser._doc;
+        // Send the updated user object
+        res.status(200).json(rest);
+    } catch (error) {
+        next(error);
+    }   
+};

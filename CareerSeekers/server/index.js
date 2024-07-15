@@ -36,6 +36,7 @@ app.use("/server/auth", authRouter);
 app.use("/server/job", jobRouter);
 // server questionnaires route to questionnaires
 app.use("/server/questionnaires", questionnairesRouter);
+// server geneticAlgorithm route to geneticAlgorithm
 app.use("/server/geneticAlgorithm", geneticAlgorithmRouter);
 
 // Error handling middleware

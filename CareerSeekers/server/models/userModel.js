@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema({
             default: 0
         }
     },
+    SuitableJobs: {
+        type: Array,
+        default: []
+    },
 },
     { timestamps: true }
 );
