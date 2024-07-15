@@ -86,7 +86,7 @@ const Jobs: React.FC = () => {
             counts: Object.values(aggregatedAverageSalaryData)
         });
 
-        setFilteredData(firstFiveJobs);
+        setFilteredData(data.data);
 
     }, [data]);
 
