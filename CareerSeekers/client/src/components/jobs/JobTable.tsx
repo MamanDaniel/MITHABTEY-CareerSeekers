@@ -34,39 +34,43 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
 
     return (
         <div className="w-full my-3">
-            <div className="overflow-x-auto ">
-                <table className=" max-h-96 w-full table-auto border-collapse border border-gray-200 block">
+            <div className="overflow-x-auto">
+                <table className="max-h-96 w-full table-auto border-collapse border border-gray-200 block">
                     <thead>
                         <tr className="bg-gray-100">
                             <SortableHeader
                                 label="Job Name"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('jobName')}
+                                widthClass="w-1/4"
                             />
                             <SortableHeader
                                 label="Description"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('Description')}
+                                widthClass="w-1/2"
                             />
                             <SortableHeader
                                 label="Average Salary"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('AverageSalary')}
+                                widthClass="w-1/6"
                             />
                             <SortableHeader
                                 label="Job Field"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('jobField')}
+                                widthClass="w-1/6"
                             />
                         </tr>
                     </thead>
                     <tbody className="overflow-y-auto">
                         {sortedData.map((job) => (
                             <tr key={job._id} onClick={() => onJobClick(job)}>
-                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobName}</td>
-                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.Description}</td>
-                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.AverageSalary}</td>
-                                <td className="border border-gray-300 px-4 py-2 cursor-pointer">{job.jobField}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/4">{job.jobName}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/2">{job.Description}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.AverageSalary}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.jobField}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -82,18 +86,17 @@ type SortableHeaderProps = {
     label: string;
     sortBy: SortBy;
     onClick: () => void;
+    widthClass: string;
 };
 
-const SortableHeader: React.FC<SortableHeaderProps> = ({ label, onClick }) => (
+const SortableHeader: React.FC<SortableHeaderProps> = ({ label, onClick, widthClass }) => (
     <th
-        className="border border-gray-300 px-4 py-2 cursor-pointer relative"
+        className={`border border-gray-300 px-4 py-2 cursor-pointer relative ${widthClass}`}
         onClick={onClick}
     >
         <div className="flex items-center justify-between">
             <span>{label}</span>
-            <span className="ml-1">
-                ↑↓
-            </span>
+            <span className="ml-1">↑↓</span>
         </div>
     </th>
 );

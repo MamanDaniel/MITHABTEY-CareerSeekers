@@ -19,9 +19,7 @@ const GeneticAlgorithm = () => {
                 });
 
                 const data = await res.json();
-                console.log(data); // Ensure data is logged correctly
-
-                setProfessions(data); // Assuming data is already an array of professions
+                setProfessions(data);
                 setLoading(false);
             } catch (error) {
                 setError(error.message);
