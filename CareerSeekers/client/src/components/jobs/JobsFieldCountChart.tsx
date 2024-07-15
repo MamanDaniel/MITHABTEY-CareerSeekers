@@ -47,6 +47,7 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                                 size: 15,
                             },
                         },
+                        
                     },
                 },
             });

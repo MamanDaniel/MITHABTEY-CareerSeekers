@@ -3,9 +3,10 @@ import { Doughnut } from 'react-chartjs-2';
 
 interface DonutChartProps {
     data: { labels: string[], counts: number[] };
+    jobName: string; // New prop for job name
 }
 
-const PrerequisitesChart: React.FC<DonutChartProps> = ({ data }) => {
+const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
     const chartData = {
         labels: data.labels,
         datasets: [
@@ -45,7 +46,7 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data }) => {
             },
             title: {
                 display: true,
-                text: 'Character Traits for the Job',
+                text: `Character Traits for ${jobName}`, // Updated title with jobName
                 font: {
                     size: 15
                 }

@@ -15,12 +15,12 @@ const Jobs: React.FC = () => {
     const [salaryChartData, setSalaryChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
     const [selectedJobFields, setSelectedJobFields] = useState<{ value: string, label: string }[]>([]);
     const [selectedJob, setSelectedJob] = useState<{ [key: string]: number }>({});
+    const [selectedJobName, setSelectedJobName] = useState<string>('');
     const [showPrerequisites, setShowPrerequisites] = useState(false);
     const [options, setOptions] = useState<{ value: string, label: string }[]>([]);
-    // Function to aggregate data by job field
+    
     const aggregateDataByJobField = (jobs: { jobField: string }[]) => {
         const aggregatedData: { [key: string]: number } = {};
-
         jobs.forEach(job => {
             const jobField = job.jobField;
             if (aggregatedData[jobField]) {
@@ -29,14 +29,11 @@ const Jobs: React.FC = () => {
                 aggregatedData[jobField] = 1;
             }
         });
-
         return aggregatedData;
     };
 
-    // Function to aggregate average salary by job field
     const aggregateAverageSalaryByJobField = (jobs: { jobField: string, AverageSalary: number }[]) => {
         const salaryData: { [key: string]: { totalSalary: number, count: number } } = {};
-
         jobs.forEach(job => {
             const jobField = job.jobField;
             if (salaryData[jobField]) {
@@ -46,12 +43,10 @@ const Jobs: React.FC = () => {
                 salaryData[jobField] = { totalSalary: job.AverageSalary, count: 1 };
             }
         });
-
         const averageSalaryData: { [key: string]: number } = {};
         for (const field in salaryData) {
             averageSalaryData[field] = salaryData[field].totalSalary / salaryData[field].count;
         }
-
         return averageSalaryData;
     };
 
@@ -75,8 +70,10 @@ const Jobs: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const aggregatedJobFieldData = aggregateDataByJobField(data.data);
-        const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(data.data);
+        const firstFiveJobs = data.data.slice(0, 5);
+        const aggregatedJobFieldData = aggregateDataByJobField(firstFiveJobs);
+        const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(firstFiveJobs);
+
         setOptions(data.data.map(job => job.jobField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
 
         setJobFieldChartData({
@@ -88,6 +85,8 @@ const Jobs: React.FC = () => {
             labels: Object.keys(aggregatedAverageSalaryData),
             counts: Object.values(aggregatedAverageSalaryData)
         });
+
+        setFilteredData(firstFiveJobs);
 
     }, [data]);
 
@@ -102,21 +101,22 @@ const Jobs: React.FC = () => {
         setFilteredData(filtered);
     };
 
-    const handleJobClick = (job: { Prerequisites: { [key: string]: number } }) => {
+    const handleJobClick = (job: { Prerequisites: { [key: string]: number }; jobName: string }) => {
         setSelectedJob(job.Prerequisites);
+        setSelectedJobName(job.jobName);
         setShowPrerequisites(true);
     };
 
     const handleJobFieldSelection = (selected: any) => {
-        setSelectedJobFields(selected);
+        if (selected.length <= 5) {
+            setSelectedJobFields(selected);
+        }
     };
 
     const handleSubmit = () => {
-        // Filter data based on selected job fields
         const selectedFields = selectedJobFields.map(field => field.value);
         const filteredJobs = data.data.filter(job => selectedFields.includes(job.jobField));
 
-        // Update charts based on filtered jobs
         const filteredJobFieldData = aggregateDataByJobField(filteredJobs);
         const filteredAverageSalaryData = aggregateAverageSalaryByJobField(filteredJobs);
 
@@ -152,7 +152,7 @@ const Jobs: React.FC = () => {
                     {salaryChartData.labels.length > 0 && <SalaryChart data={salaryChartData} />}
                 </div>
                 <div className="flex items-center justify-center  font-bold w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
-                    {showPrerequisites && Object.keys(selectedJob).length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }} />}
+                    {showPrerequisites && Object.keys(selectedJob).length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }}  jobName={selectedJobName} />}
                     {!showPrerequisites && <p>Select a job to view prerequisites</p>}
                 </div>
             </div>
@@ -162,7 +162,7 @@ const Jobs: React.FC = () => {
                     <Select
                         id="jobFields"
                         name="jobFields"
-                        placeholder = "Select up to 5 Job Fields..."
+                        placeholder="Select up to 5 Job Fields..."
                         isMulti
                         options={options}
                         className="basic-multi-select"
@@ -172,9 +172,10 @@ const Jobs: React.FC = () => {
                     />
                     <button
                         onClick={handleSubmit}
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-r rounded-l"
-                        >
-                        Submit
+                        className={`bg-gray-300 text-gray-800 font-bold py-2 px-3 rounded-r rounded-l ${selectedJobFields.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
+                        disabled={selectedJobFields.length === 0}
+                    >
+                        {selectedJobFields.length === 0 ? 'Select' : 'Submit'}
                     </button>
                 </div>
             </div>
