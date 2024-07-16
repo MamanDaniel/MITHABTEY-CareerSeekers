@@ -117,6 +117,16 @@ const RamakQuestionnaire: React.FC = () => {
                 setError('Failed to update user traits');
                 console.log(data.message);
             }
+            // update user professions
+            const geneticAlgorithm = await fetch('/server/geneticAlgorithm/findSuitableProfessions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: currentUser._id })
+            });
+            const professions = await geneticAlgorithm.json();
+            console.log(professions);
 
         } catch (err) {
             console.log(err);

@@ -8,16 +8,16 @@ const GeneticAlgorithm = () => {
     const { currentUser } = useSelector((state: any) => state.user);
 
     useEffect(() => {
+        // Fetch suitable professions for the current user
         const fetchProfessions = async () => {
             try {
-                const res = await fetch('/server/geneticAlgorithm/findSuitableProfessions', {
+                const res = await fetch('/server/geneticAlgorithm/getSuitableJobs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ id: currentUser._id })
                 });
-
                 const data = await res.json();
                 setProfessions(data);
                 setLoading(false);
