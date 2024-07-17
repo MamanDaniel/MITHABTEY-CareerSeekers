@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom';
 
 type QuestionProps = {
     question: string;
@@ -53,7 +52,6 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
     );
 };
 
-
 const RamakQuestionnaire: React.FC = () => {
     const [questions, setQuestions] = useState<string[]>([]);
     const [currentTripletIndex, setCurrentTripletIndex] = useState(0);
@@ -61,6 +59,8 @@ const RamakQuestionnaire: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { currentUser } = useSelector((state: any) => state.user);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchQuestionnaire = async () => {
             try {
@@ -95,6 +95,7 @@ const RamakQuestionnaire: React.FC = () => {
     };
 
     const calculateScore = async () => {
+        setLoading(true);
         try {
             const res = await fetch('/server/questionnaires/calculateScore', {
                 method: 'POST',
@@ -116,6 +117,8 @@ const RamakQuestionnaire: React.FC = () => {
             if (data.success === false) {
                 setError('Failed to update user traits');
                 console.log(data.message);
+                setLoading(false);
+                return;
             }
             // update user professions
             const geneticAlgorithm = await fetch('/server/geneticAlgorithm/findSuitableProfessions', {
@@ -127,10 +130,11 @@ const RamakQuestionnaire: React.FC = () => {
             });
             const professions = await geneticAlgorithm.json();
             console.log(professions);
-
+            navigate('/geneticAlgorithm');
         } catch (err) {
             console.log(err);
             setError('Failed to calculate or update score');
+            setLoading(false);
         }
     };
 
@@ -176,12 +180,13 @@ const RamakQuestionnaire: React.FC = () => {
             </div>
             {isComplete && (
                 <div>
-                    <Link to='/geneticAlgorithm'>
-                        <button
-                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                            onClick={calculateScore}>Calculate score</button>
-                    </Link>
+                    <button
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                        onClick={calculateScore}
+                    >
+                    {loading ? 'Loading...' : 'Calculate score'}
 
+                    </button>
                 </div>
             )}
         </div>

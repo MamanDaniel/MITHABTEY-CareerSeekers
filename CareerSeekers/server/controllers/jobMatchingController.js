@@ -20,7 +20,6 @@ export const findSuitableProfessions = async (req, res, next) => {
         req.body.SuitableJobs = matchedProfessions;
         // Update user's suitable jobs in the database with the matched professions
         await updateSuitableJobs(req, res, next);
-
     }
     catch (error) {
         next(error);
@@ -33,7 +32,8 @@ export const getSuitableJobs = async (req, res, next) => {
     try {
         const user = await User.findById(req.body.id);
         const suitableJobs = user.SuitableJobs;
-        if (!suitableJobs) {
+        // if the array is empty, return suitable jobs not found
+        if (suitableJobs.length === 0) {
             return next(errorHandler(404, 'Suitable jobs not found'));
         }
         res.status(200).json(suitableJobs);

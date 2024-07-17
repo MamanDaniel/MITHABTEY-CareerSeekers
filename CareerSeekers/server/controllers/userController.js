@@ -41,7 +41,6 @@ export const updateSuitableJobs = async (req, res, next) => {
         const { password, ...rest } = updatedUser._doc;
         // Send the updated user object
         res.status(200).json(rest);
-        console.log("User's suitable jobs updated successfully");
     } catch (error) {
         next(error);
     }   
