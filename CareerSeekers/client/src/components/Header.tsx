@@ -56,7 +56,7 @@ export default function Header() {
           {/*if the user is logged in, show 'My Jobsl link. on click nevigate to GeneticAlgorithm*/}
           {currentUser && (
             <Link to='/geneticAlgorithm'>
-              <li className='hidden sm:inline text-slate-700 hover:underline'>My Jobs</li>
+              <li className='hidden sm:inline text-slate-700 hover:underline'>MyJobs</li>
             </Link>
           )}
 
