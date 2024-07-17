@@ -55,7 +55,8 @@ export const getUserTraits = async (req, res, next) => {
         if (!personTraits) {
             return next(errorHandler(404, 'User traits not found'));
         }
-        return personTraitsConverted;
+        // res the user traits
+        res.status(200).json(personTraitsConverted);
     }
     catch (error) {
         next(error);
@@ -63,7 +64,7 @@ export const getUserTraits = async (req, res, next) => {
 }
 
 // convert the traits of the user to the format of the traits of the professions
-function convertPersonTraits(traits) {
+export function convertPersonTraits(traits) {
     // Mapping original trait names to new trait names
     const traitMapping = {
         'Business': 'Business',

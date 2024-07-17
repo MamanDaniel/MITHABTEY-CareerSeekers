@@ -8,9 +8,11 @@ const GeneticAlgorithm = () => {
     const [error, setError] = useState<string | null>(null);
     const { currentUser } = useSelector((state: any) => state.user);
     const [userTraits, setUserTraits] = useState<any[]>([]);
+    const [needRAMAK, setNeedRAMAK] = useState(false);
 
     // get all user traits
     useEffect(() => {
+        console.log("needRAMAK: ", needRAMAK); 
         const fetchUserTraits = async () => {
             try {
                 const res = await fetch('/server/user/getUserTraits', {
@@ -21,8 +23,17 @@ const GeneticAlgorithm = () => {
                     body: JSON.stringify({ id: currentUser._id })
                 });
                 const data = await res.json();
-                setUserTraits(data);
                 console.log(data);
+                // Ensure data is converted to an array of trait objects
+                const arrayData = Object.values<number>(data).map((value: number) => ({ value }));
+                console.log(arrayData);
+                setUserTraits(arrayData);
+                // If all traits are 0, set need RAMAK to true
+                if (arrayData.every((trait) => trait.value === 0)) {
+                    setNeedRAMAK(true);
+                    setLoading(false);
+                    return;
+                }
                 setLoading(false);
             } catch (error) {
                 setError(error.message);
@@ -32,8 +43,8 @@ const GeneticAlgorithm = () => {
         fetchUserTraits();
     }, [currentUser._id]);
 
+    // Fetch suitable professions if userTraits are not all 0
     useEffect(() => {
-        // Fetch suitable professions for the current user
         const fetchProfessions = async () => {
             try {
                 const res = await fetch('/server/geneticAlgorithm/getSuitableJobs', {
@@ -45,8 +56,9 @@ const GeneticAlgorithm = () => {
                 });
                 const data = await res.json();
                 console.log(data);
-                if (data.success === false) {
-                    setError('You need to complete the RAMAK questionnaire first');
+                if (data.message === 'Suitable jobs not found') {
+                    console.log('Suitable jobs not found');
+                    setNeedRAMAK(true);
                     setLoading(false);
                     return;
                 }
@@ -58,12 +70,14 @@ const GeneticAlgorithm = () => {
             }
         };
 
-        if (userTraits.length > 0 && userTraits.every(trait => trait === 0)) {
+        if (needRAMAK) {
+            console.log('All traits are 0 or userTraits is empty');
             setLoading(false);
         } else {
             fetchProfessions();
+            console.log('Fetching professions');
         }
-    }, [currentUser._id, userTraits]);
+    }, [userTraits, currentUser._id]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -73,11 +87,13 @@ const GeneticAlgorithm = () => {
         return <div>Error: {error}</div>;
     }
 
-    if (userTraits.length > 0 && userTraits.every(trait => trait === 0)) {
+    // Show message to complete the RAMAK questionnaire first
+    if (needRAMAK) {
+        console.log('inside userTraits.every');
         return (
             <div className="p-4">
-                <h1 className="text-2xl font-bold mb-4">You need to complete the RAMAK questionnaire first</h1>
-                <Link to="/pages/RamakQuestionnaire" className="text-blue-500 underline">Go to RAMAK Questionnaire</Link>
+                <h1 className="text-2xl font-bold mb-4">RAMAK first</h1>
+                <Link to="/RamakQuestionnaire" className="text-blue-500 underline">Go to RAMAK Questionnaire</Link>
             </div>
         );
     }

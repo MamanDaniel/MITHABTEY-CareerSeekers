@@ -1,11 +1,9 @@
-import Job from '../models/jobModel.js';
 import User from '../models/userModel.js';
 import { errorHandler } from "../utils/error.js";
 import { geneticAlgorithm } from "../controllers/geneticAlgorithmController.js"
 import { updateSuitableJobs } from "../controllers/userController.js"
-import {getJobsForGA} from "../controllers/jobController.js"
-import {getUserTraits} from "../controllers/userController.js"
-
+import { getJobsForGA } from "../controllers/jobController.js"
+import {convertPersonTraits } from "../controllers/userController.js"
 
 // Find suitable professions by genetic algorithm
 // numGenerations = 100; populationSize = 50; professionTraits = getAllJobs(); personTraits = getUserTraits();
@@ -43,5 +41,19 @@ export const getSuitableJobs = async (req, res, next) => {
     }
 }
 
-
+// Get user traits from the database and use them in findSuitableProfessions
+export const getUserTraits = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.body.id);
+        const personTraits = user.traits;
+        const personTraitsConverted = convertPersonTraits(personTraits);
+        if (!personTraits) {
+            return next(errorHandler(404, 'User traits not found'));
+        }
+        return personTraitsConverted;
+    }
+    catch (error) {
+        next(error);
+    }
+}
 
