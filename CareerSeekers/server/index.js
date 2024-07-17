@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/userRoute.js';
 import authRouter from './routes/authRoute.js';
+import jobRouter from './routes/jobRoute.js';
+import questionnairesRouter from './routes/questionnairesRouth.js';
+import geneticAlgorithmRouter from './routes/geneticAlgorithmRoute.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -25,10 +28,16 @@ app.listen(PORT, () => {
 }
 );
 
-// Test route the server is running
+// route for users
 app.use("/server/user", userRouter);
-// server auth route to signup
+// route for authintication
 app.use("/server/auth", authRouter);
+// route for job
+app.use("/server/job", jobRouter);
+// server questionnaires route to questionnaires
+app.use("/server/questionnaires", questionnairesRouter);
+// server geneticAlgorithm route to geneticAlgorithm
+app.use("/server/geneticAlgorithm", geneticAlgorithmRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -40,3 +49,6 @@ app.use((err, req, res, next) => {
     message: message
   });
 });
+
+// test if the server is running
+app.get('/', (req, res) => { res.send('Server is running') }  );

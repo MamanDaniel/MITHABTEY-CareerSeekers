@@ -1,31 +1,35 @@
-import { useState } from "react"
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e: { target: { id: any; value: any; }; }) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
-    // prevent the form from refreshing the page when submitted
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch('/server/auth/signup',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
+      const res = await fetch("/server/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
       const data = await res.json();
       if (data.success === false) {
         setLoading(false);
@@ -34,47 +38,59 @@ export default function Signup() {
       }
       setLoading(false);
       setError(null);
-      navigate('/signin');
-    } catch (error) {
+      navigate("/signin");
+    } catch (error: any) {
       setLoading(false);
       setError(error.message);
     }
   };
+
+  const isFormValid = () => {
+    return (
+      formData.username.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      formData.password.trim() !== ""
+    );
+  };
+
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+    <div className="p-3 max-w-lg mx-auto">
+      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
-          type='text'
-          placeholder='username'
-          className='border p-3 rounded-lg'
-          id='username'
+          type="text"
+          placeholder="username"
+          className="border p-3 rounded-lg"
+          id="username"
+          value={formData.username}
           onChange={handleChange}
         />
         <input
-          type='email'
-          placeholder='email'
-          className='border p-3 rounded-lg'
-          id='email'
+          type="email"
+          placeholder="email"
+          className="border p-3 rounded-lg"
+          id="email"
+          value={formData.email}
           onChange={handleChange}
         />
         <input
-          type='password'
-          placeholder='password'
-          className='border p-3 rounded-lg'
-          id='password'
+          type="password"
+          placeholder="password"
+          className="border p-3 rounded-lg"
+          id="password"
+          value={formData.password}
           onChange={handleChange}
         />
 
         <button
-          disabled={loading}
-          className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
+          type="submit"
+          disabled={loading || !isFormValid()}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? 'Loading...' : 'Sign Up'}
+          {loading ? "Loading..." : "Sign Up"}
         </button>
       </form>
-      {error && <p className='text-red-500 text-center mt-4'>{error}</p>}
+      {error && <p className="text-red-500 text-center mt-4">{error}</p>}
     </div>
-
-  )
+  );
 }

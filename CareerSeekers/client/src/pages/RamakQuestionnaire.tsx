@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 type QuestionProps = {
     question: string;
@@ -10,7 +12,7 @@ type QuestionProps = {
 const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, onAnswer }) => {
     return (
         <div style={{ margin: '20px 0', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-            <p>{question}</p>
+            <p>{index + 1}) {question}</p>
             <div>
                 <label style={{ display: 'block', margin: '5px 0' }}>
                     <input
@@ -19,6 +21,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                         value="2"
                         checked={selectedAnswer === 2}
                         onChange={() => onAnswer(index, 2)}
+                        style={{ marginRight: '7px' }}
                     />
                     Yes
                 </label>
@@ -29,6 +32,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                         value="0"
                         checked={selectedAnswer === 0}
                         onChange={() => onAnswer(index, 0)}
+                        style={{ marginRight: '7px' }}
                     />
                     No
                 </label>
@@ -39,6 +43,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
                         value="1"
                         checked={selectedAnswer === 1}
                         onChange={() => onAnswer(index, 1)}
+                        style={{ marginRight: '7px' }}
                     />
                     Not sure
                 </label>
@@ -48,25 +53,40 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
 };
 
 const RamakQuestionnaire: React.FC = () => {
-    const questions = [
-        'Would you be interested in working as a social worker?',
-        'Would you be interested in working as a mining foreman?',
-        'Would you be interested in working as a car salesperson?',
-        'Would you be interested in working as a choreographer?',
-        'Would you be interested in working as an elementary school teacher?',
-        'Would you be interested in working as a furniture upholsterer?',
-        'Would you be interested in working as a legal secretary?',
-        'Would you be interested in working as a chemist?',
-        'Would you be interested in working as a deckhand?',
-    ];
-
+    const [questions, setQuestions] = useState<string[]>([]);
     const [currentTripletIndex, setCurrentTripletIndex] = useState(0);
-    const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(null));
-    const [showLog, setShowLog] = useState(false);
+    const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const { currentUser } = useSelector((state: any) => state.user);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchQuestionnaire = async () => {
+            try {
+                const res = await fetch('/server/questionnaires/getQuestionnaire', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ Questionnaire_Name: 'RAMAK' })
+                });
+                const questionnaire = await res.json();
+                setQuestions(questionnaire.Questions.map((q: any) => q.question_en));
+                setLoading(false);
+            } catch (err) {
+                console.log(err);
+                setError('Failed to fetch questionnaire');
+                setLoading(false);
+            }
+        };
+
+        fetchQuestionnaire();
+    }, []);
 
     const handleAnswer = (index: number, answer: number) => {
-        const newAnswers = [...answers];
-        newAnswers[index] = answer;
+        const newAnswers = { ...answers };
+        newAnswers[index] = answer === 2 ? 'Y' : answer === 0 ? 'N' : '?';
         setAnswers(newAnswers);
 
         if ((index + 1) % 3 === 0 && index + 1 < questions.length) {
@@ -74,50 +94,99 @@ const RamakQuestionnaire: React.FC = () => {
         }
     };
 
-    const calculateScore = () => {
-        return answers.reduce((acc, curr) => acc + (curr !== null ? curr : 0), 0);
+    const calculateScore = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch('/server/questionnaires/calculateScore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ answers })
+            });
+            const score = await res.json();
+            // Assuming the user ID is stored in a variable userId
+            const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ traits: score })
+            });
+            const data = await updateRes.json();
+            if (data.success === false) {
+                setError('Failed to update user traits');
+                console.log(data.message);
+                setLoading(false);
+                return;
+            }
+            // update user professions
+            const geneticAlgorithm = await fetch('/server/geneticAlgorithm/findSuitableProfessions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: currentUser._id })
+            });
+            const professions = await geneticAlgorithm.json();
+            console.log(professions);
+            navigate('/geneticAlgorithm');
+        } catch (err) {
+            console.log(err);
+            setError('Failed to calculate or update score');
+            setLoading(false);
+        }
     };
 
-    const isComplete = answers.every(answer => answer !== null);
+    const isComplete = Object.keys(answers).length === questions.length;
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-            <div style={{ margin: '20px 0' }}>
-                <div
-                    style={{
-                        width: `${(answers.filter(answer => answer !== null).length / questions.length) * 100}%`,
-                        height: '10px',
-                        backgroundColor: '#2c40bf'
-                    }}
-                />
-            </div>
+        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
             <div>
                 {questions.slice(currentTripletIndex * 3, currentTripletIndex * 3 + 3).map((question, index) => (
                     <Question
-                        key={index}
+                        key={currentTripletIndex * 3 + index}
                         question={question}
                         index={currentTripletIndex * 3 + index}
-                        selectedAnswer={answers[currentTripletIndex * 3 + index]}
+                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : answers[currentTripletIndex * 3 + index] === '?' ? 1 : 3}
                         onAnswer={handleAnswer}
                     />
                 ))}
             </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
+                <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                    onClick={() => setCurrentTripletIndex(currentTripletIndex - 1)}
+                    disabled={currentTripletIndex === 0}
+                >
+                    Prev
+                </button>
+
+                <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                    onClick={() => setCurrentTripletIndex(currentTripletIndex + 1)}
+                    disabled={currentTripletIndex === Math.ceil(questions.length / 3) - 1}
+                >
+                    Next
+                </button>
+            </div>
             {isComplete && (
                 <div>
-                    <div>Your score is: {calculateScore()}</div>
-                    <button onClick={() => setShowLog(true)}>Watch tour answers</button>
-                    {showLog && (
-                        <div>
-                            <h3>RamakQuestionnaire Log:</h3>
-                            <ul>
-                                {questions.map((question, index) => (
-                                    <li key={index}>
-                                        <strong>{question}</strong> - {answers[index] === 2 ? 'Yes' : answers[index] === 0 ? 'No' : "Not Sure"}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                    <button
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                        onClick={calculateScore}
+                    >
+                    {loading ? 'Loading...' : 'Calculate score'}
+
+                    </button>
                 </div>
             )}
         </div>
