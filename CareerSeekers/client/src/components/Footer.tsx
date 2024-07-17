@@ -1,4 +1,4 @@
-import logo from '../assets/logo.png';
+import logo from '../assets/mithabteyLogo.png';
 export default function Footer() {
     return (
         <footer className="w-full p-8 bg-gray-250">

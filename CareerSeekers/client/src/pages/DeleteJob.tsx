@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function DeleteJob() {
     const [jobs, setJobs] = useState([]);
-    const [error, setError] = useState('');
+    const [err, setError] = useState('');
     const [urls, setUrls] = useState([]);
     useEffect(() => {
         fetch('/server/job/getURLjobs')
@@ -18,14 +18,16 @@ export default function DeleteJob() {
 
     useEffect(() => {
         fetch('/server/job/getalljobnames')
+       
             .then(response => response.json())
             .then(data => {
                 setJobs(data.jobs);
+                console.log("fetching jobs");
             })
             .catch(err => {
                 setError('Error fetching data');                            
             });
-    }, [jobs]);
+    }, []);
     
     const handleDelete = (jobId: string) => {
         fetch(`/server/job/deletejob/${jobId}`, {
@@ -37,7 +39,7 @@ export default function DeleteJob() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    setJobs(jobs.filter(job => job !== jobId));
+                    setJobs(jobs.filter((job: any) => job._id !== jobId));
                 } else {
                     setError('Error deleting job');                   
                 }
