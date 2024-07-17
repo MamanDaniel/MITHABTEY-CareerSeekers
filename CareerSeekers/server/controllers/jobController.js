@@ -3,7 +3,7 @@ import { errorHandler } from "../utils/error.js";
 
 export const addJob = async (req, res, next) => {
     try {
-        const { jobName, Description, AverageSalary, joblField, Prerequisites, facebookPostUrl } = req.body;
+        const { jobName, Description, AverageSalary, jobField, Prerequisites, facebookPostUrl } = req.body;
 
         // Validate the request body
         if (!jobName || !Description || !AverageSalary || !jobField || !Prerequisites) {
@@ -15,7 +15,7 @@ export const addJob = async (req, res, next) => {
             jobName,
             Description,
             AverageSalary,
-            joblField,
+            jobField,
             Prerequisites,
             facebookPostUrl
         });
