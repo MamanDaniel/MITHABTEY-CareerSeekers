@@ -39,3 +39,22 @@ export const getAllJobs = async (req, res, next) => {
         next(error);
     }
 };
+
+// get jobname and Prerequisites from all jobs to gentic algorithm
+export const getJobsForGA = async (req, res, next) => {
+    try {
+        const jobs = await Job.find();
+        const professionTraits = jobs.map(job => {
+            return {
+                jobName: job.jobName,
+                Prerequisites: job.Prerequisites
+            }
+        });
+        if (!professionTraits) {
+            return next(errorHandler(404, 'Professions not found'));
+        }
+        return professionTraits;
+    } catch (error) {
+        next(error);
+    }
+}
