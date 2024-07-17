@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FaArrowRight } from 'react-icons/fa';
 
 const GeneticAlgorithm = () => {
     const [professions, setProfessions] = useState<string[]>([]);
@@ -9,10 +10,9 @@ const GeneticAlgorithm = () => {
     const { currentUser } = useSelector((state: any) => state.user);
     const [userTraits, setUserTraits] = useState<any[]>([]);
     const [needRAMAK, setNeedRAMAK] = useState(false);
+    const [activeTab, setActiveTab] = useState<number | null>(null);
 
-    // get all user traits
     useEffect(() => {
-        console.log("needRAMAK: ", needRAMAK); 
         const fetchUserTraits = async () => {
             try {
                 const res = await fetch('/server/user/getUserTraits', {
@@ -23,12 +23,8 @@ const GeneticAlgorithm = () => {
                     body: JSON.stringify({ id: currentUser._id })
                 });
                 const data = await res.json();
-                console.log(data);
-                // Ensure data is converted to an array of trait objects
                 const arrayData = Object.values<number>(data).map((value: number) => ({ value }));
-                console.log(arrayData);
                 setUserTraits(arrayData);
-                // If all traits are 0, set need RAMAK to true
                 if (arrayData.every((trait) => trait.value === 0)) {
                     setNeedRAMAK(true);
                     setLoading(false);
@@ -43,7 +39,6 @@ const GeneticAlgorithm = () => {
         fetchUserTraits();
     }, [currentUser._id]);
 
-    // Fetch suitable professions if userTraits are not all 0
     useEffect(() => {
         const fetchProfessions = async () => {
             try {
@@ -55,9 +50,7 @@ const GeneticAlgorithm = () => {
                     body: JSON.stringify({ id: currentUser._id })
                 });
                 const data = await res.json();
-                console.log(data);
                 if (data.message === 'Suitable jobs not found') {
-                    console.log('Suitable jobs not found');
                     setNeedRAMAK(true);
                     setLoading(false);
                     return;
@@ -71,11 +64,9 @@ const GeneticAlgorithm = () => {
         };
 
         if (needRAMAK) {
-            console.log('All traits are 0 or userTraits is empty');
             setLoading(false);
         } else {
             fetchProfessions();
-            console.log('Fetching professions');
         }
     }, [userTraits, currentUser._id]);
 
@@ -87,9 +78,7 @@ const GeneticAlgorithm = () => {
         return <div>Error: {error}</div>;
     }
 
-    // Show message to complete the RAMAK questionnaire first
     if (needRAMAK) {
-        console.log('inside userTraits.every');
         return (
             <div className="p-4">
                 <h1 className="text-2xl font-bold mb-4">RAMAK first</h1>
@@ -100,12 +89,26 @@ const GeneticAlgorithm = () => {
 
     return (
         <div className="p-4">
-            <h1 className="text-3xl font-bold mb-4">Top 3 Professions for You</h1>
-            <div className="grid grid-cols-1 gap-4">
+            <header className="mb-6">
+                <h1 className="text-3xl font-bold text-center">Top 3 Professions for You</h1>
+                <h2 className="text-xl text-center text-gray-600">Based on a large database of data from MITHABTEY</h2>
+            </header>
+            <div className="grid grid-cols-1 gap-4 w-full md:w-3/6 mx-auto">
                 {professions.map((profession, index) => (
-                    <div key={index} className="bg-white p-4 shadow-md rounded-md">
-                        <h2 className="text-xl font-semibold mb-2">{profession}</h2>
-                        {/* Add more details about each profession if needed */}
+                    <div key={index} className="bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105"
+                         onClick={() => setActiveTab(activeTab === index ? null : index)}>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-xl font-semibold mb-2">{profession}</h2>
+                            <FaArrowRight
+                                className={`w-6 h-6 transform transition-transform ${activeTab === index ? 'rotate-90' : ''}`}
+                            />
+                        </div>
+                        {activeTab === index && (
+                            <div className="mt-2">
+                                <p>Detailed information about {profession}.</p>
+                                {/* Add more detailed info here, such as job description, skills, salary, etc. */}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

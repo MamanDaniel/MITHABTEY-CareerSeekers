@@ -53,6 +53,12 @@ export default function Header() {
           {currentUser && (
             <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline cursor-pointer '>Sign out</li>
           )}
+          {/*if the user is logged in, show 'My Jobsl link. on click nevigate to GeneticAlgorithm*/}
+          {currentUser && (
+            <Link to='/geneticAlgorithm'>
+              <li className='hidden sm:inline text-slate-700 hover:underline'>My Jobs</li>
+            </Link>
+          )}
 
           {/*if the user is not logged in, show the sign up link*/}
           {!currentUser && (
