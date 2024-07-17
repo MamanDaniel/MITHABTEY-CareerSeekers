@@ -9,6 +9,7 @@ import Profile from './pages/Profile'
 import RamakQuestionnaire from './pages/RamakQuestionnaire'
 import AdminPanel from './pages/AdminPanel'
 import AddJob from './pages/AddJob'
+import DeleteJob from './pages/DeleteJob'
 import Jobs from './pages/Jobs'
 import GeneticAlgorithm from './pages/GeneticAlgorithm'
 
@@ -32,6 +33,7 @@ function App() {
           <Route element={<ValidateAdmin />}>
             <Route path='/adminpanel' element={<AdminPanel />} />
             <Route path='/adminpanel/addjob' element={<AddJob />} />
+            <Route path='/adminpanel/deletejob' element={<DeleteJob />} />
           </Route>
         </Route>
       </Routes>

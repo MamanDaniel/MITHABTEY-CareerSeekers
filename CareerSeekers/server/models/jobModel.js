@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const jobSchema = new mongoose.Schema({
     jobName: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     Description: {
         type: String,
@@ -26,6 +27,10 @@ const jobSchema = new mongoose.Schema({
         Service: { type: Number, default: 0 },
         Outdoor: { type: Number, default: 0 },
         Technology: { type: Number, default: 0 }
+    },
+    facebookPostUrl: {
+        type: String, // URL is a string
+        required: false // Assuming this field is required
     }
 });
 

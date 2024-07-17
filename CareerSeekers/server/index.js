@@ -28,11 +28,11 @@ app.listen(PORT, () => {
 }
 );
 
-// Test route the server is running
+// route for users
 app.use("/server/user", userRouter);
-// server auth route to signup
+// route for authintication
 app.use("/server/auth", authRouter);
-// server job route 
+// route for job
 app.use("/server/job", jobRouter);
 // server questionnaires route to questionnaires
 app.use("/server/questionnaires", questionnairesRouter);
@@ -50,4 +50,5 @@ app.use((err, req, res, next) => {
   });
 });
 
+// test if the server is running
 app.get('/', (req, res) => { res.send('Server is running') }  );
