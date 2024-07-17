@@ -8,7 +8,7 @@ export default function AddJob () {
         jobName: '',
         Description: '',
         AverageSalary: '',
-        joblField: '',
+        jobField: '',
         facebookPostUrl: '',
         Prerequisites: {
             Business: 0,
@@ -116,8 +116,8 @@ export default function AddJob () {
                                 <input
                                     type="text"
                                     placeholder="Professional Field"
-                                    name="joblField"
-                                    value={formData.joblField}
+                                    name="jobField"
+                                    value={formData.jobField}
                                     onChange={handleChange}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                                     required
