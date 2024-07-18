@@ -24,8 +24,11 @@ export default function Home() {
                 <div className="mx-auto max-w-2xl py-12 sm:py-32 lg:py-38">
                     <div className="text-center">
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                            Welcome to the world of jobs opportunities
+                            Welcome To MITHABTEY MIKTZOA
                         </h1>
+                        <h2 className='text-xl sm:text-2xl font-bold mt-6 text-gray-600'>
+                            My Job, My Profession
+                        </h2>
                         <h2 className='text-xl sm:text-2xl font-bold mt-6 text-gray-600'>
                             Come find the next job for you!
                         </h2>

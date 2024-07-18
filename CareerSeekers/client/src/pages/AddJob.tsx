@@ -136,7 +136,7 @@ export default function AddJob () {
 
                     {/* RAMAK Questionnaire Section */}
                     <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold mb-6 text-slate-700 border-b pb-2">RAMAK Questionnaire</h2>
+                        <h2 className="text-2xl font-semibold mb-6 text-slate-700 border-b pb-2">RAMAK traits of the job</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {Object.keys(formData.Prerequisites).map((key) => (
                                 <div key={key} className="bg-white p-4 rounded-lg shadow-sm">
