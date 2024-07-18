@@ -8,7 +8,7 @@ export default function AddJob () {
         jobName: '',
         Description: '',
         AverageSalary: '',
-        joblField: '',
+        jobField: '',
         facebookPostUrl: '',
         Prerequisites: {
             Business: 0,
@@ -116,8 +116,8 @@ export default function AddJob () {
                                 <input
                                     type="text"
                                     placeholder="Professional Field"
-                                    name="joblField"
-                                    value={formData.joblField}
+                                    name="jobField"
+                                    value={formData.jobField}
                                     onChange={handleChange}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                                     required
@@ -136,7 +136,7 @@ export default function AddJob () {
 
                     {/* RAMAK Questionnaire Section */}
                     <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold mb-6 text-slate-700 border-b pb-2">RAMAK Questionnaire</h2>
+                        <h2 className="text-2xl font-semibold mb-6 text-slate-700 border-b pb-2">RAMAK traits of the job</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {Object.keys(formData.Prerequisites).map((key) => (
                                 <div key={key} className="bg-white p-4 rounded-lg shadow-sm">
