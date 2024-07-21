@@ -70,9 +70,9 @@ const Jobs: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const firstFiveJobs = data.data.slice(0, 5);
-        const aggregatedJobFieldData = aggregateDataByJobField(firstFiveJobs);
-        const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(firstFiveJobs);
+        const initialJobFields = data.data.slice(0, 5);
+        const aggregatedJobFieldData = aggregateDataByJobField(initialJobFields);
+        const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(initialJobFields);
 
         setOptions(data.data.map(job => job.jobField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
 
@@ -89,6 +89,44 @@ const Jobs: React.FC = () => {
         setFilteredData(data.data);
 
     }, [data]);
+
+    useEffect(() => {
+        if (selectedJobFields.length === 0) {
+            // Show all jobs and reset the charts
+            const aggregatedJobFieldData = aggregateDataByJobField(data.data);
+            const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(data.data);
+
+            setJobFieldChartData({
+                labels: Object.keys(aggregatedJobFieldData),
+                counts: Object.values(aggregatedJobFieldData)
+            });
+
+            setSalaryChartData({
+                labels: Object.keys(aggregatedAverageSalaryData),
+                counts: Object.values(aggregatedAverageSalaryData)
+            });
+
+            setFilteredData(data.data);
+        } else {
+            const selectedFields = selectedJobFields.map(field => field.value);
+            const filteredJobs = data.data.filter(job => selectedFields.includes(job.jobField));
+
+            const filteredJobFieldData = aggregateDataByJobField(filteredJobs);
+            const filteredAverageSalaryData = aggregateAverageSalaryByJobField(filteredJobs);
+
+            setJobFieldChartData({
+                labels: Object.keys(filteredJobFieldData),
+                counts: Object.values(filteredJobFieldData)
+            });
+
+            setSalaryChartData({
+                labels: Object.keys(filteredAverageSalaryData),
+                counts: Object.values(filteredAverageSalaryData)
+            });
+
+            setFilteredData(filteredJobs);
+        }
+    }, [selectedJobFields, data]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
@@ -111,25 +149,6 @@ const Jobs: React.FC = () => {
         if (selected.length <= 5) {
             setSelectedJobFields(selected);
         }
-    };
-
-    const handleSubmit = () => {
-        const selectedFields = selectedJobFields.map(field => field.value);
-        const filteredJobs = data.data.filter(job => selectedFields.includes(job.jobField));
-
-        const filteredJobFieldData = aggregateDataByJobField(filteredJobs);
-        const filteredAverageSalaryData = aggregateAverageSalaryByJobField(filteredJobs);
-
-        setJobFieldChartData({
-            labels: Object.keys(filteredJobFieldData),
-            counts: Object.values(filteredJobFieldData)
-        });
-
-        setSalaryChartData({
-            labels: Object.keys(filteredAverageSalaryData),
-            counts: Object.values(filteredAverageSalaryData)
-        });
-        setOptions(data.data.map(job => job.jobField).filter((value, index, self) => self.indexOf(value) === index).map(label => ({ value: label, label })));
     };
 
     if (loading) {
@@ -170,13 +189,6 @@ const Jobs: React.FC = () => {
                         value={selectedJobFields}
                         onChange={handleJobFieldSelection}
                     />
-                    <button
-                        onClick={handleSubmit}
-                        className={`bg-gray-300 text-gray-800 font-bold py-2 px-3 rounded-r rounded-l ${selectedJobFields.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}`}
-                        disabled={selectedJobFields.length === 0}
-                    >
-                        {selectedJobFields.length === 0 ? 'Select' : 'Submit'}
-                    </button>
                 </div>
             </div>
             <div className="w-full md:w-1/2 mx-auto">
