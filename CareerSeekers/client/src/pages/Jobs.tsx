@@ -70,7 +70,7 @@ const Jobs: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const initialJobFields = data.data.slice(0, 5);
+        const initialJobFields = data.data.slice(0, 8);
         const aggregatedJobFieldData = aggregateDataByJobField(initialJobFields);
         const aggregatedAverageSalaryData = aggregateAverageSalaryByJobField(initialJobFields);
 
@@ -146,7 +146,7 @@ const Jobs: React.FC = () => {
     };
 
     const handleJobFieldSelection = (selected: any) => {
-        if (selected.length <= 5) {
+        if (selected.length <= 8) {
             setSelectedJobFields(selected);
         }
     };

@@ -40,6 +40,7 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                     plugins: {
                         legend: {
                             display: true,
+                            position: 'top',
                         },
                         title: {
                             display: true,
