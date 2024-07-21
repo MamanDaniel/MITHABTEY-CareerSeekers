@@ -1,5 +1,9 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend, Title, ChartDataLabels);
 
 interface DonutChartProps {
     data: { labels: string[], counts: number[] };
@@ -28,6 +32,19 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
 
     const options = {
         plugins: {
+            datalabels: {
+                color: '#fff',
+                font: {
+                    weight: 700, 
+                },
+                formatter: (value: number) => {
+                    // Don't show the label if the value is zero
+                    if (value === 0) {
+                        return null; 
+                    }
+                    return ` ${value}%`;
+                },
+            },
             tooltip: {
                 callbacks: {
                     label: (context: any) => {
@@ -41,12 +58,12 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
                 }
             },
             legend: {
-                display: true, // This will remove the labels above the chart
+                display: true,
                 position: 'left' as const
             },
             title: {
                 display: true,
-                text: `Character Traits for ${jobName}`, // Updated title with jobName
+                text: `Character Traits for ${jobName}`,
                 font: {
                     size: 15
                 }

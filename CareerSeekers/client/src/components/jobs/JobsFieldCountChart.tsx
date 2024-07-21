@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 interface ChartData {
     labels: string[];
@@ -38,7 +39,7 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                 options: {
                     plugins: {
                         legend: {
-                            display: true,                      
+                            display: true,
                         },
                         title: {
                             display: true,
@@ -47,9 +48,18 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                                 size: 15,
                             },
                         },
-                        
+                        datalabels: {
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                            },
+                            formatter: (value: number) => {
+                                return value === 0 ? null : `${value}`;
+                            },
+                        },
                     },
                 },
+                plugins: [ChartDataLabels],
             });
 
             return () => {

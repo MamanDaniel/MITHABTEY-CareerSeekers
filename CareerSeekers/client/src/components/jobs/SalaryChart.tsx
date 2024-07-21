@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 interface ChartData {
     labels: string[];
@@ -15,14 +16,19 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data }) => {
 
     useEffect(() => {
         if (chartRef.current) {
+            const filteredData = {
+                labels: data.labels.filter((_, index) => data.counts[index] !== 0),
+                counts: data.counts.filter(count => count !== 0),
+            };
+
             const chartInstance = new Chart(chartRef.current, {
                 type: 'bar',
                 data: {
-                    labels: data.labels,
+                    labels: filteredData.labels,
                     datasets: [
                         {
-                            data: data.counts,
-                            backgroundColor: "rgba(244, 67, 54, 0.6)",
+                            data: filteredData.counts,
+                            backgroundColor:  "rgba(50,127,167,0.6)",
                         },
                     ],
                 },
@@ -38,8 +44,38 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data }) => {
                                 size: 15,
                             },
                         },
+                        datalabels: {
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                            },
+                            formatter: (value: number) => {
+                                return value === 0 ? null : new Intl.NumberFormat().format(value);
+                            },
+                        },
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Job Field',
+                                font: {
+                                   weight: 'bold',
+                                },
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Average Salary',
+                                font: {
+                                    weight: 'bold',
+                                 },
+                            },
+                        },
                     },
                 },
+                plugins: [ChartDataLabels],
             });
 
             return () => {
