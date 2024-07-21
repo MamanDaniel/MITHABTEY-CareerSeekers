@@ -13,14 +13,14 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
             {
                 data: data.counts,
                 backgroundColor: [
-                    '#FF6384', // Red
-                    '#36A2EB', // Blue
-                    '#FFCE56', // Yellow
-                    '#FF9F40', // Orange
-                    '#4BC0C0', // Teal
-                    '#9966FF', // Purple
-                    '#C9CBCF', // Light Grey
-                    '#524e4b'  // Bright Red-Orange
+                    "rgba(117,169,255,0.6)",
+                    "rgba(148,223,215,0.6)",
+                    "rgba(208,129,222,0.6)",
+                    "rgba(247,127,167,0.6)",
+                    "rgba(255,206,86,0.6)",
+                    "rgba(75,192,192,0.6)",
+                    "rgba(153,102,255,0.6)",
+                    "rgba(255,159,64,0.6)",
                 ],
             }
         ]
