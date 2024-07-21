@@ -77,10 +77,10 @@ export default function AddJob () {
 
 
     return (
-        <div className="bg-gray-100 min-h-screen py-8">
+        <div className="bg-gray-100 min-h-screen py-8 p-4">
             <ToastContainer />
-            <div className="max-w-4xl mx-auto bg-gray-100 rounded-lg shadow-lg overflow-hidden">
-                <h1 className="text-3xl font-bold text-center py-6 bg-slate-700 text-white">Add New Job</h1>
+            <div className="md:w-2/5 mx-auto bg-gray-100 rounded-lg shadow-lg overflow-hidden ">
+                <h1 className="text-2xl font-bold text-center py-2 bg-slate-700 text-white">Add New Job</h1>
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Job Details Section */}
                     <div className="bg-gray-50 p-6 rounded-lg shadow-md">
@@ -160,7 +160,8 @@ export default function AddJob () {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-slate-700 text-white py-3 rounded-lg uppercase font-semibold hover:bg-slate-600 transition duration-300 ease-in-out disabled:opacity-50"
+                        className="md:w-1/5 block mx-auto bg-slate-700 text-white px-8 py-2 rounded-md shadow-md hover:bg-slate-800 transition duration-150 ease-in-out"
+
                     >
                         {loading ? 'Adding Job...' : 'Add Job'}
                     </button>

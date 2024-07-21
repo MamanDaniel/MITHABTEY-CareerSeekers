@@ -23,7 +23,7 @@ export default function DeleteJob() {
             .then(data => {
                 setJobs(data.jobs);
             })
-            .catch(err => {
+            .catch(() => {
                 setError('Error fetching data');                            
             });
     }, []);
@@ -43,7 +43,7 @@ export default function DeleteJob() {
                     setError('Error deleting job');                   
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 setError('Error deleting job');               
             });
     };
@@ -51,7 +51,7 @@ export default function DeleteJob() {
  
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-6 text-center">Delete Job Page</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Delete Job </h1>
             {err && <p className="text-red-500 text-center mb-4">{err}</p>}
             {/* <h2>URLs:</h2>
             <ul>
