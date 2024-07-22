@@ -91,11 +91,19 @@ function geneticAlgorithm(personTraits, professionTraits, numGenerations, popula
     });
     
     let matchedProfessions = [];
+    let matchedPercentages = [];
+    let seenProfessions = new Set();
+    
     for (let individual of finalSortedPopulation) {
         for (let professionIndex of individual) {
-            let professionName = professionTraits[professionIndex].jobName;
-            if (!matchedProfessions.includes(professionName)) {
-                matchedProfessions.push(professionName);
+            let profession = professionTraits[professionIndex];
+            let professionName = profession.jobName;
+            let matchPercentage = calculateMatchPercentage(personTraits, profession.Prerequisites);
+            matchPercentage = normalizeMatchPercentage(matchPercentage);
+            
+            if (!seenProfessions.has(professionName)) {
+                matchedProfessions.push({ job: professionName, percentage: matchPercentage });
+                seenProfessions.add(professionName);
             }
             if (matchedProfessions.length === 3) {
                 break;
@@ -105,8 +113,8 @@ function geneticAlgorithm(personTraits, professionTraits, numGenerations, popula
             break;
         }
     }
-    
+    console.log("newwwww",matchedProfessions)
     return matchedProfessions;
 }
 
-export { geneticAlgorithm}
+export { geneticAlgorithm };
