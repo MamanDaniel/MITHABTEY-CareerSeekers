@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
 
 const GeneticAlgorithm = () => {
-    const [professions, setProfessions] = useState<string[]>([]);
+    const [professions, setProfessions] = useState<{ job: string, percentage: number }[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { currentUser } = useSelector((state: any) => state.user);
@@ -98,15 +98,15 @@ const GeneticAlgorithm = () => {
                     <div key={index} className="bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105"
                          onClick={() => setActiveTab(activeTab === index ? null : index)}>
                         <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-semibold mb-2">{profession}</h2>
+                            <h2 className="text-xl font-semibold mb-2">{profession.job}</h2>
+                            <p className="text-gray-500">{profession.percentage}% match</p>
                             <FaArrowRight
                                 className={`w-6 h-6 transform transition-transform ${activeTab === index ? 'rotate-90' : ''}`}
                             />
                         </div>
                         {activeTab === index && (
                             <div className="mt-2">
-                                <p>Detailed information about {profession}.</p>
-                                {/* Add more detailed info here, such as job description, skills, salary, etc. */}
+                                <p>Detailed information about {profession.job}.</p>
                             </div>
                         )}
                     </div>
