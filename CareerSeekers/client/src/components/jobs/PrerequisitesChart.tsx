@@ -59,7 +59,7 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
             },
             legend: {
                 display: true,
-                position: 'left' as const
+                position: 'bottom' as const
             },
             title: {
                 display: true,
