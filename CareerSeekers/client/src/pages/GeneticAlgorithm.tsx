@@ -4,58 +4,63 @@ import { Link } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
 
 const GeneticAlgorithm = () => {
-    const [professions, setProfessions] = useState<{ job: string, percentage: number }[]>([]);
+    const [professionsName, setProfessionsNames] = useState<{ job: string, percentage: number }[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { currentUser } = useSelector((state: any) => state.user);
     const [userTraits, setUserTraits] = useState<any[]>([]);
     const [needRAMAK, setNeedRAMAK] = useState(false);
     const [activeTab, setActiveTab] = useState<number | null>(null);
+    const [jobs, setJobs] = useState<any[]>([]);
 
     useEffect(() => {
-        const fetchUserTraits = async () => {
+        const fetchUserTraitsAndJobs = async () => {
             try {
-                const res = await fetch('/server/user/getUserTraits', {
+                const userTraitsRes = await fetch('/server/user/getUserTraits', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ id: currentUser._id })
                 });
-                const data = await res.json();
-                const arrayData = Object.values<number>(data).map((value: number) => ({ value }));
+                const userTraitsData = await userTraitsRes.json();
+                const arrayData = Object.values<number>(userTraitsData).map((value: number) => ({ value }));
                 setUserTraits(arrayData);
                 if (arrayData.every((trait) => trait.value === 0)) {
                     setNeedRAMAK(true);
                     setLoading(false);
                     return;
                 }
-                setLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setLoading(false);
-            }
-        };
-        fetchUserTraits();
-    }, [currentUser._id]);
 
-    useEffect(() => {
-        const fetchProfessions = async () => {
-            try {
-                const res = await fetch('/server/geneticAlgorithm/getSuitableJobs', {
+                const professionsRes = await fetch('/server/geneticAlgorithm/getSuitableJobs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ id: currentUser._id })
                 });
-                const data = await res.json();
-                if (data.message === 'Suitable jobs not found') {
+                const professionsData = await professionsRes.json();
+                if (professionsData.message === 'Suitable jobs not found') {
                     setNeedRAMAK(true);
                     setLoading(false);
                     return;
                 }
-                setProfessions(data);
+                setProfessionsNames(professionsData);
+
+                const jobsRes = await fetch('/server/job/getJobsByNames', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jobNames: professionsData.map((profession: { job: any; }) => profession.job) })
+                });
+                const jobsData = await jobsRes.json();
+                if (jobsData.message === 'Suitable jobs not found') {
+                    setNeedRAMAK(true);
+                    setLoading(false);
+                    return;
+                }
+                setJobs(jobsData.data); // Update to access data array
                 setLoading(false);
             } catch (error) {
                 setError(error.message);
@@ -63,12 +68,8 @@ const GeneticAlgorithm = () => {
             }
         };
 
-        if (needRAMAK) {
-            setLoading(false);
-        } else {
-            fetchProfessions();
-        }
-    }, [userTraits, currentUser._id]);
+        fetchUserTraitsAndJobs();
+    }, [currentUser._id, needRAMAK]); // Adding needRAMAK to dependencies
 
     if (loading) {
         return <div>Loading...</div>;
@@ -94,23 +95,29 @@ const GeneticAlgorithm = () => {
                 <h2 className="text-xl text-center text-gray-600">Based on a large database of data from MITHABTEY</h2>
             </header>
             <div className="grid grid-cols-1 gap-4 w-full md:w-3/6 mx-auto">
-                {professions.map((profession, index) => (
-                    <div key={index} className="bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105"
-                         onClick={() => setActiveTab(activeTab === index ? null : index)}>
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-semibold mb-2">{profession.job}</h2>
-                            <p className="text-gray-500">{profession.percentage}% match</p>
-                            <FaArrowRight
-                                className={`w-6 h-6 transform transition-transform ${activeTab === index ? 'rotate-90' : ''}`}
-                            />
-                        </div>
-                        {activeTab === index && (
-                            <div className="mt-2">
-                                <p>Detailed information about {profession.job}.</p>
+                {professionsName.map((profession, index) => {
+                    const jobDetails = jobs.find(job => job.jobName === profession.job);
+                    return (
+                        <div key={index} className="bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105"
+                             onClick={() => setActiveTab(activeTab === index ? null : index)}>
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-xl font-semibold mb-2">{profession.job}</h2>
+                                <p className="text-gray-800">{profession.percentage}% match</p>
+                                <FaArrowRight
+                                    className={`w-6 h-6 transform transition-transform ${activeTab === index ? 'rotate-90' : ''}`}
+                                />
                             </div>
-                        )}
-                    </div>
-                ))}
+                            {activeTab === index && jobDetails && (
+                                <div className="mt-2">
+                                    <p><strong>Description:</strong> {jobDetails.Description}</p>
+                                    <p><strong>Average Salary:</strong> ${jobDetails.AverageSalary}</p>
+                                    <p><strong>Job Field:</strong> {jobDetails.jobField}</p>
+                                    {/* Add more details as needed */}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
