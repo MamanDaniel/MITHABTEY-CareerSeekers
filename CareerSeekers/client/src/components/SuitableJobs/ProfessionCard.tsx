@@ -10,6 +10,7 @@ interface ProfessionCardProps {
         Description: string;
         AverageSalary: number;
         jobField: string;
+        facebookPostUrl: string;
         Prerequisites: { [key: string]: number };
     } | null;
     isActive: boolean;
@@ -27,7 +28,7 @@ const ProfessionCard: React.FC<ProfessionCardProps> = ({ profession, jobDetails,
                 <p className="text-gray-800">{profession.percentage}% match</p>
                 <FaArrowRight
                     className={`w-6 h-6 transform transition-transform ${isActive ? 'rotate-90' : ''}`}
-                />  
+                />
             </div>
             <hr />
             {isActive && jobDetails && (
@@ -35,6 +36,18 @@ const ProfessionCard: React.FC<ProfessionCardProps> = ({ profession, jobDetails,
                     <p><strong>Description:</strong> {jobDetails.Description}</p>
                     <p><strong>Average Salary:</strong> ${jobDetails.AverageSalary}</p>
                     <p><strong>Job Field:</strong> {jobDetails.jobField}</p>
+                    {jobDetails.facebookPostUrl && (
+                        <>
+                            <p><strong>Facebook Post: </strong>
+                            <a
+                                href={jobDetails.facebookPostUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-blue-600 underline"
+                            >
+                                Link
+                            </a></p></>
+                    )}
                     <PrerequisiteBar prerequisites={jobDetails.Prerequisites} />
                 </div>
             )}

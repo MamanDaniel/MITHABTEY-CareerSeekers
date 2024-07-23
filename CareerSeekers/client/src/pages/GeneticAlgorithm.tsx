@@ -10,6 +10,7 @@ interface JobDetails {
     Description: string;
     AverageSalary: number;
     jobField: string;
+    facebookPostUrl: string;
     Prerequisites: { [key: string]: number }; // Prerequisites with names as keys and values as numbers
 }
 
