@@ -1,82 +1,83 @@
+// Initialize the population with random individuals
 function initializePopulation(size, numProfessions) {
-    let population = [];
-    for (let i = 0; i < size; i++) {
-        let individual = [];
-        for (let j = 0; j < 3; j++) {
-            individual.push(Math.floor(Math.random() * numProfessions));
-        }
-        population.push(individual);
-    }
-    return population;
+    return Array.from({ length: size }, () => 
+        Array.from({ length: 3 }, () => Math.floor(Math.random() * numProfessions))
+    );
 }
 
+// Calculate the match percentage between a person's traits and a profession's traits
 function calculateMatchPercentage(personTraits, professionTraits) {
-    let match = 0;
-    let totalWeight = Object.values(personTraits).reduce((a, b) => a + b, 0);
-    for (let trait in personTraits) {
-        match += (professionTraits[trait] || 0) * (personTraits[trait] / totalWeight);
-    }
-    return match;
+    const absoluteDifferences = Object.keys(personTraits).reduce((acc, trait) => {
+        acc[trait] = Math.abs(personTraits[trait] - professionTraits[trait]);
+        return acc;
+    }, {});
+    const totalDifference = Object.values(absoluteDifferences).reduce((sum, diff) => sum + diff, 0);
+    const maxDifference = Object.keys(personTraits).length * 100;
+    return (1 - (totalDifference / maxDifference)) * 100;
 }
 
-function normalizeMatchPercentage(match) {
-    return Math.min(Math.max(match, 0), 100);
-}
-
+// Evaluate the fitness of an individual by calculating the average match percentage for their professions
 function evaluateIndividual(individual, personTraits, professionTraits) {
-    let matchPercentages = individual.map(professionIndex => {
-        let profession = professionTraits[professionIndex];
-        let match = calculateMatchPercentage(personTraits, profession.Prerequisites);
-        return normalizeMatchPercentage(match);
+    const matchPercentages = individual.map(professionIndex => {
+        const profession = professionTraits[professionIndex];
+        return {
+            job: profession.jobName,
+            percentage: calculateMatchPercentage(personTraits, profession.Prerequisites)
+        };
     });
-    return matchPercentages.reduce((a, b) => a + b, 0) / matchPercentages.length;
+    const totalMatchPercentage = matchPercentages.reduce((sum, match) => sum + match.percentage, 0);
+    return {
+        averageMatch: totalMatchPercentage / individual.length,
+        details: matchPercentages
+    };
 }
 
+// Select two parents from the population based on their fitness scores using roulette wheel selection
 function selectParents(population, fitnessScores) {
-    let totalFitness = fitnessScores.reduce((a, b) => a + b, 0);
-    let selectionProbs = fitnessScores.map(score => score / totalFitness);
-    
-    function weightedRandomChoice(items, weights) {
-        let cumulativeWeight = 0;
-        let randomValue = Math.random() * weights.reduce((a, b) => a + b, 0);
-        for (let i = 0; i < items.length; i++) {
-            cumulativeWeight += weights[i];
-            if (randomValue < cumulativeWeight) {
-                return items[i];
-            }
+    const totalFitness = fitnessScores.reduce((sum, score) => sum + score.averageMatch, 0);
+    const selectionProbs = fitnessScores.map(score => score.averageMatch / totalFitness);
+    return [population[weightedRandomIndex(selectionProbs)], population[weightedRandomIndex(selectionProbs)]];
+
+    function weightedRandomIndex(weights) {
+        const totalWeight = weights.reduce((a, b) => a + b, 0);
+        let random = Math.random() * totalWeight;
+        for (let i = 0; i < weights.length; i++) {
+            random -= weights[i];
+            if (random <= 0) return i;
         }
     }
-    
-    return [
-        weightedRandomChoice(population, selectionProbs),
-        weightedRandomChoice(population, selectionProbs)
-    ];
 }
 
+// Perform one-point crossover between two parents to produce two offspring
 function crossover(parent1, parent2) {
-    let crossoverPoint = Math.floor(Math.random() * (parent1.length - 1)) + 1;
-    let offspring1 = parent1.slice(0, crossoverPoint).concat(parent2.slice(crossoverPoint));
-    let offspring2 = parent2.slice(0, crossoverPoint).concat(parent1.slice(crossoverPoint));
+    const crossoverPoint = Math.floor(Math.random() * (parent1.length - 1)) + 1;
+    const offspring1 = parent1.slice(0, crossoverPoint).concat(parent2.slice(crossoverPoint));
+    const offspring2 = parent2.slice(0, crossoverPoint).concat(parent1.slice(crossoverPoint));
     return [offspring1, offspring2];
 }
 
+// Mutate an individual by randomly changing one of their professions
 function mutate(individual, numProfessions) {
-    let mutationIndex = Math.floor(Math.random() * individual.length);
+    const mutationIndex = Math.floor(Math.random() * individual.length);
     individual[mutationIndex] = Math.floor(Math.random() * numProfessions);
 }
 
+// The main genetic algorithm function
 function geneticAlgorithm(personTraits, professionTraits, numGenerations, populationSize) {
     let population = initializePopulation(populationSize, professionTraits.length);
-    
+
     for (let generation = 0; generation < numGenerations; generation++) {
-        let fitnessScores = population.map(individual => evaluateIndividual(individual, personTraits, professionTraits));
-        let sortedPopulation = population.slice().sort((a, b) => {
-            return evaluateIndividual(b, personTraits, professionTraits) - evaluateIndividual(a, personTraits, professionTraits);
-        });
+        const fitnessScores = population.map(individual => 
+            evaluateIndividual(individual, personTraits, professionTraits)
+        );
+        const sortedPopulation = [...population].sort((a, b) => 
+            evaluateIndividual(b, personTraits, professionTraits).averageMatch - 
+            evaluateIndividual(a, personTraits, professionTraits).averageMatch
+        );
         let newPopulation = sortedPopulation.slice(0, 2);
-        
+
         while (newPopulation.length < populationSize) {
-            let [parent1, parent2] = selectParents(sortedPopulation, fitnessScores);
+            const [parent1, parent2] = selectParents(sortedPopulation, fitnessScores);
             let [offspring1, offspring2] = crossover(parent1, parent2);
             mutate(offspring1, professionTraits.length);
             mutate(offspring2, professionTraits.length);
@@ -84,29 +85,29 @@ function geneticAlgorithm(personTraits, professionTraits, numGenerations, popula
         }
         population = newPopulation;
     }
-    
-    let finalFitnessScores = population.map(individual => evaluateIndividual(individual, personTraits, professionTraits));
-    let finalSortedPopulation = population.slice().sort((a, b) => {
-        return evaluateIndividual(b, personTraits, professionTraits) - evaluateIndividual(a, personTraits, professionTraits);
-    });
-    
-    let matchedProfessions = [];
-    for (let individual of finalSortedPopulation) {
-        for (let professionIndex of individual) {
-            let professionName = professionTraits[professionIndex].jobName;
-            if (!matchedProfessions.includes(professionName)) {
-                matchedProfessions.push(professionName);
+
+    const finalFitnessScores = population.map(individual => 
+        evaluateIndividual(individual, personTraits, professionTraits)
+    );
+    const finalSortedPopulation = [...finalFitnessScores].sort((a, b) => 
+        b.averageMatch - a.averageMatch
+    );
+
+    const uniqueJobs = [];
+    for (const score of finalSortedPopulation) {
+        for (const job of score.details) {
+            if (!uniqueJobs.find(j => j.job === job.job)) {
+                uniqueJobs.push(job);
             }
-            if (matchedProfessions.length === 3) {
+            if (uniqueJobs.length === 3) {
                 break;
             }
         }
-        if (matchedProfessions.length === 3) {
+        if (uniqueJobs.length === 3) {
             break;
         }
     }
-    
-    return matchedProfessions;
+    return uniqueJobs;
 }
 
-export { geneticAlgorithm}
+export { geneticAlgorithm };

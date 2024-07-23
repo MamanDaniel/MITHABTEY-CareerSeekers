@@ -1,69 +1,79 @@
 import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  avatar: {
+    type: String,
+    default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  },
+  role: {
+    type: String,
+    enum: ['Regular', 'Admin'],
+    default: 'Regular',
+  },
+  traits: {
+    Business: {
+      type: Number,
+      default: 0
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
+    'General Culture': {
+      type: Number,
+      default: 0
     },
-    password: {
-        type: String,
-        required: true,
+    'Arts and Entertainment': {
+      type: Number,
+      default: 0
     },
-    avatar: {
-        type: String,
-        default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    Science: {
+      type: Number,
+      default: 0
     },
-    role: {
-        type: String,
-        enum: ['Regular', 'Admin'],
-        default: 'Regular',
+    Organization: {
+      type: Number,
+      default: 0
     },
-    traits: {
-        Business: {
-            type: Number,
-            default: 0
+    Service: {
+      type: Number,
+      default: 0
+    },
+    Outdoor: {
+      type: Number,
+      default: 0
+    },
+    Technology: {
+      type: Number,
+      default: 0
+    }
+  },
+  SuitableJobs: {
+    type: [
+      {
+        job: {
+          type: String,
+          required: true
         },
-        'General Culture': {
-            type: Number,
-            default: 0
-        },
-        'Arts and Entertainment': {
-            type: Number,
-            default: 0
-        },
-        Science: {
-            type: Number,
-            default: 0
-        },
-        Organization: {
-            type: Number,
-            default: 0
-        },
-        Service: {
-            type: Number,
-            default: 0
-        },
-        Outdoor: {
-            type: Number,
-            default: 0
-        },
-        Technology: {
-            type: Number,
-            default: 0
+        percentage: {
+          type: Number,
+          required: true
         }
-    },
-    SuitableJobs: {
-        type: Array,
-        default: []
-    },
+      }
+    ],
+    default: []
+  },
 },
-    { timestamps: true }
-);
+  { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 

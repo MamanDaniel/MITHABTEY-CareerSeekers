@@ -98,3 +98,17 @@ export const getJobsForGA = async (req, res, next) => {
         next(error);
     }
 }
+
+// Get 3 jobs by jobName from arr of jobNames to present in myJobs page
+export const getJobsByNames = async (req, res, next) => {
+    try {
+        const { jobNames } = req.body;
+        const jobs = await Job.find({ jobName: { $in: jobNames } });
+        if (!jobs) {
+            return next(errorHandler(404, 'Jobs not found'));
+        }
+        res.status(200).json({ success: true, data: jobs });
+    } catch (error) {
+        next(error);
+    }
+};

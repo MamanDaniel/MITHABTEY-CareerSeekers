@@ -1,5 +1,9 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend, Title, ChartDataLabels);
 
 interface DonutChartProps {
     data: { labels: string[], counts: number[] };
@@ -13,14 +17,14 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
             {
                 data: data.counts,
                 backgroundColor: [
-                    '#FF6384', // Red
-                    '#36A2EB', // Blue
-                    '#FFCE56', // Yellow
-                    '#FF9F40', // Orange
-                    '#4BC0C0', // Teal
-                    '#9966FF', // Purple
-                    '#C9CBCF', // Light Grey
-                    '#524e4b'  // Bright Red-Orange
+                    "rgba(117,169,255,0.6)",
+                    "rgba(148,223,215,0.6)",
+                    "rgba(208,129,222,0.6)",
+                    "rgba(247,127,167,0.6)",
+                    "rgba(255,206,86,0.6)",
+                    "rgba(75,192,192,0.6)",
+                    "rgba(153,102,255,0.6)",
+                    "rgba(255,159,64,0.6)",
                 ],
             }
         ]
@@ -28,6 +32,19 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
 
     const options = {
         plugins: {
+            datalabels: {
+                color: '#fff',
+                font: {
+                    weight: 700, 
+                },
+                formatter: (value: number) => {
+                    // Don't show the label if the value is zero
+                    if (value === 0) {
+                        return null; 
+                    }
+                    return ` ${value}%`;
+                },
+            },
             tooltip: {
                 callbacks: {
                     label: (context: any) => {
@@ -41,12 +58,12 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
                 }
             },
             legend: {
-                display: true, // This will remove the labels above the chart
-                position: 'left' as const
+                display: true,
+                position: 'bottom' as const
             },
             title: {
                 display: true,
-                text: `Character Traits for ${jobName}`, // Updated title with jobName
+                text: `Character Traits for ${jobName}`,
                 font: {
                     size: 15
                 }
