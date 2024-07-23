@@ -5,8 +5,8 @@ import { verifyToken } from '../utils/verifyUser.js';
 const router = express.Router();
 
 // Get a questionnaire by name
-router.post('/getQuestionnaire', getQuestionnaire);
-router.post('/calculateScore', calculateScore);
+router.post('/getQuestionnaire',verifyToken, getQuestionnaire);
+router.post('/calculateScore',verifyToken, calculateScore);
 router.post('/updateUserTraits/:id',verifyToken, updateUserTraits);
 
 

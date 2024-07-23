@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/update/:id', verifyToken, updateUser);
 router.post('/updateSuitableJobs/:id', verifyToken, updateSuitableJobs);
-router.post('/getUserTraits',  getUserTraits);
+router.post('/getUserTraits',verifyToken,  getUserTraits);
 
 export default router;
