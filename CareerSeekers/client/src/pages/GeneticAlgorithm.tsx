@@ -1,17 +1,26 @@
+// GeneticAlgorithm.tsx
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FaArrowRight } from 'react-icons/fa';
+import ProfessionCard from '../components/SuitableJobs/ProfessionCard';
+
+// Define types for the job details
+interface JobDetails {
+    jobName: string;
+    Description: string;
+    AverageSalary: number;
+    jobField: string;
+    Prerequisites: { [key: string]: number }; // Prerequisites with names as keys and values as numbers
+}
 
 const GeneticAlgorithm = () => {
     const [professionsName, setProfessionsNames] = useState<{ job: string, percentage: number }[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { currentUser } = useSelector((state: any) => state.user);
-    const [userTraits, setUserTraits] = useState<any[]>([]);
     const [needRAMAK, setNeedRAMAK] = useState(false);
     const [activeTab, setActiveTab] = useState<number | null>(null);
-    const [jobs, setJobs] = useState<any[]>([]);
+    const [jobs, setJobs] = useState<JobDetails[]>([]);
 
     useEffect(() => {
         const fetchUserTraitsAndJobs = async () => {
@@ -25,7 +34,6 @@ const GeneticAlgorithm = () => {
                 });
                 const userTraitsData = await userTraitsRes.json();
                 const arrayData = Object.values<number>(userTraitsData).map((value: number) => ({ value }));
-                setUserTraits(arrayData);
                 if (arrayData.every((trait) => trait.value === 0)) {
                     setNeedRAMAK(true);
                     setLoading(false);
@@ -94,28 +102,19 @@ const GeneticAlgorithm = () => {
                 <h1 className="text-3xl font-bold text-center">Top 3 Professions for You</h1>
                 <h2 className="text-xl text-center text-gray-600">Based on a large database of data from MITHABTEY</h2>
             </header>
+            
             <div className="grid grid-cols-1 gap-4 w-full md:w-3/6 mx-auto">
                 {professionsName.map((profession, index) => {
-                    const jobDetails = jobs.find(job => job.jobName === profession.job);
+                    const jobDetails = jobs.find(job => job.jobName === profession.job) || null;
+                    
                     return (
-                        <div key={index} className="bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105"
-                             onClick={() => setActiveTab(activeTab === index ? null : index)}>
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold mb-2">{profession.job}</h2>
-                                <p className="text-gray-800">{profession.percentage}% match</p>
-                                <FaArrowRight
-                                    className={`w-6 h-6 transform transition-transform ${activeTab === index ? 'rotate-90' : ''}`}
-                                />
-                            </div>
-                            {activeTab === index && jobDetails && (
-                                <div className="mt-2">
-                                    <p><strong>Description:</strong> {jobDetails.Description}</p>
-                                    <p><strong>Average Salary:</strong> ${jobDetails.AverageSalary}</p>
-                                    <p><strong>Job Field:</strong> {jobDetails.jobField}</p>
-                                    {/* Add more details as needed */}
-                                </div>
-                            )}
-                        </div>
+                        <ProfessionCard
+                            key={index}
+                            profession={profession}
+                            jobDetails={jobDetails}
+                            isActive={activeTab === index}
+                            onClick={() => setActiveTab(activeTab === index ? null : index)}
+                        />
                     );
                 })}
             </div>
