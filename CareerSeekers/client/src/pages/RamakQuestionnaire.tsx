@@ -91,7 +91,6 @@ const RamakQuestionnaire: React.FC = () => {
                 body: JSON.stringify({ answers })
             });
             const score = await res.json();
-            // Assuming the user ID is stored in a variable userId
             const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
                 method: 'post',
                 headers: {
