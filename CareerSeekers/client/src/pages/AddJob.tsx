@@ -26,6 +26,7 @@ export default function AddJob() {
     const [hasFacebookPost, setHasFacebookPost] = useState<string>('No');
     const navigate = useNavigate();
 
+    // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         if (name in formData.Prerequisites) {
