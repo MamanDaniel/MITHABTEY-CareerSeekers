@@ -16,15 +16,15 @@ const Question: React.FC<QuestionProps> = ({ question, index, totalQuestions, se
             <h3 className="text-lg font-semibold mb-4">Question {index + 1} of {totalQuestions}</h3>
             <p className="mb-4">{question}</p>
             <div className="flex justify-between">
-                {['Yes', 'No', 'Not sure'].map((option, optionIndex) => (
+                {['לא', 'לא בטוח','כן'].map((option, optionIndex) => (
                     <button
                         key={optionIndex}
                         className={`px-6 py-2 rounded-full transition-colors duration-200 ${
-                            selectedAnswer === (optionIndex === 0 ? 2 : optionIndex === 1 ? 0 : 1)
+                            selectedAnswer === (optionIndex === 0 ? 0 : optionIndex === 1 ? 1 : 2)
                                 ? 'bg-blue-500 text-white'
                                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                         }`}
-                        onClick={() => onAnswer(index, optionIndex === 0 ? 2 : optionIndex === 1 ? 0 : 1)}
+                        onClick={() => onAnswer(index, optionIndex === 0 ? 0 : optionIndex === 1 ? 1 : 2)}
                     >
                         {option}
                     </button>
