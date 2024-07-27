@@ -39,24 +39,24 @@ export default function Header() {
         </form>
         <ul className=' flex gap-4'>
           <Link to='home'>
-            <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
+            <li className='hidden sm:inline text-slate-700 hover:underline'>דף הבית</li>
           </Link>
 
           {/* Show the Admin Panel link if the user is an admin */}
           {currentUser && currentUser.role === 'Admin' && (
             <Link to='/adminpanel'>
-              <li className='hidden sm:inline text-slate-700 hover:underline'>Admin Panel</li>
+              <li className='hidden sm:inline text-slate-700 hover:underline'>פאנל מנהל</li>
             </Link>
           )}
           
           {/*if the user is logged in, show signout link. on click - sign out*/}
           {currentUser && (
-            <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline cursor-pointer '>Sign out</li>
+            <li onClick={handleSignOut} className='hidden sm:inline text-slate-700 hover:underline cursor-pointer '>התנתקות</li>
           )}
           {/*if the user is logged in, show 'My Jobsl link. on click nevigate to GeneticAlgorithm*/}
           {currentUser && (
             <Link to='/geneticAlgorithm'>
-              <li className='hidden sm:inline text-slate-700 hover:underline'>MyJobs</li>
+              <li className='hidden sm:inline text-slate-700 hover:underline'>המקצועות שלי</li>
             </Link>
           )}
 
