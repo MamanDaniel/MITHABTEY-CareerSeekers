@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
+import { signInStart, signInSuccess, signInFailure, clearError } from '../redux/user/userSlice';
 import { RootState } from '../redux/store';
 import logoImage from '../assets/mithabteyLogo.png';
-
 
 export default function Signin() {
     const [formData, setFormData] = useState({});
     const { loading, error } = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(clearError());  // Clear the error when the component mounts
+
+        return () => {
+            dispatch(clearError());  // Clear the error when the component unmounts
+        };
+    }, [dispatch]);
 
     const handleChange = (e: { target: { id: any; value: any; }; }) => {
         setFormData({
@@ -43,7 +50,7 @@ export default function Signin() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3">
+        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
             <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
                 <div className="flex justify-center mb-6">
                     <img src={logoImage} alt="Company Logo" className="h-16 w-16" />
@@ -91,6 +98,9 @@ export default function Signin() {
                     </button>
                 </form>
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+                <div className="mt-6 text-center">
+                    <p className="text-gray-600">Don't have an account? <a href="/signup" className="text-indigo-600 hover:text-indigo-500 font-medium">Sign Up</a></p>
+                </div>
             </div>
         </div>
     );
