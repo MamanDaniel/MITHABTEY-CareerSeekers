@@ -13,18 +13,17 @@ type QuestionProps = {
 const Question: React.FC<QuestionProps> = ({ question, index, totalQuestions, selectedAnswer, onAnswer }) => {
     return (
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-            <h3 className="text-lg font-semibold mb-4">Question {index + 1} of {totalQuestions}</h3>
-            <p className="mb-4">{question}</p>
+            <h3 className="text-lg font-semibold mb-4 text-right">שאלה {index + 1} מתוך {totalQuestions}</h3>
+            <p className="mb-4 text-right">{question}</p>
             <div className="flex justify-between">
-                {['לא', 'לא בטוח','כן'].map((option, optionIndex) => (
+                {['לא', 'לא בטוח', 'כן'].map((option, optionIndex) => (
                     <button
                         key={optionIndex}
-                        className={`px-6 py-2 rounded-full transition-colors duration-200 ${
-                            selectedAnswer === (optionIndex === 0 ? 0 : optionIndex === 1 ? 1 : 2)
-                                ? 'bg-blue-500 text-white'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        }`}
-                        onClick={() => onAnswer(index, optionIndex === 0 ? 0 : optionIndex === 1 ? 1 : 2)}
+                        className={`px-6 py-2 rounded-full transition-colors duration-200 ${selectedAnswer === optionIndex
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            }`}
+                        onClick={() => onAnswer(index, optionIndex)}
                     >
                         {option}
                     </button>
@@ -33,8 +32,6 @@ const Question: React.FC<QuestionProps> = ({ question, index, totalQuestions, se
         </div>
     );
 };
-
-
 
 const RamakQuestionnaire: React.FC = () => {
     const [questions, setQuestions] = useState<string[]>([]);
@@ -56,7 +53,7 @@ const RamakQuestionnaire: React.FC = () => {
                     body: JSON.stringify({ Questionnaire_Name: 'RAMAK' })
                 });
                 const questionnaire = await res.json();
-                setQuestions(questionnaire.Questions.map((q: any) => q.question_en));
+                setQuestions(questionnaire.Questions.map((q: any) => q.question_he));
                 setLoading(false);
             } catch (err) {
                 console.log(err);
@@ -79,7 +76,6 @@ const RamakQuestionnaire: React.FC = () => {
         }
     };
 
-
     const calculateScore = async () => {
         setLoading(true);
         try {
@@ -92,7 +88,7 @@ const RamakQuestionnaire: React.FC = () => {
             });
             const score = await res.json();
             const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
-                method: 'post',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -149,34 +145,33 @@ const RamakQuestionnaire: React.FC = () => {
                 />
             )}
             <div className="flex justify-between mt-8">
-                {currentQuestionIndex > 0 && (
+                <button
+                    className={`bg-gray-300 font-bold py-2 px-6 rounded-xl transition-colors duration-200 ${currentQuestionIndex === questions.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400 text-gray-800'}`}
+                    onClick={() => currentQuestionIndex < questions.length - 1 && setCurrentQuestionIndex(currentQuestionIndex + 1)}
+                    disabled={currentQuestionIndex === questions.length - 1}
+                >
+                    הבא
+                </button>
+
+                {isComplete && (
                     <button
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-full transition-colors duration-200"
-                        onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
-                    >
-                        Previous
-                    </button>
-                )}
-                {currentQuestionIndex < questions.length - 1 && (
-                    <button
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-full transition-colors duration-200 ml-auto"
-                        onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                    >
-                        Next
-                    </button>
-                )}
-            </div>
-            {isComplete && (
-                <div className="mt-8 text-center">
-                    <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition-colors duration-200"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl transition-colors duration-200"
                         onClick={calculateScore}
                         disabled={loading}
                     >
-                        {loading ? 'Calculating...' : 'Calculate Score'}
+                        {loading ? 'Calculating...' : 'חשב ציון'}
                     </button>
-                </div>
-            )}
+                )}
+
+                <button
+                    className={`bg-gray-300 font-bold py-2 px-6 rounded-xl transition-colors duration-200 ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400 text-gray-800'}`}
+                    onClick={() => currentQuestionIndex > 0 && setCurrentQuestionIndex(currentQuestionIndex - 1)}
+                    disabled={currentQuestionIndex === 0}
+                >
+                    הקודם
+                </button>
+
+            </div>
         </div>
     );
 };
