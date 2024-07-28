@@ -5,6 +5,7 @@ import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../red
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import menuImage from '../assets/menu.png';
+import homeImage from '../assets/home.png';
 
 export default function Header() {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -36,11 +37,17 @@ export default function Header() {
         </Link>
 
         <form className='bg-slate-100 p-3 rounded-lg flex items-center'>
-          <input type="text" placeholder='Search...' className='bg-transparent focus:outline-none w-24 sm:w-64 ' />
+          <input type="text" placeholder='Search...' className='bg-transparent focus:outline-none w-20 sm:w-64 ' />
           <FaSearch className='text-slate-600' />
         </form>
 
+        {/*Dropbox*/}
         <div className='flex items-center'>
+
+        <Link to='home'>
+          <div className="w-7 h-7 bg-cover bg-center" style={{ marginRight:'19px' , backgroundImage: `url(${homeImage})` }}></div>
+        </Link>
+
           <Menu as="div" className="relative inline-block text-right" >
             <div>
               <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -131,10 +138,12 @@ export default function Header() {
               </div>
             </MenuItems>
           </Menu>
+
+          {/*Profile Image*/}
           <Link to='/profile'>
             {currentUser && (
               <img
-                className='rounded-full h-7 w-7 object-cover'
+                className='rounded-full h-9 w-9 object-cover'
                 style={{ marginLeft: '10px' }}
                 src={currentUser.avatar}
                 alt='profile'
