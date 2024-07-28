@@ -39,7 +39,7 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data }) => {
                         },
                         title: {
                             display: true,
-                            text: 'Average Salary by Job Field',
+                            text: 'ממוצע שכר עבור תחום',
                             font: {
                                 size: 15,
                             },

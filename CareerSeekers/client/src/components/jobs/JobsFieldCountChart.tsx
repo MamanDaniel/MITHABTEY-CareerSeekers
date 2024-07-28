@@ -44,7 +44,7 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                         },
                         title: {
                             display: true,
-                            text: 'Amount of jobs by field',
+                            text: 'כמות מקצועות בכל תחום',
                             font: {
                                 size: 15,
                             },

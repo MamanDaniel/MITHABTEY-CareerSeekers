@@ -8,7 +8,7 @@ import Select from 'react-select';
 const Jobs: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, jobField: string, Prerequisites: { [key: string]: number } }[] }>({ data: [] });
+    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, jobField: string, Prerequisites: { [key: string]: number }, facebookPostUrl?: string }[] }>({ data: [] });
     const [search, setSearch] = useState("");
     const [filteredData, setFilteredData] = useState(data.data);
     const [jobFieldChartData, setJobFieldChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
@@ -170,9 +170,9 @@ const Jobs: React.FC = () => {
                 <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '500px', maxWidth: '500px' }}>
                     {salaryChartData.labels.length > 0 && <SalaryChart data={salaryChartData} />}
                 </div>
-                <div className="flex items-center justify-center  font-bold w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
+                <div className="flex items-center justify-center text-center font-bold w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
                     {showPrerequisites && Object.keys(selectedJob).length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }}  jobName={selectedJobName} />}
-                    {!showPrerequisites && <p>Select a job to view prerequisites</p>}
+                    {!showPrerequisites && <p>בחר מקצוע מהטבלה על מנת לראות את התכונות הנרדשות עבורו</p>}
                 </div>
             </div>
 
