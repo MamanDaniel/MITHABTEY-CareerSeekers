@@ -67,7 +67,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 widthClass="w-1/6"
                             />
                             <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
-                                LINK TO FACEBOOK POST
+                                Link to Facebook post
                             </th>
                         </tr>
                     </thead>

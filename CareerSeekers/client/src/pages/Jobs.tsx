@@ -198,29 +198,30 @@ const Jobs: React.FC = () => {
                 </div>
             </div>
 
+            {/* show the job fields selection */}
             <div className='w-full md:w-1/2 mx-auto'>
-      <div className="flex justify-center">
-        <Select
-          id="jobFields"
-          name="jobFields"
-          placeholder="Select up to 5 Job Fields..."
-          isMulti
-          options={options}
-          className="basic-multi-select"
-          classNamePrefix="select"
-          value={selectedJobFields}
-          onChange={handleJobFieldSelection}
-        />
-      </div>
-    </div>
-
+                <div className="flex justify-center">
+                    <Select
+                        id="jobFields"
+                        name="jobFields"
+                        placeholder="...בחר תחומים להשוואה"
+                        isMulti
+                        options={options}
+                        className="basic-multi-select text-right w-2/5"
+                        classNamePrefix="select"
+                        value={selectedJobFields}
+                        onChange={handleJobFieldSelection}
+                    />
+                </div>
+            </div>
+            {/* show the search bar and the job table */}
             <div className="w-full md:w-1/2 mx-auto">
                 <input
                     type="text"
                     value={search}
                     onChange={handleSearch}
-                    placeholder="Search for jobs"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    placeholder="...חפש ברשימת המקצועות"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md text-right"
                 />
                 <JobTable jobs={filteredData} onJobClick={handleJobClick} />
             </div>
