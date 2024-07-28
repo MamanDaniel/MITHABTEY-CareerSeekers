@@ -18,7 +18,17 @@ const Jobs: React.FC = () => {
     const [selectedJobName, setSelectedJobName] = useState<string>('');
     const [showPrerequisites, setShowPrerequisites] = useState(false);
     const [options, setOptions] = useState<{ value: string, label: string }[]>([]);
-    
+    const LabelsColors: { [key: string]: string } = {
+        'Business': 'rgba(117,169,255,0.6)',
+        'Outdoor': 'rgba(208,129,222,0.6)',
+        'Technology': 'rgba(148,223,215,0.6)',
+        'GeneralCulture': 'rgba(247,127,167,0.6)',
+        'Science': 'rgba(255,206,86,0.6)',
+        'Organization': 'rgba(75,192,192,0.6)',
+        'Service': 'rgba(153,102,255,0.6)',
+        'Arts And Entertainment': 'rgba(255,159,64,0.6)',
+    };
+
     const aggregateDataByJobField = (jobs: { jobField: string }[]) => {
         const aggregatedData: { [key: string]: number } = {};
         jobs.forEach(job => {
@@ -171,26 +181,39 @@ const Jobs: React.FC = () => {
                     {salaryChartData.labels.length > 0 && <SalaryChart data={salaryChartData} />}
                 </div>
                 <div className="flex items-center justify-center text-center font-bold w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
-                    {showPrerequisites && Object.keys(selectedJob).length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }}  jobName={selectedJobName} />}
+                    {showPrerequisites && Object.keys(selectedJob).length > 0 && <PrerequisitesChart data={{ labels: Object.keys(selectedJob), counts: Object.values(selectedJob) }} jobName={selectedJobName} />}
                     {!showPrerequisites && <p>בחר מקצוע מהטבלה על מנת לראות את התכונות הנרדשות עבורו</p>}
                 </div>
             </div>
 
-            <div className='w-full md:w-1/4 mx-auto'>
-                <div className="flex items-center space-x-3 ">
-                    <Select
-                        id="jobFields"
-                        name="jobFields"
-                        placeholder="Select up to 5 Job Fields..."
-                        isMulti
-                        options={options}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        value={selectedJobFields}
-                        onChange={handleJobFieldSelection}
-                    />
+            {/* show the Colors of the job fields */}
+            <div className='w-full md:w-5/6 mx-auto text-center'>
+                <div className="flex flex-wrap justify-center gap-3">
+                    {Object.keys(LabelsColors).map((key) => (
+                        <div key={key} className="flex items-center space-x-2">
+                            <div className="w-4 h-4" style={{ backgroundColor: LabelsColors[key] }}></div>
+                            <p className="m-0">{key}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
+
+            <div className='w-full md:w-1/2 mx-auto'>
+      <div className="flex justify-center">
+        <Select
+          id="jobFields"
+          name="jobFields"
+          placeholder="Select up to 5 Job Fields..."
+          isMulti
+          options={options}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          value={selectedJobFields}
+          onChange={handleJobFieldSelection}
+        />
+      </div>
+    </div>
+
             <div className="w-full md:w-1/2 mx-auto">
                 <input
                     type="text"
