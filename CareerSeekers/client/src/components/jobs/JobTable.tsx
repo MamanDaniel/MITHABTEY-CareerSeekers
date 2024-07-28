@@ -6,6 +6,7 @@ type Job = {
     Description: string;
     AverageSalary: number;
     jobField: string;
+    facebookPostUrl?: string;
     Prerequisites: { [key: string]: number };
 };
 
@@ -29,7 +30,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
 
     const sortedData = [...jobs].sort((a, b) => {
         const order = sortBy.order === 'asc' ? 1 : -1;
-        return order * (a[sortBy.key].toString().localeCompare(b[sortBy.key].toString()));
+        return order * (a[sortBy.key]?.toString() || '').localeCompare(b[sortBy.key]?.toString() || '');
     });
 
     return (
@@ -62,6 +63,9 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 onClick={() => handleSort('jobField')}
                                 widthClass="w-1/6"
                             />
+                            <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
+                            Link to Facebook Post
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="overflow-y-auto">
@@ -71,6 +75,13 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/2">{job.Description}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.AverageSalary}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.jobField}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6 text-center">
+                                    {job.facebookPostUrl ? (
+                                        <a href={job.facebookPostUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Link</a>
+                                    ) : (
+                                        '-'
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
