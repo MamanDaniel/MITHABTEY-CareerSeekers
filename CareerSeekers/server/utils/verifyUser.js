@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 
 
 export const verifyToken = (req, res, next) => {
-  console.log("inside verifyToken");
   const token = req.cookies.access_token;
   // Check if token exists  
   if (!token) {

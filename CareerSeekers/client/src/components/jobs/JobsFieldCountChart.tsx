@@ -11,11 +11,25 @@ interface JobFieldChartProps {
     data: ChartData;
 }
 
+// Define colors for each job field
+const colors: { [key: string]: string } = {
+    'Business': 'rgba(117,169,255,0.6)',
+    'Outdoor': 'rgba(208,129,222,0.6)',
+    'Technology': 'rgba(148,223,215,0.6)',
+    'General Culture': 'rgba(247,127,167,0.6)',
+    'Science': 'rgba(255,206,86,0.6)',
+    'Organization': 'rgba(75,192,192,0.6)',
+    'Service': 'rgba(153,102,255,0.6)',
+    'Arts And Entertainment': 'rgba(255,159,64,0.6)',
+};
+
 const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
-
+    console.log(data);
     useEffect(() => {
         if (chartRef.current) {
+            const backgroundColors = data.labels.map(label => colors[label] || 'rgba(0,0,0,0.1)');
+
             const chartInstance = new Chart(chartRef.current, {
                 type: 'pie',
                 data: {
@@ -23,28 +37,19 @@ const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
                     datasets: [
                         {
                             data: data.counts,
-                            backgroundColor: [
-                                "rgba(117,169,255,0.6)",
-                                "rgba(148,223,215,0.6)",
-                                "rgba(208,129,222,0.6)",
-                                "rgba(247,127,167,0.6)",
-                                "rgba(255,206,86,0.6)",
-                                "rgba(75,192,192,0.6)",
-                                "rgba(153,102,255,0.6)",
-                                "rgba(255,159,64,0.6)",
-                            ],
+                            backgroundColor: backgroundColors,
                         },
                     ],
                 },
                 options: {
                     plugins: {
                         legend: {
-                            display: true,
+                            display: false,
                             position: 'bottom',
                         },
                         title: {
                             display: true,
-                            text: 'Amount of jobs by field',
+                            text: 'כמות מקצועות בכל תחום',
                             font: {
                                 size: 15,
                             },

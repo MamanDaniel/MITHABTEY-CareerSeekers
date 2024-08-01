@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import linkImage from '../../assets/link.png';
 
 type Job = {
     _id: string;
@@ -6,6 +7,7 @@ type Job = {
     Description: string;
     AverageSalary: number;
     jobField: string;
+    facebookPostUrl?: string;
     Prerequisites: { [key: string]: number };
 };
 
@@ -29,7 +31,9 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
 
     const sortedData = [...jobs].sort((a, b) => {
         const order = sortBy.order === 'asc' ? 1 : -1;
-        return order * (a[sortBy.key].toString().localeCompare(b[sortBy.key].toString()));
+        const aValue = a[sortBy.key]?.toString() || '';
+        const bValue = b[sortBy.key]?.toString() || '';
+        return order * aValue.localeCompare(bValue);
     });
 
     return (
@@ -62,6 +66,9 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 onClick={() => handleSort('jobField')}
                                 widthClass="w-1/6"
                             />
+                            <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
+                                Link to Facebook post
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="overflow-y-auto">
@@ -71,6 +78,15 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/2">{job.Description}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.AverageSalary}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.jobField}</td>
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6 text-center">
+                                    {job.facebookPostUrl ? (
+                                        <a href={job.facebookPostUrl} target="_blank" rel="noopener noreferrer">
+                                            <img src={linkImage} alt="Facebook Link" className="mx-auto h-10 w-10 " />
+                                        </a>
+                                    ) : (
+                                        '-'
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>

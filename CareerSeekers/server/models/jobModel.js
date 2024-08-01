@@ -29,8 +29,8 @@ const jobSchema = new mongoose.Schema({
         Technology: { type: Number, default: 0 }
     },
     facebookPostUrl: {
-        type: String, // URL is a string
-        required: false // Assuming this field is required
+        type: String, 
+        required: false 
     }
 });
 
