@@ -8,7 +8,7 @@ import Select from 'react-select';
 const Jobs: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, jobField: string, Prerequisites: { [key: string]: number }, facebookPostUrl?: string }[] }>({ data: [] });
+    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, GeneralRequirements: string[], jobField: string, Prerequisites: { [key: string]: number }, facebookPostUrl?: string }[] }>({ data: [] });
     const [search, setSearch] = useState("");
     const [filteredData, setFilteredData] = useState(data.data);
     const [jobFieldChartData, setJobFieldChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
@@ -144,7 +144,8 @@ const Jobs: React.FC = () => {
             job.jobName.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.Description.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.AverageSalary.toString().includes(e.target.value) ||
-            job.jobField.toLowerCase().includes(e.target.value.toLowerCase())
+            job.jobField.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            (job.GeneralRequirements && job.GeneralRequirements.some(req => req.toLowerCase().includes(e.target.value.toLowerCase())))
         );
         setFilteredData(filtered);
     };
@@ -171,7 +172,7 @@ const Jobs: React.FC = () => {
 
     return (
         <div className="space-y-8 m-4">
-            <h1 className="text-2xl font-bold text-center my-4">Job Information</h1>
+            <h1 className="text-2xl font-bold text-center my-4" >Job Information</h1>
 
             <div className="flex flex-wrap justify-center gap-4">
                 <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
@@ -215,7 +216,7 @@ const Jobs: React.FC = () => {
                 </div>
             </div>
             {/* show the search bar and the job table */}
-            <div className="w-full md:w-1/2 mx-auto">
+            <div className="w-full md:w-2/3 mx-auto">
                 <input
                     type="text"
                     value={search}

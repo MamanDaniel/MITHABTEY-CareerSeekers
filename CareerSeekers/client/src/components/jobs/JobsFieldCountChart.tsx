@@ -25,7 +25,6 @@ const colors: { [key: string]: string } = {
 
 const JobsFieldCountChart: React.FC<JobFieldChartProps> = ({ data }) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
-    console.log(data);
     useEffect(() => {
         if (chartRef.current) {
             const backgroundColors = data.labels.map(label => colors[label] || 'rgba(0,0,0,0.1)');

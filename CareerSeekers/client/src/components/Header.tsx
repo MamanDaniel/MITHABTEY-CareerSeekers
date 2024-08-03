@@ -1,4 +1,3 @@
-import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice';
@@ -6,6 +5,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import menuImage from '../assets/menu.png';
 import homeImage from '../assets/home.png';
+import MithabteyUmage from '../assets/mithabteyLogo.png';
 
 export default function Header() {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -29,24 +29,22 @@ export default function Header() {
   return (
     <header className='bg-slate-200 shadow-md'>
       <div className='flex justify-between items-center max-w-8xl mx-auto p-3'>
-        <Link to='home'>
-          <h1 className='font-bold text-sm:text-xl flex flex-wrap'>
-            <span className='text-slate-500'>Career</span>
-            <span className='text-slate-700'>Seekers</span>
-          </h1>
-        </Link>
 
-        <form className='bg-slate-100 p-3 rounded-lg flex items-center'>
-          <input type="text" placeholder='Search...' className='bg-transparent focus:outline-none w-20 sm:w-64 ' />
-          <FaSearch className='text-slate-600' />
-        </form>
+          <Link to='home' className='flex items-center'>
+            <img className='h-8 w-8 object-cover' src={MithabteyUmage} style={{ marginRight: '10px' }} />
+            <h1 className='font-bold text-sm:text-xl flex flex-wrap'>
+              <span className='text-slate-500 text-right'>מקצוע</span>
+              <span className='text-slate-700 text-right'>מתחבטי</span>
 
-        {/*Dropbox*/}
+            </h1>
+          </Link>
+          
+        {/*Dropbox and homepage*/}
         <div className='flex items-center'>
 
-        <Link to='home'>
-          <div className="w-7 h-7 bg-cover bg-center" style={{ marginRight:'19px' , backgroundImage: `url(${homeImage})` }}></div>
-        </Link>
+          <Link to='home'>
+            <div className="w-7 h-7 bg-cover bg-center" style={{ marginRight: '19px', backgroundImage: `url(${homeImage})` }}></div>
+          </Link>
 
           <Menu as="div" className="relative inline-block text-right" >
             <div>
