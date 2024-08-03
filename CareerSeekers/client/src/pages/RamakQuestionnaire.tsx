@@ -5,48 +5,29 @@ import { useNavigate } from 'react-router-dom';
 type QuestionProps = {
     question: string;
     index: number;
+    totalQuestions: number;
     selectedAnswer: number | null;
     onAnswer: (index: number, answer: number) => void;
 };
 
-const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, onAnswer }) => {
+const Question: React.FC<QuestionProps> = ({ question, index, totalQuestions, selectedAnswer, onAnswer }) => {
     return (
-        <div style={{ margin: '20px 0', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-            <p>{index + 1}) {question}</p>
-            <div>
-                <label style={{ display: 'block', margin: '5px 0' }}>
-                    <input
-                        type="radio"
-                        name={`question-${index}`}
-                        value="2"
-                        checked={selectedAnswer === 2}
-                        onChange={() => onAnswer(index, 2)}
-                        style={{ marginRight: '7px' }}
-                    />
-                    Yes
-                </label>
-                <label style={{ display: 'block', margin: '5px 0' }}>
-                    <input
-                        type="radio"
-                        name={`question-${index}`}
-                        value="0"
-                        checked={selectedAnswer === 0}
-                        onChange={() => onAnswer(index, 0)}
-                        style={{ marginRight: '7px' }}
-                    />
-                    No
-                </label>
-                <label style={{ display: 'block', margin: '5px 0' }}>
-                    <input
-                        type="radio"
-                        name={`question-${index}`}
-                        value="1"
-                        checked={selectedAnswer === 1}
-                        onChange={() => onAnswer(index, 1)}
-                        style={{ marginRight: '7px' }}
-                    />
-                    Not sure
-                </label>
+        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+            <h3 className="text-lg font-semibold mb-4 text-right">שאלה {index + 1} מתוך {totalQuestions}</h3>
+            <p className="mb-4 text-right">{question}</p>
+            <div className="flex justify-between">
+                {['לא', 'לא בטוח', 'כן'].map((option, optionIndex) => (
+                    <button
+                        key={optionIndex}
+                        className={`px-6 py-2 rounded-full transition-colors duration-200 ${selectedAnswer === optionIndex
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            }`}
+                        onClick={() => onAnswer(index, optionIndex)}
+                    >
+                        {option}
+                    </button>
+                ))}
             </div>
         </div>
     );
@@ -54,7 +35,7 @@ const Question: React.FC<QuestionProps> = ({ question, index, selectedAnswer, on
 
 const RamakQuestionnaire: React.FC = () => {
     const [questions, setQuestions] = useState<string[]>([]);
-    const [currentTripletIndex, setCurrentTripletIndex] = useState(0);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -72,7 +53,7 @@ const RamakQuestionnaire: React.FC = () => {
                     body: JSON.stringify({ Questionnaire_Name: 'RAMAK' })
                 });
                 const questionnaire = await res.json();
-                setQuestions(questionnaire.Questions.map((q: any) => q.question_en));
+                setQuestions(questionnaire.Questions.map((q: any) => q.question_he));
                 setLoading(false);
             } catch (err) {
                 console.log(err);
@@ -89,8 +70,9 @@ const RamakQuestionnaire: React.FC = () => {
         newAnswers[index] = answer === 2 ? 'Y' : answer === 0 ? 'N' : '?';
         setAnswers(newAnswers);
 
-        if ((index + 1) % 3 === 0 && index + 1 < questions.length) {
-            setCurrentTripletIndex(currentTripletIndex + 1);
+        // Move to the next question if there is one
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
     };
 
@@ -105,9 +87,8 @@ const RamakQuestionnaire: React.FC = () => {
                 body: JSON.stringify({ answers })
             });
             const score = await res.json();
-            // Assuming the user ID is stored in a variable userId
             const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
-                method: 'post',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -149,46 +130,48 @@ const RamakQuestionnaire: React.FC = () => {
     }
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
-            <div>
-                {questions.slice(currentTripletIndex * 3, currentTripletIndex * 3 + 3).map((question, index) => (
-                    <Question
-                        key={currentTripletIndex * 3 + index}
-                        question={question}
-                        index={currentTripletIndex * 3 + index}
-                        selectedAnswer={answers[currentTripletIndex * 3 + index] === 'Y' ? 2 : answers[currentTripletIndex * 3 + index] === 'N' ? 0 : answers[currentTripletIndex * 3 + index] === '?' ? 1 : 3}
-                        onAnswer={handleAnswer}
-                    />
-                ))}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
-                <button
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                    onClick={() => setCurrentTripletIndex(currentTripletIndex - 1)}
-                    disabled={currentTripletIndex === 0}
-                >
-                    Prev
-                </button>
-
-                <button
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
-                    onClick={() => setCurrentTripletIndex(currentTripletIndex + 1)}
-                    disabled={currentTripletIndex === Math.ceil(questions.length / 3) - 1}
-                >
-                    Next
-                </button>
-            </div>
-            {isComplete && (
-                <div>
-                    <button
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                        onClick={calculateScore}
-                    >
-                    {loading ? 'Loading...' : 'Calculate score'}
-
-                    </button>
-                </div>
+        <div className="max-w-2xl mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold text-center mb-8">RAMAK Questionnaire</h1>
+            <p className="text-gray-600 text-center mb-8">
+                Please answer the following questions to the best of your ability.
+            </p>
+            {questions[currentQuestionIndex] && (
+                <Question
+                    question={questions[currentQuestionIndex]}
+                    index={currentQuestionIndex}
+                    totalQuestions={questions.length}
+                    selectedAnswer={answers[currentQuestionIndex] === 'Y' ? 2 : answers[currentQuestionIndex] === 'N' ? 0 : answers[currentQuestionIndex] === '?' ? 1 : null}
+                    onAnswer={handleAnswer}
+                />
             )}
+            <div className="flex justify-between mt-8">
+                <button
+                    className={`bg-gray-300 font-bold py-2 px-6 rounded-xl transition-colors duration-200 ${currentQuestionIndex === questions.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400 text-gray-800'}`}
+                    onClick={() => currentQuestionIndex < questions.length - 1 && setCurrentQuestionIndex(currentQuestionIndex + 1)}
+                    disabled={currentQuestionIndex === questions.length - 1}
+                >
+                    הבא
+                </button>
+
+                {isComplete && (
+                    <button
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl transition-colors duration-200"
+                        onClick={calculateScore}
+                        disabled={loading}
+                    >
+                        {loading ? 'Calculating...' : 'חשב ציון'}
+                    </button>
+                )}
+
+                <button
+                    className={`bg-gray-300 font-bold py-2 px-6 rounded-xl transition-colors duration-200 ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400 text-gray-800'}`}
+                    onClick={() => currentQuestionIndex > 0 && setCurrentQuestionIndex(currentQuestionIndex - 1)}
+                    disabled={currentQuestionIndex === 0}
+                >
+                    הקודם
+                </button>
+
+            </div>
         </div>
     );
 };
