@@ -11,7 +11,7 @@ const jobSchema = new mongoose.Schema({
         required: true
     },
     AverageSalary: {
-        type: Number, // Use Number for floating point values
+        type: Number, 
         required: true
     },
     jobField: {
@@ -31,7 +31,11 @@ const jobSchema = new mongoose.Schema({
     facebookPostUrl: {
         type: String, 
         required: false 
-    }
+    },
+    GeneralRequirements:{
+        type: [String],
+        required: false
+    },
 });
 
 const Job = mongoose.model('Job', jobSchema);
