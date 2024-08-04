@@ -9,8 +9,6 @@ type Job = {
     jobField: string;
     facebookPostUrl?: string;
     Prerequisites: { [key: string]: number };
-    GeneralRequirements: string[];
-
 };
 
 type Props = {
@@ -67,10 +65,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 sortBy={sortBy}
                                 onClick={() => handleSort('jobField')}
                                 widthClass="w-1/6"
-                            />
-                            <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
-                                General Prequirements
-                            </th>
+                            />                    
                             <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
                                 Link to Facebook post
                             </th>
@@ -83,9 +78,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/2">{job.Description}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.AverageSalary}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.jobField}</td>
-                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6 text-center">
-                                    {job.GeneralRequirements.join(', ')}
-                                </td>
+                               
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6 text-center">
                                     {job.facebookPostUrl ? (
                                         <a href={job.facebookPostUrl} target="_blank" rel="noopener noreferrer">
