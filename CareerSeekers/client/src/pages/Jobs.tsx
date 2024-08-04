@@ -8,7 +8,7 @@ import Select from 'react-select';
 const Jobs: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, GeneralRequirements: string[], jobField: string, Prerequisites: { [key: string]: number }, facebookPostUrl?: string }[] }>({ data: [] });
+    const [data, setData] = useState<{ data: { _id: string, jobName: string, Description: string, AverageSalary: number, jobField: string, Prerequisites: { [key: string]: number }, facebookPostUrl?: string }[] }>({ data: [] });
     const [search, setSearch] = useState("");
     const [filteredData, setFilteredData] = useState(data.data);
     const [jobFieldChartData, setJobFieldChartData] = useState<{ labels: string[], counts: number[] }>({ labels: [], counts: [] });
@@ -144,8 +144,7 @@ const Jobs: React.FC = () => {
             job.jobName.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.Description.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.AverageSalary.toString().includes(e.target.value) ||
-            job.jobField.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            (job.GeneralRequirements && job.GeneralRequirements.some(req => req.toLowerCase().includes(e.target.value.toLowerCase())))
+            job.jobField.toLowerCase().includes(e.target.value.toLowerCase()) 
         );
         setFilteredData(filtered);
     };
