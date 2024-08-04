@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSpring, animated } from '@react-spring/web';
 import { Link, Element } from 'react-scroll';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import the arrow icons
+import { FaChevronDown, FaChevronUp, FaArrowDown, FaArrowUp } from 'react-icons/fa'; // Import the arrow icons
 import section1Image from '../assets/job.jpg';
 import section2Image from '../assets/question.jpg';
 import section3Image from '../assets/job.jpg';
@@ -29,7 +29,7 @@ export default function Home() {
             content: (
                 <div className="text-center mx-auto max-w-2xl py-12 sm:py-32 lg:py-38">
                     <h1 className="text-6xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                        ברוך הבא לאתר של 
+                        ברוך הבא לאתר של
                         <br />קבוצת הפייסבוק מתחבטי מקצוע
                     </h1>
                     <h2 className='text-xl sm:text-2xl font-bold mt-6 text-gray-600'>
@@ -46,7 +46,7 @@ export default function Home() {
             ),
             image: section1Image
         },
-        { id: 'section2', title: 'RAMAK שאלון ', content: 'שאלון RAMAK נועד לסייע לכם למצוא את העבודה שהכי מתאימה לאופי שלכם.', image: section2Image, button: true },
+        { id: 'section2', title: 'שאלון RAMAK ', content: 'שאלון RAMAK נועד לסייע לכם למצוא את העבודה שהכי מתאימה לאופי שלכם.', image: section2Image, button: true },
         { id: 'section3', title: 'מידע כללי על מקצועות', content: 'למידע נוסף על מקצועות שונים, ניתן להסתכל על מאגר המידע שלנו .', image: section3Image, link: '/ProfessionsInfo' },
         // Add four more sections as needed
     ];
@@ -58,14 +58,14 @@ export default function Home() {
     });
 
     return (
-        <div className="bg-gray-250" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        <div className="bg-gray-250 py-4 px-6" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
             <div className="relative isolate">
                 {sections.map((section, index) => (
-                    <Element name={section.id} key={section.id}>
-                        <animated.div style={{ ...sectionAnimation(index * 500), position: 'relative', backgroundImage: `url(${section.image})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', padding: '20px', direction: 'rtl' }} className="min-h-screen flex flex-col items-center justify-center text-center">
-                            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: index === 1 ? 'rgba(255, 255, 255, 0.5)' : 'transparent', zIndex: 0 }}></div>
+                    <Element name={section.id} key={section.id} className='my-6'>
+                        <animated.div style={{ ...sectionAnimation(index * 500), position: 'relative', backgroundImage: `url(${section.image})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', padding: '20px', direction: 'rtl' }} className="min-h-screen flex flex-col items-center justify-center text-center rounded-md">
+                            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: index === 1 ? 'rgba(255, 255, 255, 0.55)' : 'transparent', zIndex: 0 }}></div>
                             {section.title && <h2 className="text-3xl font-bold text-gray-900" style={{ position: 'relative', zIndex: 1 }}>{section.title}</h2>}
-                            <div className="mt-6 text-lg leading-8 text-gray-600" style={{ position: 'relative', zIndex: 1 }}>{section.content}</div>
+                            <div className="mt-6 text-lg leading-8 text-gray-600 " style={{ position: 'relative', zIndex: 1 }}>{section.content}</div>
                             {section.button && (
                                 <div className="mt-10 flex items-center justify-center gap-x-6" style={{ position: 'relative', zIndex: 1 }}>
                                     <button
@@ -75,16 +75,38 @@ export default function Home() {
                                         מילוי השאלון
                                     </button>
                                     <a href="/Jobs" className="text-sm font-semibold leading-6 text-gray-900">
-                                         מאגר המקצועות התואם לשאלון ← <span aria-hidden="true"></span>
+                                        מאגר המקצועות התואם לשאלון ← <span aria-hidden="true"></span>
                                     </a>
                                 </div>
                             )}
                             {section.link && (
                                 <div className="mt-10 flex items-center justify-center gap-x-6" style={{ position: 'relative', zIndex: 1 }}>
                                     <a href={section.link} className="text-sm font-semibold leading-6 text-gray-900">
-                                         מידע כללי על מקצועות ← <span aria-hidden="true"></span>
+                                        מידע כללי על מקצועות ← <span aria-hidden="true"></span>
                                     </a>
                                 </div>
+                            )}
+                            {index < sections.length - 1 && (
+                                <Link
+                                    to={sections[index + 1].id}
+                                    smooth={true}
+                                    duration={500}
+                                    className="absolute bottom-4 left-4 text-gray-900 hover:text-gray-600 cursor-pointer"
+                                    style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 1 }}
+                                >
+                                    <FaArrowDown size={30} />
+                                </Link>
+                            )}
+                            {index === sections.length - 1 && (
+                                <Link
+                                    to={sections[0].id}
+                                    smooth={true}
+                                    duration={500}
+                                    className="absolute bottom-4 left-4 text-gray-900 hover:text-gray-600 cursor-pointer"
+                                    style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 1 }}
+                                >
+                                    <FaArrowUp size={30} />
+                                </Link>
                             )}
                         </animated.div>
                     </Element>
@@ -95,7 +117,6 @@ export default function Home() {
                         onClick={() => setIsNavOpen(!isNavOpen)}
                         className="flex items-center justify-between rounded-md bg-indigo-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                        
                         <animated.div style={rotateAnimation} className="mr-2">
                             {isNavOpen ? <FaChevronUp /> : <FaChevronDown />}
                         </animated.div>
