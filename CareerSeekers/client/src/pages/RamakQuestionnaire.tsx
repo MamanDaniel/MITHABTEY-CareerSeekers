@@ -131,9 +131,9 @@ const RamakQuestionnaire: React.FC = () => {
 
     return (
         <div className="max-w-2xl mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold text-center mb-8">RAMAK Questionnaire</h1>
-            <p className="text-gray-600 text-center mb-8">
-                Please answer the following questions to the best of your ability.
+            <h1 className="text-3xl font-bold text-center mb-8">שאלון לבחינת אישיות</h1>
+            <p className="text-gray-600 text-center mb-5">
+                אנא סמן את התשובות שמתארות אותך בצורה הטובה ביותר
             </p>
             {questions[currentQuestionIndex] && (
                 <Question
@@ -159,7 +159,7 @@ const RamakQuestionnaire: React.FC = () => {
                         onClick={calculateScore}
                         disabled={loading}
                     >
-                        {loading ? 'Calculating...' : 'חשב ציון'}
+                        {loading ? 'Calculating...' : 'מצא מקצועות'}
                     </button>
                 )}
 
