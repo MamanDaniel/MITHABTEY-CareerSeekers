@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSpring, animated } from '@react-spring/web';
 import { Link, Element } from 'react-scroll';
-import { FaChevronDown, FaChevronUp, FaArrowDown, FaArrowUp } from 'react-icons/fa'; // Import the arrow icons
+import { FaChevronDown, FaChevronUp, FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import linkImage from '../assets/link.png';
 import section1Image from '../assets/job.jpg';
 import section2Image from '../assets/QuestionMark.png';
 import section3Image from '../assets/job.jpg';
 import section4Image from '../assets/facebook.png';
-import managerImage from '../assets/manager.jpg'; 
+import managerImage from '../assets/manager.jpg';
+
 
 export default function Home() {
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ export default function Home() {
         navigate('/RamakQuestionnaire');
     };
 
-    const sectionAnimation = (delay: number) => useSpring({
+    const sectionAnimation = (delay:any) => useSpring({
         from: { opacity: 0, transform: 'translateY(-50px)' },
         to: { opacity: 1, transform: 'translateY(0px)' },
         delay,
@@ -50,7 +52,24 @@ export default function Home() {
         },
         { id: 'section2', title: 'שאלון RAMAK ', content: 'שאלון RAMAK נועד לסייע לכם למצוא את העבודה שהכי מתאימה לאופי שלכם.', image: section2Image, button: true },
         { id: 'section3', title: 'מידע כללי על מקצועות', content: 'למידע נוסף על מקצועות שונים, ניתן להסתכל על מאגר המידע שלנו .', image: section3Image, link: '/ProfessionsInfo' },
-        
+        {
+            id: 'section4',
+            title: 'מנהלת קהילת מתחבטי מקצוע',
+            content: (
+                <div className="flex flex-col items-center text-center">
+                    <img src={managerImage} alt="Irit Homsi" className="w-32 h-32 rounded-full mb-4" />
+                    <p className="text-lg leading-8 text-gray-600">
+                        אירית חומסי היא מנהלת הקהילה .
+                        <br /> כיום הקבילה מונה כ 40 אלף חברים.
+                        <br />למידע נוסף  ניתן לצפות בקבוצה בלינק הבא:
+                    </p>
+                    <a href="https://www.facebook.com/share/4B2P6eeAsYWs5nDz/" className="text-blue-600 hover:underline mt-4">
+                        <img src={linkImage} className="mx-auto h-10 w-10 " />
+                    </a>
+                </div>
+            ),
+            image: section4Image
+        },
     ];
 
     // Rotate animation
