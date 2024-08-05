@@ -60,7 +60,7 @@ export default function Home() {
                     <img src={managerImage} alt="Irit Homsi" className="w-32 h-32 rounded-full mb-4" />
                     <p className="text-lg leading-8 text-gray-600">
                         אירית חומסי היא מנהלת הקהילה .
-                        <br /> כיום הקבילה מונה כ 40 אלף חברים.
+                        <br /> כיום הקבוצה מונה כ 40 אלף חברים.
                         <br />למידע נוסף  ניתן לצפות בקבוצה בלינק הבא:
                     </p>
                     <a href="https://www.facebook.com/share/4B2P6eeAsYWs5nDz/" className="text-blue-600 hover:underline mt-4">
