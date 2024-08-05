@@ -7,7 +7,7 @@ import section1Image from '../assets/job.jpg';
 import section2Image from '../assets/QuestionMark.png';
 import section3Image from '../assets/job.jpg';
 import section4Image from '../assets/facebook.png';
-import managerImage from '../assets/manager.jpg'; // Add an image for the site manager
+import managerImage from '../assets/manager.jpg'; 
 
 export default function Home() {
     const navigate = useNavigate();
@@ -50,28 +50,6 @@ export default function Home() {
         },
         { id: 'section2', title: 'שאלון RAMAK ', content: 'שאלון RAMAK נועד לסייע לכם למצוא את העבודה שהכי מתאימה לאופי שלכם.', image: section2Image, button: true },
         { id: 'section3', title: 'מידע כללי על מקצועות', content: 'למידע נוסף על מקצועות שונים, ניתן להסתכל על מאגר המידע שלנו .', image: section3Image, link: '/ProfessionsInfo' },
-        {
-            id: 'section4',
-            title: 'מנהלת קהילת מתחבטי מקצוע',
-            content: (
-                <div className="flex flex-col lg:flex-row items-center lg:items-start">
-                    <div className="w-full lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
-                        <img src={managerImage} alt="Site Manager" className="rounded-lg shadow-lg w-full h-auto max-h-60 object-cover" />
-                    </div>
-                    <div className="w-full lg:w-2/3 lg:pl-10 text-lg leading-8 text-gray-600 text-right mr-6">
-                        <p className='font-bold underline text-xl'>אירית חומסי</p>
-                        <p>מנהלת האתר היא האחראית לקבוצת הפייסבוק 'מתחבטי מקצוע'.</p>
-                        <p>מטרתה להנגיש מקומות עבודה לאנשים.</p>
-                        <p>בקבוצה יש ראיונות עם אנשים מקצועיים.</p>
-                        <p>קישור לקבוצה:</p>
-                        <a href="https://www.facebook.com/share/4B2P6eeAsYWs5nDz/" className="text-indigo-600 hover:text-indigo-500" target="_blank" rel="noopener noreferrer">
-                            https://www.facebook.com/share/4B2P6eeAsYWs5nDz/
-                        </a>
-                    </div>
-                </div>
-            ),
-            image: section4Image // Adjust as needed or add a new image
-        },
         
     ];
 
@@ -87,9 +65,9 @@ export default function Home() {
                 {sections.map((section, index) => (
                     <Element name={section.id} key={section.id} className='my-6'>
                         <animated.div style={{ ...sectionAnimation(index * 500), position: 'relative', backgroundImage: `url(${section.image})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', padding: '20px', direction: 'rtl' }} className="min-h-screen flex flex-col items-center justify-center text-center rounded-md">
-                           
+                            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: index === 1 ? 'rgba(255, 255, 255, 0.55)' : 'transparent', zIndex: 0 }}></div>
                             {section.title && <h2 className="text-3xl font-bold text-gray-900" style={{ position: 'relative', zIndex: 1 }}>{section.title}</h2>}
-                            <div className="mt-6 text-lg leading-8 text-gray-600 " style={{ position: 'relative', zIndex: 1 }}>{section.content}</div>
+                            <div className="mt-6 text-lg leading-8 text-gray-600" style={{ position: 'relative', zIndex: 1 }}>{section.content}</div>
                             {section.button && (
                                 <div className="mt-10 flex items-center justify-center gap-x-6" style={{ position: 'relative', zIndex: 1 }}>
                                     <button
