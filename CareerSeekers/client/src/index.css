@@ -77,3 +77,8 @@ body{
     color: #6199fb;
     text-decoration: none;
   }
+
+  /* styles.css */
+header {
+  transition: transform 0.3s ease-in-out;
+}
