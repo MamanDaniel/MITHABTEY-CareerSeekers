@@ -47,8 +47,8 @@ export default function Header() {
         <Link to='home' className='flex items-center'>
           <img className='h-8 w-8 object-cover' src={MithabteyUmage} style={{ marginRight: '10px' }} />
           <h1 className={`font-bold text-base sm:text-xl transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-lg'}`}>
+          <span className='text-slate-700'>מתחבטי</span>
             <span className='text-slate-500'>מקצוע</span>
-            <span className='text-slate-700'>מתחבטי</span>
           </h1>
         </Link>
 
@@ -65,12 +65,12 @@ export default function Header() {
               </MenuButton>
             </div>
 
-            <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <MenuItems className="absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1">
                 {currentUser && (
                   <MenuItem>
                     {({ active }) => (
-                      <Link to='/profile' className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}>
+                      <Link to='/profile' className={` text-right block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}>
                         פרופיל אישי
                       </Link>
                     )}
@@ -79,7 +79,7 @@ export default function Header() {
                 {currentUser && currentUser.role === 'Admin' && (
                   <MenuItem>
                     {({ active }) => (
-                      <Link to='/adminpanel' className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}>
+                      <Link to='/adminpanel' className={` text-right block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}>
                         פאנל מנהל
                       </Link>
                     )}
@@ -88,7 +88,7 @@ export default function Header() {
                 {currentUser && (
                   <MenuItem>
                     {({ active }) => (
-                      <Link to='/geneticAlgorithm' className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}>
+                      <Link to='/geneticAlgorithm' className={` text-right block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}>
                         המקצועות שלי
                       </Link>
                     )}
