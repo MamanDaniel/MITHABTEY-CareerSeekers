@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select, { MultiValue } from 'react-select';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa'; // Change icon for RTL
 
 interface Job {
     id: string;
@@ -54,7 +54,7 @@ const GeneralProfessions: React.FC = () => {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                setError('Failed to fetch jobs');
+                setError('לא הצלחנו להוריד את המשרות');
                 setLoading(false);
             }
         };
@@ -81,17 +81,17 @@ const GeneralProfessions: React.FC = () => {
         })
         .sort((a, b) => calculateMatchPercentage(b.GeneralRequirements) - calculateMatchPercentage(a.GeneralRequirements));
 
-    if (loading) return <p className="text-center">Loading...</p>;
+    if (loading) return <p className="text-center">טוען...</p>;
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
-        <div className="container mx-auto p-4 mt-16">
-            <h1 className="text-2xl font-bold mb-4 text-center">General Professions</h1>
+        <div className="container mx-auto p-4 mt-16" dir="rtl"> {/* Set RTL direction */}
+            <h1 className="text-2xl font-bold mb-4 text-center">מקצועות כלליים</h1>
             <Select
                 isMulti
                 options={uniqueRequirements}
                 onChange={handleSelectChange}
-                placeholder="Select General Requirements"
+                placeholder="בחר דרישות כלליות"
                 className="mb-4 sm:w-1/2 mx-auto min-[320px]:w-3/4"
             />
 
@@ -101,28 +101,30 @@ const GeneralProfessions: React.FC = () => {
                     const missingRequirements = job.GeneralRequirements.filter(req => !selectedRequirements.includes(req));
                     const isActive = activeIndex === index;
 
+                    // Fixed height for non-active cards
+                    const heightClass = isActive ? 'h-auto' : 'h-36'; // Use a fixed height for non-active cards
+
                     return (
                         <div
                             key={job.id}
-                            className={`bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105 ${isActive ? 'h-auto' : 'sm:h-24'}`} // Set fixed height
-                            onClick={() => setActiveIndex(isActive ? null : index)} // Toggle active index
+                            className={`bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105 ${heightClass}`}
+                            onClick={() => setActiveIndex(isActive ? null : index)}
                         >
                             <div className="flex items-center justify-between">
                                 <h2 className="text-xl font-semibold mb-2">{job.jobName}</h2>
                                 <p className="text-gray-800">
-                                    {Number.isInteger(matchPercentage) ? matchPercentage.toFixed(0) : matchPercentage.toFixed(2)}% match
+                                    {Number.isInteger(matchPercentage) ? matchPercentage.toFixed(0) : matchPercentage.toFixed(2)}% התאמה
                                 </p>
-                                <FaArrowRight
+                                <FaArrowLeft // Change icon direction for RTL
                                     className={`w-6 h-6 transform transition-transform ${isActive ? 'rotate-90' : ''}`}
                                 />
                             </div>
 
                             <hr />
-                            {/* Show requirements only when the tab is closed */}
                             {!isActive && (
                                 <div className="mt-2">
                                     <p>
-                                        <strong>Requirements: </strong>
+                                        <strong>דרישות: </strong>
                                         {job.GeneralRequirements.map((req, idx) => (
                                             <span
                                                 key={req}
@@ -134,31 +136,29 @@ const GeneralProfessions: React.FC = () => {
                                     </p>
                                 </div>
                             )}
-                            {/* Show job details when the tab is open */}
                             {isActive && (
                                 <div className="mt-2">
-                                    <p><strong>Description: </strong> {job.Description}</p>
-                                    <p><strong>Average Salary: </strong> ${job.AverageSalary}</p>
-                                    <p><strong>Job Field: </strong> {job.jobField}</p>
+                                    <p><strong>תיאור: </strong> {job.Description}</p>
+                                    <p><strong>שכר ממוצע: </strong> ${job.AverageSalary}</p>
+                                    <p><strong>תחום מקצועי: </strong> {job.jobField}</p>
                                     {job.facebookPostUrl && (
-                                        <p><strong>Facebook Post: </strong>
+                                        <p><strong>פוסט בפייסבוק: </strong>
                                             <a
                                                 href={job.facebookPostUrl}
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 className="text-blue-600 underline"
                                             >
-                                                Link
+                                                לינק
                                             </a>
                                         </p>
                                     )}
-                                    {/* Show missing requirements at the end when the tab is open */}
                                     <p>
-                                        <strong>Missing Requirements: </strong>
+                                        <strong>דרישות חסרות: </strong>
                                         {missingRequirements.length > 0 ? (
                                             <span className="text-red-600">{missingRequirements.join(', ')}</span>
                                         ) : (
-                                            ' There are no more missing requirements for this profession.'
+                                            'אין דרישות חסרות למקצוע זה.'
                                         )}
                                     </p>
                                 </div>
