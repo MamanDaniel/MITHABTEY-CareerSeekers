@@ -81,8 +81,6 @@ const GeneralProfessions: React.FC = () => {
     })
     .sort((a, b) => calculateMatchPercentage(b.GeneralRequirements) - calculateMatchPercentage(a.GeneralRequirements));
 
-  const totalRequirements = uniqueRequirements.length;
-
   if (loading) return <p className="text-center">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
@@ -94,17 +92,8 @@ const GeneralProfessions: React.FC = () => {
         options={uniqueRequirements}
         onChange={handleSelectChange}
         placeholder="Select General Requirements"
-        className="mb-4 w-1/2 mx-auto"
+        className="mb-4 sm:w-1/2 mx-auto min-[320px]:w-3/4"
       />
-      <div className="mb-4">
-        <p className="text-center">Selected Requirements: {selectedRequirements.length} of {totalRequirements}</p>
-        <div className="h-2 bg-gray-300 rounded-full w-1/2 mx-auto">
-          <div
-            className="h-full bg-blue-500 rounded-full"
-            style={{ width: `${(selectedRequirements.length / totalRequirements) * 100}%` }}
-          />
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredJobs.map((job, index) => {
@@ -115,7 +104,7 @@ const GeneralProfessions: React.FC = () => {
           return (
             <div
               key={job.id}
-              className={`bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105 ${isActive ? 'h-auto' : 'h-24'}`} // Set fixed height
+              className={`bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105 ${isActive ? 'h-auto' : 'sm:h-24'}`} // Set fixed height
               onClick={() => setActiveIndex(isActive ? null : index)} // Toggle active index
             >
               <div className="flex items-center justify-between">
@@ -126,13 +115,30 @@ const GeneralProfessions: React.FC = () => {
                 />
               </div>
               <hr />
+              {/* Show requirements only when the tab is closed */}
+              {!isActive && (
+                <div className="mt-2">
+                  <p>
+                    <strong>Requirements: </strong>
+                    {job.GeneralRequirements.map((req, idx) => (
+                      <span
+                        key={req}
+                        className={`${selectedRequirements.includes(req) ? 'text-green-600' : 'text-red-600'} mr-2`}
+                      >
+                        {req}{idx < job.GeneralRequirements.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              )}
+              {/* Show job details when the tab is open */}
               {isActive && (
                 <div className="mt-2">
-                  <p><strong>Description:</strong> {job.Description}</p>
-                  <p><strong>Average Salary:</strong> ${job.AverageSalary}</p>
-                  <p><strong>Job Field:</strong> {job.jobField}</p>
+                  <p><strong>Description: </strong> {job.Description}</p>
+                  <p><strong>Average Salary: </strong> ${job.AverageSalary}</p>
+                  <p><strong>Job Field: </strong> {job.jobField}</p>
                   {job.facebookPostUrl && (
-                    <p><strong>Facebook Post:</strong>
+                    <p><strong>Facebook Post: </strong>
                       <a
                         href={job.facebookPostUrl}
                         target="_blank"
@@ -143,7 +149,15 @@ const GeneralProfessions: React.FC = () => {
                       </a>
                     </p>
                   )}
-                  <p><strong>Missing Requirements:</strong> {missingRequirements.length > 0 ? missingRequirements.join(', ') : 'There are no more missing requirements for this profession'}</p>
+                  {/* Show missing requirements at the end when the tab is open */}
+                  <p>
+                    <strong>Missing Requirements: </strong>
+                    {missingRequirements.length > 0 ? (
+                      <span className="text-red-600">{missingRequirements.join(', ')}</span>
+                    ) : (
+                      ' There are no more missing requirements for this profession.'
+                    )}
+                  </p>
                 </div>
               )}
             </div>
