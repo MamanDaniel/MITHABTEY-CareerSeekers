@@ -23,7 +23,7 @@ const GeneralProfessions: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedRequirements, setSelectedRequirements] = useState<string[]>([]);
   const [uniqueRequirements, setUniqueRequirements] = useState<OptionType[]>([]);
-  const [activeJobIndex, setActiveJobIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchAllJobs = async () => {
@@ -81,16 +81,14 @@ const GeneralProfessions: React.FC = () => {
     })
     .sort((a, b) => calculateMatchPercentage(b.GeneralRequirements) - calculateMatchPercentage(a.GeneralRequirements));
 
+  const totalRequirements = uniqueRequirements.length;
+
   if (loading) return <p className="text-center">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
-  const toggleJobDetails = (index: number) => {
-    setActiveJobIndex(prevIndex => (prevIndex === index ? null : index));
-  };
-
   return (
     <div className="container mx-auto p-4 mt-16">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">General Professions</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">General Professions</h1>
       <Select
         isMulti
         options={uniqueRequirements}
@@ -98,18 +96,27 @@ const GeneralProfessions: React.FC = () => {
         placeholder="Select General Requirements"
         className="mb-4 w-1/2 mx-auto"
       />
+      <div className="mb-4">
+        <p className="text-center">Selected Requirements: {selectedRequirements.length} of {totalRequirements}</p>
+        <div className="h-2 bg-gray-300 rounded-full w-1/2 mx-auto">
+          <div
+            className="h-full bg-blue-500 rounded-full"
+            style={{ width: `${(selectedRequirements.length / totalRequirements) * 100}%` }}
+          />
+        </div>
+      </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredJobs.map((job, index) => {
           const matchPercentage = calculateMatchPercentage(job.GeneralRequirements);
           const missingRequirements = job.GeneralRequirements.filter(req => !selectedRequirements.includes(req));
-          const isActive = activeJobIndex === index;
+          const isActive = activeIndex === index;
 
           return (
-            <div 
-              key={job.id} 
-              className="bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105"
-              onClick={() => toggleJobDetails(index)}
+            <div
+              key={job.id}
+              className={`bg-white p-4 shadow-md rounded-md cursor-pointer transition transform hover:scale-105 ${isActive ? 'h-auto' : 'h-24'}`} // Set fixed height
+              onClick={() => setActiveIndex(isActive ? null : index)} // Toggle active index
             >
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold mb-2">{job.jobName}</h2>
@@ -125,8 +132,7 @@ const GeneralProfessions: React.FC = () => {
                   <p><strong>Average Salary:</strong> ${job.AverageSalary}</p>
                   <p><strong>Job Field:</strong> {job.jobField}</p>
                   {job.facebookPostUrl && (
-                    <p>
-                      <strong>Facebook Post: </strong>
+                    <p><strong>Facebook Post:</strong>
                       <a
                         href={job.facebookPostUrl}
                         target="_blank"
