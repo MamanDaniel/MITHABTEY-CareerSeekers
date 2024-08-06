@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import linkImage from '../../assets/link.png';
+import { jobFields } from './jobFieldMapping';
 
 type Job = {
     _id: string;
@@ -65,7 +66,7 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 sortBy={sortBy}
                                 onClick={() => handleSort('jobField')}
                                 widthClass="w-1/6"
-                            />                    
+                            />
                             <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
                                 Link to Facebook post
                             </th>
@@ -77,12 +78,11 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/4">{job.jobName}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/2">{job.Description}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.AverageSalary}</td>
-                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{job.jobField}</td>
-                               
+                                <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">{jobFields[job.jobField]?.hebrew || job.jobField}</td>
                                 <td className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6 text-center">
                                     {job.facebookPostUrl ? (
                                         <a href={job.facebookPostUrl} target="_blank" rel="noopener noreferrer">
-                                            <img src={linkImage} alt="Facebook Link" className="mx-auto h-10 w-10 " />
+                                            <img src={linkImage} alt="Link" className="inline w-5 h-5" />
                                         </a>
                                     ) : (
                                         '-'
@@ -97,25 +97,25 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
     );
 };
 
-type SortBy = { key: keyof Job; order: 'asc' | 'desc' };
-
-type SortableHeaderProps = {
+const SortableHeader = ({
+    label,
+    sortBy,
+    onClick,
+    widthClass,
+}: {
     label: string;
-    sortBy: SortBy;
+    sortBy: { key: keyof Job; order: 'asc' | 'desc' };
     onClick: () => void;
-    widthClass: string;
+    widthClass?: string;
+}) => {
+    return (
+        <th
+            onClick={onClick}
+            className={`border border-gray-300 px-4 py-2 cursor-pointer ${widthClass}`}
+        >
+            {label} {sortBy.key === label.toLowerCase() && (sortBy.order === 'asc' ? '↑' : '↓')}
+        </th>
+    );
 };
-
-const SortableHeader: React.FC<SortableHeaderProps> = ({ label, onClick, widthClass }) => (
-    <th
-        className={`border border-gray-300 px-4 py-2 cursor-pointer relative ${widthClass}`}
-        onClick={onClick}
-    >
-        <div className="flex items-center justify-between">
-            <span>{label}</span>
-            <span className="ml-1">↑↓</span>
-        </div>
-    </th>
-);
 
 export default JobTable;

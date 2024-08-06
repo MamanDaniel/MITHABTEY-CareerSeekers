@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { jobFields } from './jobFieldMapping';
 
 interface ChartData {
     labels: string[];
@@ -21,14 +22,16 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data }) => {
                 counts: data.counts.filter(count => count !== 0),
             };
 
+            const hebrewLabels = filteredData.labels.map(label => jobFields[label]?.hebrew || label);
+
             const chartInstance = new Chart(chartRef.current, {
                 type: 'bar',
                 data: {
-                    labels: filteredData.labels,
+                    labels: hebrewLabels,
                     datasets: [
                         {
                             data: filteredData.counts,
-                            backgroundColor:  "rgba(50,127,167,0.6)",
+                            backgroundColor: 'rgba(50,127,167,0.6)',
                         },
                     ],
                 },
@@ -58,19 +61,19 @@ const SalaryChart: React.FC<SalaryChartProps> = ({ data }) => {
                         x: {
                             title: {
                                 display: true,
-                                text: 'Job Field',
+                                text: 'תחום מקצוע',
                                 font: {
-                                   weight: 'bold',
+                                    weight: 'bold',
                                 },
                             },
                         },
                         y: {
                             title: {
                                 display: true,
-                                text: 'Average Salary',
+                                text: 'שכר ממוצע',
                                 font: {
                                     weight: 'bold',
-                                 },
+                                },
                             },
                         },
                     },

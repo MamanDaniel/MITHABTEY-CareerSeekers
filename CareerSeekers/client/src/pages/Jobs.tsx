@@ -18,15 +18,16 @@ const Jobs: React.FC = () => {
     const [selectedJobName, setSelectedJobName] = useState<string>('');
     const [showPrerequisites, setShowPrerequisites] = useState(false);
     const [options, setOptions] = useState<{ value: string, label: string }[]>([]);
-    const LabelsColors: { [key: string]: string } = {
-        'Business': 'rgba(117,169,255,0.6)',
-        'Outdoor': 'rgba(208,129,222,0.6)',
-        'Technology': 'rgba(148,223,215,0.6)',
-        'General Culture': 'rgba(247,127,167,0.6)',
-        'Science': 'rgba(255,206,86,0.6)',
-        'Organization': 'rgba(75,192,192,0.6)',
-        'Service': 'rgba(153,102,255,0.6)',
-        'Arts And Entertainment': 'rgba(255,159,64,0.6)',
+
+    const jobFieldData: { [key: string]: { label: string, color: string } } = {
+        'Business': { label: 'ביזנס', color: 'rgba(117,169,255,0.6)' },
+        'Outdoor': { label: 'עבודה בחוץ', color: 'rgba(208,129,222,0.6)' },
+        'Technology': { label: 'טכנולוגיה', color: 'rgba(148,223,215,0.6)' },
+        'General Culture': { label: 'תרבות', color: 'rgba(247,127,167,0.6)' },
+        'Science': { label: 'מדע', color: 'rgba(255,206,86,0.6)' },
+        'Organization': { label: 'אירגון', color: 'rgba(75,192,192,0.6)' },
+        'Service': { label: 'מתן שירות', color: 'rgba(153,102,255,0.6)' },
+        'Arts And Entertainment': { label: 'אומנות ובידור', color: 'rgba(255,159,64,0.6)' },
     };
 
     const aggregateDataByJobField = (jobs: { jobField: string }[]) => {
@@ -189,10 +190,11 @@ const Jobs: React.FC = () => {
             {/* show the Colors of the job fields */}
             <div className='w-full md:w-5/6 mx-auto text-center'>
                 <div className="flex flex-wrap justify-center gap-3">
-                    {Object.keys(LabelsColors).map((key) => (
+                    {Object.keys(jobFieldData).map((key) => (
                         <div key={key} className="flex items-center space-x-2">
-                            <div className="w-4 h-4" style={{ backgroundColor: LabelsColors[key] }}></div>
-                            <p className="m-0">{key}</p>
+                                                        <p className="m-0">{jobFieldData[key].label}</p>
+
+                            <div className="w-4 h-4" style={{ backgroundColor: jobFieldData[key].color }}></div>
                         </div>
                     ))}
                 </div>
@@ -206,14 +208,15 @@ const Jobs: React.FC = () => {
                         name="jobFields"
                         placeholder="בחר תחומים להשוואה..."
                         isMulti
-                        options={options}
+                        options={options.map(option => ({ value: option.value, label: jobFieldData[option.value]?.label || option.label }))} // Use new object here
                         className="basic-multi-select text-right w-2/5"
                         classNamePrefix="select"
-                        value={selectedJobFields}
+                        value={selectedJobFields.map(field => ({ value: field.value, label: jobFieldData[field.value]?.label || field.label }))} // Use new object here
                         onChange={handleJobFieldSelection}
                     />
                 </div>
             </div>
+
             {/* show the search bar and the job table */}
             <div className="w-full md:w-2/3 mx-auto" dir="rtl">
                 <input
