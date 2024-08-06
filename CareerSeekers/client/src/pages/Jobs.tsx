@@ -22,7 +22,7 @@ const Jobs: React.FC = () => {
         'Business': 'rgba(117,169,255,0.6)',
         'Outdoor': 'rgba(208,129,222,0.6)',
         'Technology': 'rgba(148,223,215,0.6)',
-        'GeneralCulture': 'rgba(247,127,167,0.6)',
+        'General Culture': 'rgba(247,127,167,0.6)',
         'Science': 'rgba(255,206,86,0.6)',
         'Organization': 'rgba(75,192,192,0.6)',
         'Service': 'rgba(153,102,255,0.6)',
@@ -113,7 +113,7 @@ const Jobs: React.FC = () => {
 
             setSalaryChartData({
                 labels: Object.keys(aggregatedAverageSalaryData),
-                counts: Object.values(aggregatedAverageSalaryData)
+                counts: Object.values(aggregatedAverageSalaryData).map(avg => Number(avg.toFixed(0)))
             });
 
             setFilteredData(data.data);
@@ -131,7 +131,7 @@ const Jobs: React.FC = () => {
 
             setSalaryChartData({
                 labels: Object.keys(filteredAverageSalaryData),
-                counts: Object.values(filteredAverageSalaryData)
+                counts: Object.values(filteredAverageSalaryData).map(avg => Number(avg.toFixed(0)))
             });
 
             setFilteredData(filteredJobs);
@@ -170,7 +170,7 @@ const Jobs: React.FC = () => {
     }
 
     return (
-        <div className="space-y-8 m-4">
+        <div className="space-y-8 m-4" >
             <h1 className="text-2xl font-bold text-center my-4" >Job Information</h1>
 
             <div className="flex flex-wrap justify-center gap-4">
@@ -199,12 +199,12 @@ const Jobs: React.FC = () => {
             </div>
 
             {/* show the job fields selection */}
-            <div className='w-full md:w-1/2 mx-auto'>
+            <div className='w-full md:w-1/2 mx-auto' dir="rtl">
                 <div className="flex justify-center">
                     <Select
                         id="jobFields"
                         name="jobFields"
-                        placeholder="...בחר תחומים להשוואה"
+                        placeholder="בחר תחומים להשוואה..."
                         isMulti
                         options={options}
                         className="basic-multi-select text-right w-2/5"
@@ -215,12 +215,12 @@ const Jobs: React.FC = () => {
                 </div>
             </div>
             {/* show the search bar and the job table */}
-            <div className="w-full md:w-2/3 mx-auto">
+            <div className="w-full md:w-2/3 mx-auto" dir="rtl">
                 <input
                     type="text"
                     value={search}
                     onChange={handleSearch}
-                    placeholder="...חפש ברשימת המקצועות"
+                    placeholder="חפש ברשימת המקצועות..."
                     className="w-full px-4 py-2 border border-gray-300 rounded-md text-right"
                 />
                 <JobTable jobs={filteredData} onJobClick={handleJobClick} />

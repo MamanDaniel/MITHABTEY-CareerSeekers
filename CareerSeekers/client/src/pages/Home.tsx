@@ -133,15 +133,16 @@ export default function Home() {
                     </Element>
                 ))}
 
-                <div className="fixed bottom-10 right-10 flex flex-col space-y-2 bg-white p-1 rounded shadow-lg">
+                <div className="fixed bottom-10 right-10 flex flex-col space-y-2 bg-white p-1 rounded shadow-lg" dir="rtl">
                     <button
                         onClick={() => setIsNavOpen(!isNavOpen)}
                         className="flex items-center justify-between rounded-md bg-indigo-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
+                        <span>ניווט</span>
                         <animated.div style={rotateAnimation} className="mr-2">
                             {isNavOpen ? <FaChevronUp /> : <FaChevronDown />}
                         </animated.div>
-                        <span>ניווט</span>
+                        
                     </button>
                     {isNavOpen && (
                         <div className="mt-1 flex flex-col space-y-2">

@@ -69,7 +69,7 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
             },
             title: {
                 display: true,
-                text: ` ${jobName} דרישות עבור `,
+                text: `  דרישות עבור ${jobName}`,
                 font: {
                     size: 15
                 }
