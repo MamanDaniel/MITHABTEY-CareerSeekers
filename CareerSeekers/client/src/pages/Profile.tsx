@@ -64,7 +64,7 @@ export default function Profile() {
   };
 
   return (
-    <div className='p-3 max-w-lg mx-auto'>
+    <div className='p-3 max-w-lg mx-auto my-16'>
       <h1 className='text-3xl font-semibold text-center my-7'>פרופיל משתמש</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <img src={currentUser.avatar} alt="profile" className='rounded-full h-24 w-24 object-cover self-center mt-2' />

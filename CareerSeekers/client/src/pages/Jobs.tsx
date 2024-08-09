@@ -18,15 +18,16 @@ const Jobs: React.FC = () => {
     const [selectedJobName, setSelectedJobName] = useState<string>('');
     const [showPrerequisites, setShowPrerequisites] = useState(false);
     const [options, setOptions] = useState<{ value: string, label: string }[]>([]);
-    const LabelsColors: { [key: string]: string } = {
-        'Business': 'rgba(117,169,255,0.6)',
-        'Outdoor': 'rgba(208,129,222,0.6)',
-        'Technology': 'rgba(148,223,215,0.6)',
-        'GeneralCulture': 'rgba(247,127,167,0.6)',
-        'Science': 'rgba(255,206,86,0.6)',
-        'Organization': 'rgba(75,192,192,0.6)',
-        'Service': 'rgba(153,102,255,0.6)',
-        'Arts And Entertainment': 'rgba(255,159,64,0.6)',
+
+    const jobFieldData: { [key: string]: { label: string, color: string } } = {
+        'Business': { label: 'ביזנס', color: 'rgba(117,169,255,0.6)' },
+        'Outdoor': { label: 'עבודה בחוץ', color: 'rgba(208,129,222,0.6)' },
+        'Technology': { label: 'טכנולוגיה', color: 'rgba(148,223,215,0.6)' },
+        'General Culture': { label: 'תרבות', color: 'rgba(247,127,167,0.6)' },
+        'Science': { label: 'מדע', color: 'rgba(255,206,86,0.6)' },
+        'Organization': { label: 'אירגון', color: 'rgba(75,192,192,0.6)' },
+        'Service': { label: 'מתן שירות', color: 'rgba(153,102,255,0.6)' },
+        'Arts And Entertainment': { label: 'אומנות ובידור', color: 'rgba(255,159,64,0.6)' },
     };
 
     const aggregateDataByJobField = (jobs: { jobField: string }[]) => {
@@ -113,7 +114,7 @@ const Jobs: React.FC = () => {
 
             setSalaryChartData({
                 labels: Object.keys(aggregatedAverageSalaryData),
-                counts: Object.values(aggregatedAverageSalaryData)
+                counts: Object.values(aggregatedAverageSalaryData).map(avg => Number(avg.toFixed(0)))
             });
 
             setFilteredData(data.data);
@@ -131,7 +132,7 @@ const Jobs: React.FC = () => {
 
             setSalaryChartData({
                 labels: Object.keys(filteredAverageSalaryData),
-                counts: Object.values(filteredAverageSalaryData)
+                counts: Object.values(filteredAverageSalaryData).map(avg => Number(avg.toFixed(0)))
             });
 
             setFilteredData(filteredJobs);
@@ -144,7 +145,7 @@ const Jobs: React.FC = () => {
             job.jobName.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.Description.toLowerCase().includes(e.target.value.toLowerCase()) ||
             job.AverageSalary.toString().includes(e.target.value) ||
-            job.jobField.toLowerCase().includes(e.target.value.toLowerCase())
+            job.jobField.toLowerCase().includes(e.target.value.toLowerCase()) 
         );
         setFilteredData(filtered);
     };
@@ -170,8 +171,8 @@ const Jobs: React.FC = () => {
     }
 
     return (
-        <div className="space-y-8 m-4">
-            <h1 className="text-2xl font-bold text-center my-4">Job Information</h1>
+        <div className="space-y-8 m-4" >
+            <h1 className="text-2xl font-bold text-center my-4" >Job Information</h1>
 
             <div className="flex flex-wrap justify-center gap-4">
                 <div className="w-full sm:w-1/2 md:w-1/3 p-2" style={{ maxHeight: '300px', maxWidth: '300px' }}>
@@ -189,38 +190,40 @@ const Jobs: React.FC = () => {
             {/* show the Colors of the job fields */}
             <div className='w-full md:w-5/6 mx-auto text-center'>
                 <div className="flex flex-wrap justify-center gap-3">
-                    {Object.keys(LabelsColors).map((key) => (
+                    {Object.keys(jobFieldData).map((key) => (
                         <div key={key} className="flex items-center space-x-2">
-                            <div className="w-4 h-4" style={{ backgroundColor: LabelsColors[key] }}></div>
-                            <p className="m-0">{key}</p>
+                                                        <p className="m-0">{jobFieldData[key].label}</p>
+
+                            <div className="w-4 h-4" style={{ backgroundColor: jobFieldData[key].color }}></div>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* show the job fields selection */}
-            <div className='w-full md:w-1/2 mx-auto'>
+            <div className='w-full md:w-1/2 mx-auto' dir="rtl">
                 <div className="flex justify-center">
                     <Select
                         id="jobFields"
                         name="jobFields"
-                        placeholder="...בחר תחומים להשוואה"
+                        placeholder="בחר תחומים להשוואה..."
                         isMulti
-                        options={options}
+                        options={options.map(option => ({ value: option.value, label: jobFieldData[option.value]?.label || option.label }))} // Use new object here
                         className="basic-multi-select text-right w-2/5"
                         classNamePrefix="select"
-                        value={selectedJobFields}
+                        value={selectedJobFields.map(field => ({ value: field.value, label: jobFieldData[field.value]?.label || field.label }))} // Use new object here
                         onChange={handleJobFieldSelection}
                     />
                 </div>
             </div>
+
             {/* show the search bar and the job table */}
-            <div className="w-full md:w-1/2 mx-auto">
+            <div className="w-full md:w-2/3 mx-auto" dir="rtl">
                 <input
                     type="text"
                     value={search}
                     onChange={handleSearch}
-                    placeholder="...חפש ברשימת המקצועות"
+                    placeholder="חפש ברשימת המקצועות..."
                     className="w-full px-4 py-2 border border-gray-300 rounded-md text-right"
                 />
                 <JobTable jobs={filteredData} onJobClick={handleJobClick} />

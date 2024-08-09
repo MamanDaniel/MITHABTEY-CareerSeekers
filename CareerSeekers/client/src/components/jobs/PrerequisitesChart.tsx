@@ -2,6 +2,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+import { jobFields } from './jobFieldMapping'; // Import jobFields for Hebrew labels
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title, ChartDataLabels);
 
@@ -10,11 +11,11 @@ const colors: { [key: string]: string } = {
     'Business': 'rgba(117,169,255,0.6)',
     'Outdoor': 'rgba(208,129,222,0.6)',
     'Technology': 'rgba(148,223,215,0.6)',
-    'GeneralCulture': 'rgba(247,127,167,0.6)',
+    'General Culture': 'rgba(247,127,167,0.6)', // Updated with space
     'Science': 'rgba(255,206,86,0.6)',
     'Organization': 'rgba(75,192,192,0.6)',
     'Service': 'rgba(153,102,255,0.6)',
-    'ArtsAndEntertainment': 'rgba(255,159,64,0.6)',
+    'Arts And Entertainment': 'rgba(255,159,64,0.6)', // Updated with space
 };
 
 interface DonutChartProps {
@@ -24,10 +25,19 @@ interface DonutChartProps {
 
 const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
     // Map the colors to the labels dynamically
-    const backgroundColors = data.labels.map(label => colors[label] || 'rgba(0,0,0,0.1)');
+    const backgroundColors = data.labels.map(label => {
+        const formattedLabel = label.replace(/([A-Z])/g, ' $1').trim(); // Add spaces before capital letters
+        return colors[formattedLabel] || 'rgba(0,0,0,0.1)'; // Get the corresponding color or fallback
+    });
+
+    // Map the labels to Hebrew using jobFields
+    const mappedLabels = data.labels.map(label => {
+        const formattedLabel = label.replace(/([A-Z])/g, ' $1').trim(); // Add spaces before capital letters
+        return jobFields[formattedLabel]?.hebrew || formattedLabel; // Get Hebrew labels
+    });
 
     const chartData = {
-        labels: data.labels,
+        labels: mappedLabels, // Use the mapped Hebrew labels
         datasets: [
             {
                 data: data.counts,
@@ -69,7 +79,7 @@ const PrerequisitesChart: React.FC<DonutChartProps> = ({ data, jobName }) => {
             },
             title: {
                 display: true,
-                text: ` ${jobName} דרישות עבור `,
+                text: `דרישות עבור ${jobName}`,
                 font: {
                     size: 15
                 }

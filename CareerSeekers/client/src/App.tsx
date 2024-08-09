@@ -12,6 +12,7 @@ import AddJob from './pages/AddJob'
 import DeleteJob from './pages/DeleteJob'
 import Jobs from './pages/Jobs'
 import GeneticAlgorithm from './pages/GeneticAlgorithm'
+import GeneralProfessions from './pages/GeneralProfessions'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path='/RamakQuestionnaire' element={<RamakQuestionnaire />} />
           <Route path='/geneticAlgorithm' element={<GeneticAlgorithm />} />
           <Route path='/jobs' element={<Jobs />} />
+          <Route path='/ProfessionsInfo' element={<GeneralProfessions />} />
           <Route element={<ValidateAdmin />}>
             <Route path='/adminpanel' element={<AdminPanel />} />
             <Route path='/adminpanel/addjob' element={<AddJob />} />

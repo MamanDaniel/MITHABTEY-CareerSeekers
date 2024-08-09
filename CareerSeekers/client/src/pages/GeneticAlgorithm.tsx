@@ -98,7 +98,7 @@ const GeneticAlgorithm = () => {
     }
 
     return (
-        <div className="p-4">
+        <div className="p-4 mt-16">
             <header className="mb-6">
                 <h1 className="text-3xl font-bold text-center">Top 3 Professions for You</h1>
                 <h2 className="text-xl text-center text-gray-600">Based on a large database of data from MITHABTEY</h2>
