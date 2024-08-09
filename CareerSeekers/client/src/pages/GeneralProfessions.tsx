@@ -86,7 +86,7 @@ const GeneralProfessions: React.FC = () => {
 
     return (
         <div className="container mx-auto p-4 mt-16" dir="rtl"> {/* Set RTL direction */}
-            <h1 className="text-2xl font-bold mb-4 text-center">מקצועות כלליים</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center">חיפוש מקצוע מהמאגר על פי תכונות אופי</h1>
             <Select
                 isMulti
                 options={uniqueRequirements}
