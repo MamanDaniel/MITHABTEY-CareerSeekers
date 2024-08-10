@@ -16,7 +16,8 @@ export const updateUser = async (req, res, next) => {
             $set: {
                 username: req.body.username,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                avatar: req.body.avatar // Save Base64 image
             }
         }, { new: true });
         // Remove password from the user object
@@ -27,7 +28,6 @@ export const updateUser = async (req, res, next) => {
         next(error);
     }
 };
-
 // Update user SuitableJobs from Genetic Algorithm by id
 export const updateSuitableJobs = async (req, res, next) => {
     try {
