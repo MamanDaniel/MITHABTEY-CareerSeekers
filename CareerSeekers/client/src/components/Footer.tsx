@@ -2,9 +2,9 @@ import logo from '../assets/mithabteyLogo.png';
 
 export default function Footer() {
     return (
-        <footer className="w-full p-8 bg-gray-250 rtl">
+        <footer className="w-full p-8 bg-gray-250 rtl" dir='rtl'>
             <hr className="border-t border-blue-gray-50" />
-            <div className="flex flex-row-reverse flex-wrap items-center justify-center text-center bg-gray-250 gap-y-6 gap-x-12 md:justify-between">
+            <div className="flex  flex-wrap items-center justify-center text-center bg-gray-250 gap-y-6 gap-x-12 md:justify-between">
                 <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
                     <li>
                         <a href="#"

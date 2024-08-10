@@ -5,7 +5,7 @@ export const jobFields: { [key: string]: { hebrew: string; color: string } } = {
         color: 'rgba(117,169,255,0.6)',
     },
     'Outdoor': {
-        hebrew: 'פעילויות חוץ',
+        hebrew: 'עבודה בחוץ',
         color: 'rgba(208,129,222,0.6)',
     },
     'Technology': {
@@ -21,11 +21,11 @@ export const jobFields: { [key: string]: { hebrew: string; color: string } } = {
         color: 'rgba(255,206,86,0.6)',
     },
     'Organization': {
-        hebrew: 'ארגון',
+        hebrew: 'אירגון',
         color: 'rgba(75,192,192,0.6)',
     },
     'Service': {
-        hebrew: 'שירות',
+        hebrew: 'מתן שירות',
         color: 'rgba(153,102,255,0.6)',
     },
     'Arts And Entertainment': {

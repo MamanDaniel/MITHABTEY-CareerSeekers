@@ -163,7 +163,7 @@ export default function Profile() {
 
       <div className="flex justify-between items-center">
         <Link to='/RamakQuestionnaire' className='text-blue-700 hover:underline'>
-          עדכון תכונות בשאלון
+          עדכון תכונות בשאלון RAMAK
         </Link>
         <span onClick={handleSignOut} className='text-red-700 hover:underline cursor-pointer'>
           התנתקות
