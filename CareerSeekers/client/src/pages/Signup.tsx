@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImage from '../assets/mithabteyLogo.png';
+import OAuth from "../components/OAuth";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -111,6 +112,7 @@ export default function Signup() {
           >
             {loading ? "Loading..." : "Sign Up"}
           </button>
+          <OAuth />
         </form>
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         {showFormMessage && !isFormValid() && (

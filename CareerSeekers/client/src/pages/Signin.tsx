@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure, clearError } from '../redux/user/userSlice';
 import { RootState } from '../redux/store';
 import logoImage from '../assets/mithabteyLogo.png';
+import OAuth from "../components/OAuth";
 
 export default function Signin() {
     const [formData, setFormData] = useState({});
@@ -96,6 +97,9 @@ export default function Signin() {
                     >
                         {loading ? 'Loading...' : 'Sign In'}
                     </button>
+                    
+                    {/* Sign In with Google */}
+                    <OAuth />
                 </form>
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>}
                 <div className="mt-6 text-center">
