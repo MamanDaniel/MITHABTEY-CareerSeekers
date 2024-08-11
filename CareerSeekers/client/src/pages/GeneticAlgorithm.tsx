@@ -90,9 +90,20 @@ const GeneticAlgorithm = () => {
 
     if (needRAMAK) {
         return (
-            <div className="p-4">
-                <h1 className="text-2xl font-bold mb-4">RAMAK first</h1>
-                <Link to="/RamakQuestionnaire" className="text-blue-500 underline">Go to RAMAK Questionnaire</Link>
+            <div
+                className="p-8 flex flex-col items-center justify-center bg-cover bg-center mt-16"
+                dir='rtl'
+            >
+                <h1 className="text-4xl font-extrabold text-gray-800 mb-6 drop-shadow-lg">תחילה עלייך למלא שאלון RAMAK</h1>
+                <p className="text-lg text-gray-600 mb-8 drop-shadow-md">
+                    על מנת להציג לך את 3 המקועות המתאימים לך במידה המירבית, תחילה עלייך למלא את השאלון הבא 
+                </p>
+                <Link
+                    to="/RamakQuestionnaire"
+                    className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-md shadow-lg hover:bg-blue-600 transition duration-200"
+                >
+                   למילוי השאלון
+                </Link>
             </div>
         );
     }

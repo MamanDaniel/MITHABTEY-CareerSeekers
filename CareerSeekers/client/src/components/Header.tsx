@@ -55,7 +55,7 @@ export default function Header() {
 
         <div className='flex items-center'>
           <Link to='home'>
-            <div className="w-8 h-8 bg-cover bg-center mr-5" style={{ backgroundImage: `url(${homeImage})` }}></div>
+            <div className="w-7 h-7 bg-cover bg-center mr-5" style={{ backgroundImage: `url(${homeImage})` }}></div>
           </Link>
 
           <Menu as="div" className="justify-center items-center relative  text-left">
