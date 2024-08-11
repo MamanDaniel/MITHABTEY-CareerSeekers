@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import logoImage from '../assets/mithabteyLogo.png';
 import OAuth from "../components/OAuth";
 
@@ -66,7 +67,7 @@ export default function Signup() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3 my-16">
       <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
         <div className="flex justify-center mb-6">
           <img src={logoImage} alt="Company Logo" className="h-16 w-16" />
@@ -82,7 +83,7 @@ export default function Signup() {
               value={formData.username}
               onChange={handleChange}
             />
-            <svg className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11V7a4 4 0 10-8 0v4M8 11v6a4 4 0 108 0v-6m0 0h6a2 2 0 002-2V9a2 2 0 00-2-2h-6a2 2 0 00-2 2v2m0 0h-2"></path></svg>
+            <FaUser className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" />
           </div>
           <div className="relative">
             <input
@@ -93,7 +94,7 @@ export default function Signup() {
               value={formData.email}
               onChange={handleChange}
             />
-            <svg className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12H8m0 0H6a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 00-2-2H8zm0 0V6a2 2 0 012-2h4a2 2 0 012 2v6m0 0h4m-6 4v2m0-6v6m0-6v6"></path></svg>
+            <FaEnvelope className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" />
           </div>
           <div className="relative">
             <input
@@ -104,7 +105,7 @@ export default function Signup() {
               value={formData.password}
               onChange={handleChange}
             />
-            <svg className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11V7a4 4 0 10-8 0v4M8 11v6a4 4 0 108 0v-6m0 0h6a2 2 0 002-2V9a2 2 0 00-2-2h-6a2 2 0 00-2 2v2m0 0h-2"></path></svg>
+            <FaLock className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" />
           </div>
           <button
             type="submit"
