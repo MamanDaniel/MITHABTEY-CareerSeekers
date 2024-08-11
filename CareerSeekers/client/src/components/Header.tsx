@@ -55,13 +55,13 @@ export default function Header() {
 
         <div className='flex items-center'>
           <Link to='home'>
-            <div className="w-7 h-7 bg-cover bg-center mr-5" style={{ backgroundImage: `url(${homeImage})` }}></div>
+            <div className="w-8 h-8 bg-cover bg-center mr-5" style={{ backgroundImage: `url(${homeImage})` }}></div>
           </Link>
 
-          <Menu as="div" className="relative inline-block text-left">
-            <MenuButton className="inline-flex w-full justify-center rounded-md bg-transparent text-sm font-semibold text-gray-900 focus:outline-none">
-              <img className='rounded-full h-10 w-10 object-cover object-center' src={profilePicture} />
-            </MenuButton>
+          <Menu as="div" className="justify-center items-center relative  text-left">
+              <MenuButton>
+              <img className='rounded-full h-11 w-11 object-cover' src={profilePicture} />
+              </MenuButton>
 
             <MenuItems className="absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-y-auto max-h-60 transition-all duration-300 ease-in-out">
               <div className="py-1">
