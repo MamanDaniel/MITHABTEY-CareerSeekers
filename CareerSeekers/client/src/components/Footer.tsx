@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="flex  flex-wrap items-center justify-center text-center bg-gray-250 gap-y-6 gap-x-12 md:justify-between">
                 <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
                     <li>
-                        <a href="#"
+                        <a href="/Contact"
                             className="block font-sans text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500">
                             צור קשר
                         </a>
