@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select, { MultiValue } from 'react-select';
-import { FaArrowLeft, FaBriefcase, FaUsers, FaPalette, FaFlask, FaClipboardList, FaHandHoldingHeart, FaTree, FaLaptopCode } from 'react-icons/fa'; // Import necessary icons
+import { FaArrowLeft, FaBriefcase, FaUsers, FaPalette, FaFlask, FaClipboardList, FaHandHoldingHeart, FaTree, FaLaptopCode } from 'react-icons/fa'; 
 
 interface Job {
     id: string;
