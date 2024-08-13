@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { FaEnvelope } from "react-icons/fa";
 import logoImage from "../assets/mithabteyLogo.png";
 
-
 export default function ForgotPassword() {
     const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
@@ -27,9 +26,7 @@ export default function ForgotPassword() {
                 },
                 body: JSON.stringify({ email })
             });
-            const data = await res.json();
-
-            if (data.success) {
+            if (res.ok) {
                 navigate('/signin');
             } else {
                 setMessage('Failed to send email. Please try again.');

@@ -2,6 +2,11 @@ import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+
+dotenv.config();
 
 export const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -96,9 +101,8 @@ export const google = async (req, res, next) => {
       if (!user) {
         return next(errorHandler(404, 'User not found'));
       }
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '10m',
-      });
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET
+      );
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -112,7 +116,7 @@ export const google = async (req, res, next) => {
         subject: 'Password Reset',
         html: `
         <h2>Please click on the link below to reset your password</h2>
-        <p>${process.env.CLIENT_URL}/resetpassword/${token}</p>
+        <p>http://localhost:5173/resetpassword/${user._id}/${token}</p>
         `,
       };
       transporter.sendMail(mailOptions, function (error, info) {
