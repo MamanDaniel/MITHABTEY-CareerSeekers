@@ -113,12 +113,20 @@ export const google = async (req, res, next) => {
       var mailOptions = {
         from: process.env.EMAIL,
         to: email,
-        subject: 'Password Reset',
+        subject: 'בקשת איפוס סיסמה',
         html: `
-        <h2>Please click on the link below to reset your password</h2>
-        <p>http://localhost:5173/resetpassword/${user._id}/${token}</p>
+          <div style="direction: rtl; text-align: right;">
+            <h2>בקשת איפוס סיסמה</h2>
+            <p>משתמש יקר,</p>
+            <p>קיבלנו בקשה לאיפוס הסיסמה שלך. אנא לחץ על הכפתור למטה כדי לאפס אותה:</p>
+            <a href="http://localhost:5173/resetpassword/${user._id}/${token}" style="display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;">אפס סיסמה</a>
+            <p>אם לא ביקשת לאפס את הסיסמה שלך, תוכל להתעלם מהאימייל הזה או ליצור קשר עם התמיכה במידה ויש לך חששות.</p>
+            <p>בברכה,<br>שם החברה שלך</p>
+          </div>
         `,
       };
+      
+      
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
