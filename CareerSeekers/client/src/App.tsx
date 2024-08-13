@@ -15,6 +15,7 @@ import GeneticAlgorithm from './pages/GeneticAlgorithm'
 import GeneralProfessions from './pages/GeneralProfessions'
 import Contant from './pages/Contact'
 import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword/:id/:token" element={<ResetPassword />} />
         </Route>
         {/* Private route - all the Route inside this section require log in */}
         <Route element={<PrivateRouteNotLoggedIn />}>

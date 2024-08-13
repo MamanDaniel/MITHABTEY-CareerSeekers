@@ -20,7 +20,7 @@ export default function ForgotPassword() {
         setLoading(true);
 
         try {
-            const res = await fetch('/server/auth/forgot-password', {
+            const res = await fetch('/server/auth/forgotPassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ export default function ForgotPassword() {
             const data = await res.json();
 
             if (data.success) {
-                setMessage('An email has been sent with password reset instructions.');
+                navigate('/signin');
             } else {
                 setMessage('Failed to send email. Please try again.');
             }
