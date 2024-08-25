@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
             className="text-gray-700 hover:text-gray-900 flex items-center justify-center space-x-2"
           >
             <FaEnvelope className="text-2xl ml-2 text-gray-700" />
-            <span className="text-gray-700">irit@gmail.com</span>
+            <span className="text-gray-700">iritho@gmail.com</span>
           </a>
         </div>
 
