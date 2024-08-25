@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 declare global {
   interface ImportMeta {
     env: {
+      [x: string]: any;
       VITE_FIREBASE_API_KEY: string;
     };
   }
