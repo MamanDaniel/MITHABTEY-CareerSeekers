@@ -88,3 +88,42 @@ export function convertPersonTraits(traits) {
 
     return newTraits;
 }
+
+// Get the avatar, username and email of all 'Regular' users
+export const getUsersPermission = async (req, res, next) => {
+    try {
+        const users = await User.find({}, { username: 1, email: 1, avatar: 1, role: 1 });
+        if (!users || users.length === 0) {
+            return next(errorHandler(404, 'Users not found'));
+        }
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateUserRole = async (req, res, next) => {
+    const { userId } = req.params;
+    const { role } = req.body;
+    try {
+        // Validate the role before updating
+        if (!['Regular', 'Admin'].includes(role)) {
+            return next(errorHandler(400, 'Invalid role'));
+        }
+
+        // Find and update the user role
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { role },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedUser) {
+            return next(errorHandler(404, 'User not found'));
+        }
+
+        res.status(200).json({ success: true, message: 'User role updated successfully', user: updatedUser });
+    } catch (error) {
+        next(error);
+    }
+};
