@@ -144,7 +144,7 @@ export default function AddJob() {
     };
 
     return (
-        <div className="bg-gray-100 min-h-screen py-8 p-4">
+        <div className="bg-gray-100 min-h-screen py-8 p-4" dir='rtl'>
             <ToastContainer />
             <div className="md:w-2/5 mx-auto bg-gray-100 rounded-lg shadow-lg overflow-hidden ">
                 <h1 className="text-2xl font-bold text-center py-2 bg-slate-700 text-white mt-20">הוספת מקצוע חדש</h1>
@@ -230,7 +230,7 @@ export default function AddJob() {
                             <div>
                                 <div className="flex items-center mb-2">
                                     <label htmlFor="insertRamakTraits" className="text-xl font-semibold mr-3 text-slate-700">
-                                        Insert RAMAK traits?
+                                        כיצד לאפיין את תכונות המקצוע?
                                     </label>
                                     <select
                                         id="insertRamakTraits"
@@ -239,8 +239,8 @@ export default function AddJob() {
                                         onChange={(e) => setInsertRamakTraits(e.target.value)}
                                         className="px-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
                                     >
-                                        <option value="No">לא</option>
-                                        <option value="Yes">כן</option>
+                                        <option value="No">תכונות כלליות</option>
+                                        <option value="Yes">תכונות שאלון RAMAK</option>
                                     </select>
                                 </div>
                             </div>
@@ -285,7 +285,7 @@ export default function AddJob() {
                                 <button
                                     type="button"
                                     onClick={handleAddRequirement}
-                                    className="bg-slate-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                                    className="bg-slate-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
                                 >
                                     הוספה
                                 </button>
