@@ -10,6 +10,10 @@ interface Job {
     jobField: string;
     facebookPostUrl?: string;
     GeneralRequirements: string[];
+    standardDay: string;
+    education: string;
+    technicalSkills: string;
+    workLifeBalance: string;
 }
 
 interface OptionType {
@@ -156,15 +160,19 @@ const GeneralProfessions: React.FC = () => {
                                     <p><strong>תיאור: </strong> {job.Description}</p>
                                     <p><strong>שכר ממוצע: </strong> ${job.AverageSalary}</p>
                                     <p><strong>תחום מקצועי: </strong> {job.jobField}</p>
+                                    <p><strong>איך נראה יום עבודה סטנדרטי</strong> {job.standardDay}</p>
+                                    <p><strong>האם נדרש תואר: </strong> {job.education}</p>
+                                    <p><strong>האם נדרש יכולת טכנית: </strong> {job.technicalSkills}</p>
+                                    <p><strong>איזון בין עבודה לחיים: </strong> {job.workLifeBalance}</p>
                                     {job.facebookPostUrl && (
-                                        <p><strong>פוסט בפייסבוק: </strong>
+                                        <p><strong>מידע נוסף בפוסט: </strong>
                                             <a
                                                 href={job.facebookPostUrl}
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 className="text-blue-600 underline"
                                             >
-                                                לינק
+                                                לינק 
                                             </a>
                                         </p>
                                     )}

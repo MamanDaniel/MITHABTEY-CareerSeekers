@@ -12,6 +12,10 @@ interface JobDetails {
     jobField: string;
     facebookPostUrl: string;
     Prerequisites: { [key: string]: number };
+    standardDay: string;
+    education: string;
+    technicalSkills: string;
+    workLifeBalance: string;
 }
 
 const GeneticAlgorithm = () => {
