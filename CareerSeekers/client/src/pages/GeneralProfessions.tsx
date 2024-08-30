@@ -10,6 +10,10 @@ interface Job {
     jobField: string;
     facebookPostUrl?: string;
     GeneralRequirements: string[];
+    standardDay: string;
+    education: string;
+    technicalSkills: string;
+    workLifeBalance: string;
 }
 
 interface OptionType {
@@ -97,7 +101,7 @@ const GeneralProfessions: React.FC = () => {
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
-        <div className="container mx-auto p-4 mt-16" dir="rtl"> 
+        <div className="container mx-auto p-0 mt-24" dir="rtl"> 
             <h1 className="text-2xl font-bold mb-4 text-center">חיפוש מקצוע מהמאגר על פי תכונות אופי</h1>
             <Select
                 isMulti
@@ -107,14 +111,14 @@ const GeneralProfessions: React.FC = () => {
                 className="mb-4 sm:w-1/2 mx-auto min-[320px]:w-3/4"
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="mx-auto sm:w-5/6 min-[320px]:w-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 ">
                 {filteredJobs.map((job, index) => {
                     const matchPercentage = calculateMatchPercentage(job.GeneralRequirements);
                     const missingRequirements = job.GeneralRequirements.filter(req => !selectedRequirements.includes(req));
                     const isActive = activeIndex === index;
 
                     // Fixed height for non-active cards
-                    const heightClass = isActive ? 'h-auto' : 'h-36';
+                    const heightClass = isActive ? 'h-auto' : 'h-42';
 
                     return (
                         <div
@@ -131,7 +135,7 @@ const GeneralProfessions: React.FC = () => {
                                     {Number.isInteger(matchPercentage) ? matchPercentage.toFixed(0) : matchPercentage.toFixed(2)}% התאמה
                                 </p>
                                 <FaArrowLeft
-                                    className={`w-6 h-6 transform transition-transform ${isActive ? 'rotate-90' : ''}`}
+                                    className={`w-6 h-6 transform transition-transform ${isActive ? '-rotate-90' : ''}`}
                                 />
                             </div>
 
@@ -156,15 +160,19 @@ const GeneralProfessions: React.FC = () => {
                                     <p><strong>תיאור: </strong> {job.Description}</p>
                                     <p><strong>שכר ממוצע: </strong> ${job.AverageSalary}</p>
                                     <p><strong>תחום מקצועי: </strong> {job.jobField}</p>
+                                    <p><strong>איך נראה יום עבודה סטנדרטי</strong> {job.standardDay}</p>
+                                    <p><strong>האם נדרש תואר: </strong> {job.education}</p>
+                                    <p><strong>האם נדרש יכולת טכנית: </strong> {job.technicalSkills}</p>
+                                    <p><strong>איזון בין עבודה לחיים: </strong> {job.workLifeBalance}</p>
                                     {job.facebookPostUrl && (
-                                        <p><strong>פוסט בפייסבוק: </strong>
+                                        <p><strong>מידע נוסף בפוסט: </strong>
                                             <a
                                                 href={job.facebookPostUrl}
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 className="text-blue-600 underline"
                                             >
-                                                לינק
+                                                לינק 
                                             </a>
                                         </p>
                                     )}
