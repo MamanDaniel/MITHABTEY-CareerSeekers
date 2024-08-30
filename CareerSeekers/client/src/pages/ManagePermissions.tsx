@@ -16,7 +16,8 @@ export default function ManagePermissions() {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [newRole, setNewRole] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
-
+    const managerEmail = import.meta.env.VITE_MANAGEREMAIL
+    
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -32,7 +33,8 @@ export default function ManagePermissions() {
                     setLoading(false);
                     return;
                 }
-                setUsers(data);
+                const filteredUsers = data.filter((user: User) => user.email !== managerEmail);
+                setUsers(filteredUsers);
             } catch (err) {
                 setError('Failed to fetch users');
             } finally {
@@ -135,28 +137,25 @@ export default function ManagePermissions() {
             )}
 
             {showConfirm && (
-             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-             <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full">
-                 <p className="mb-6 text-lg">
-                     האם אתה בטוח שברצונך לשנות את התפקיד של <span className="font-semibold">{selectedUser?.username}</span> ל{newRole === 'Admin' ? 'מנהל' : 'משתמש רגיל'}?
-                 </p>
-                 <div className="flex justify-center space-x-4 space-x-reverse">
-                     <button
-                         onClick={handleRoleChange}
-                         className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300"
-                     >
-                         אשר
-                     </button>
-                     <button
-                         onClick={() => setShowConfirm(false)}
-                         className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300"
-                     >
-                         בטל
-                     </button>
-                 </div>
-             </div>
-         </div>
-         
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full">
+                        <p className="mb-6 text-lg">
+                            האם אתה בטוח שברצונך לשנות את התפקיד של <span className="font-semibold">{selectedUser?.username}</span> ל{newRole === 'Admin' ? 'מנהל' : 'משתמש רגיל'}?
+                        </p>
+                        <div className="flex justify-center space-x-4">
+                        <div className="flex space-x-4">
+                        <button onClick={handleRoleChange} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 mr-4">
+  אשר
+</button>
+<button onClick={() => setShowConfirm(false)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300">
+  בטל
+</button>
+</div>
+
+
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
