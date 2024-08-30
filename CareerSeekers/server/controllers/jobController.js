@@ -3,10 +3,10 @@ import { errorHandler } from "../utils/error.js";
 
 export const addJob = async (req, res, next) => {
     try {
-        const { jobName, Description, AverageSalary, jobField, Prerequisites, facebookPostUrl, GeneralRequirements } = req.body;
+        const { jobName, Description, AverageSalary, jobField, Prerequisites, facebookPostUrl, GeneralRequirements, standardDay, education, technicalSkills, workLifeBalance } = req.body;
 
         // Validate the request body
-        if (!jobName || !Description || !AverageSalary || !jobField || !Prerequisites) {
+        if (!jobName || !Description || !AverageSalary || !jobField || !Prerequisites || !standardDay || !education || !technicalSkills || !workLifeBalance) {
             return next(errorHandler(400, 'All fields are required.'));
         }
 
@@ -18,7 +18,11 @@ export const addJob = async (req, res, next) => {
             jobField,
             Prerequisites,
             facebookPostUrl,
-            GeneralRequirements
+            GeneralRequirements,
+            standardDay,
+            education,
+            technicalSkills,
+            workLifeBalance
         });
 
         // Save the job to the database
@@ -111,5 +115,42 @@ export const getJobsByNames = async (req, res, next) => {
         res.status(200).json({ success: true, data: jobs });
     } catch (error) {
         next(error);
+    }
+};
+
+// Get 3 jobs by jobName from arr of jobNames to present in myJobs page
+export const updateJobById = async (req, res, next) => {
+    const jobId = req.params.id;
+    const {
+        jobName,
+        description,
+        standardDay,
+        education,
+        technicalSkills,
+        workLifeBalance,
+        AverageSalary,
+        jobField
+    } = req.body;
+
+    try {
+        const updatedJob = await Job.findByIdAndUpdate(jobId, {
+            jobName,
+            Description: description,
+            standardDay,
+            education,
+            technicalSkills,
+            workLifeBalance,
+            AverageSalary,
+            jobField
+        }, { new: true }); // 'new: true' returns the updated document
+
+        if (!updatedJob) {
+            return res.status(404).json({ success: false, message: 'Job not found' });
+        }
+
+        res.json({ success: true, job: updatedJob });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Error updating job' });
     }
 };

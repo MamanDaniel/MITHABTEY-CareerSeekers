@@ -25,7 +25,7 @@ const AdminCard: React.FC<AdminCardProps> = ({ title, icon, onClick }) => {
                             <dd className="mt-1 text-3xl font-semibold text-gray-900 text-right">
                                 {title === "הוספת מקצוע חדש למסד התנונים" ? "הוספת מקצוע" :
                                  title === "מחיקת מקצוע מהמסד נתונים" ? "מחיקת מקצוע" :
-                                 title === "עדכון מקצוע" ? "עדכון מקצוע" :
+                                 title === "עדכון מקצוע קיים במסד הנתונים" ? "עדכון מקצוע" :
                                  "ניהול משתמשים"}
                             </dd>
                         </dl>

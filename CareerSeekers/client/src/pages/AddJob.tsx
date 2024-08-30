@@ -20,7 +20,11 @@ export default function AddJob() {
             Outdoor: number;
             Technology: number;
         };
-        GeneralRequirements: string[];
+        GeneralRequirements: string[],
+        standardDay: '',
+        education: '',
+        technicalSkills: '',
+        workLifeBalance: '';
     }>({
         jobName: '',
         Description: '',
@@ -37,7 +41,11 @@ export default function AddJob() {
             Outdoor: 0,
             Technology: 0,
         },
-        GeneralRequirements: []
+        GeneralRequirements: [],
+        standardDay: '',
+        education: '',
+        technicalSkills: '',
+        workLifeBalance: '',
     });
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -153,99 +161,165 @@ export default function AddJob() {
                     <div className="bg-gray-50 p-6 rounded-lg shadow-md">
                         <h2 className="text-2xl font-semibold mb-4 text-slate-700 border-b pb-2">פרטי המקצוע</h2>
                         <div className="space-y-4">
-                            <input
-                                type="text"
-                                placeholder="Job Name"
-                                name="jobName"
-                                value={formData.jobName}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
-                                required
-                            />
-                            <textarea
-                                placeholder="Description"
-                                name="Description"
-                                value={formData.Description}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent h-32"
-                                required
-                            />
-                            <div className="grid grid-cols-2 gap-4">
-                                <input
-                                    type="number"
-                                    placeholder="Average Salary"
-                                    name="AverageSalary"
-                                    value={formData.AverageSalary}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
-                                    required
-                                />
-                                <select
-                                    name="jobField"
-                                    value={formData.jobField}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
-                                    required
-                                >
-                                    <option value="" disabled>Select Professional Field</option>
-                                    <option value="Business">Business</option>
-                                    <option value="GeneralCulture">General Culture</option>
-                                    <option value="ArtsAndEntertainment">Arts and Entertainment</option>
-                                    <option value="Science">Science</option>
-                                    <option value="Organization">Organization</option>
-                                    <option value="Service">Service</option>
-                                    <option value="Outdoor">Outdoor</option>
-                                    <option value="Technology">Technology</option>
-                                </select>
-                            </div>
+        <div className="space-y-2">
+          <label htmlFor="jobName" className="block text-xl font-semibold text-slate-700">שם המקצוע</label>
+          <input
+            type="text"
+            id="jobName"
+            name="jobName"
+            value={formData.jobName}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="description" className="block text-xl font-semibold text-slate-700">תיאור</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.Description}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent h-24"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="standardDay" className="block text-xl font-semibold text-slate-700">תיאור יום עבודה סטנדרטי במקצוע</label>
+          <textarea
+            id="standardDay"
+            name="standardDay"
+            value={formData.standardDay}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent h-24"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="education" className="block text-xl font-semibold text-slate-700">השכלה</label>
+          <textarea
+            id="education"
+            name="education"
+            value={formData.education}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent h-24"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="technicalSkills" className="block text-xl font-semibold text-slate-700">כישורים טכניים הנדרשים למקצוע</label>
+          <textarea
+            id="technicalSkills"
+            name="technicalSkills"
+            value={formData.technicalSkills}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent h-24"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="workLifeBalance" className="block text-xl font-semibold text-slate-700">איזון עבודה-חיים</label>
+          <textarea
+            id="workLifeBalance"
+            name="workLifeBalance"
+            value={formData.workLifeBalance}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent h-24"
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label htmlFor="averageSalary" className="block text-xl font-semibold text-slate-700">שכר ממוצע</label>
+            <input
+              type="number"
+              id="averageSalary"
+              name="averageSalary"
+              value={formData.AverageSalary}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="jobField" className="block text-xl font-semibold text-slate-700">תחום מקצועי</label>
+            <select
+              id="jobField"
+              name="jobField"
+              value={formData.jobField}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
+              required
+            >
+              <option value="" disabled>בחר תחום מקצועי</option>
+              <option value="Business">עסקים</option>
+              <option value="GeneralCulture">תרבות כללית</option>
+              <option value="ArtsAndEntertainment">אמנות ובידור</option>
+              <option value="Science">מדע</option>
+              <option value="Organization">ארגון</option>
+              <option value="Service">שירות</option>
+              <option value="Outdoor">חוץ</option>
+              <option value="Technology">טכנולוגיה</option>
+            </select>
+          </div>
+          </div>
+    
                             <div>
-    <div className="flex items-center mb-2">
-        <label htmlFor="hasFacebookPost" className="text-xl font-semibold mr-3 text-slate-700">
+                            <div className="space-y-2">
+          <label htmlFor="hasFacebookPost" className="block text-xl font-semibold text-slate-700">
             האם יש לינק למידע אודות המקצוע?
-        </label>
-        <select
-                                        id="hasFacebookPost"
-                                        name="hasFacebookPost"
-                                        value={hasFacebookPost}
-                                        onChange={(e) => setHasFacebookPost(e.target.value)}
-                                        className="px-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
-                                    >
-                                        <option value="No">לא</option>
-                                        <option value="Yes">כן</option>
-                                    </select>
-                                </div>
-                                {hasFacebookPost === 'Yes' && (
-                                    <div className="mt-2">
-                                        <input
-                                            type="text"
-                                            placeholder="Enter URL of Facebook Post"
-                                            name="facebookPostUrl"
-                                            value={formData.facebookPostUrl}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                            <div>
-                                <div className="flex items-center mb-2">
-                                    <label htmlFor="insertRamakTraits" className="text-xl font-semibold mr-3 text-slate-700">
-                                        כיצד לאפיין את תכונות המקצוע?
-                                    </label>
-                                    <select
-                                        id="insertRamakTraits"
-                                        name="insertRamakTraits"
-                                        value={insertRamakTraits}
-                                        onChange={(e) => setInsertRamakTraits(e.target.value)}
-                                        className="px-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
-                                    >
-                                        <option value="No">תכונות כלליות</option>
-                                        <option value="Yes">תכונות שאלון RAMAK</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          </label>
+          <select
+            id="hasFacebookPost"
+            name="hasFacebookPost"
+            value={hasFacebookPost}
+            onChange={(e) => setHasFacebookPost(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
+          >
+            <option value="No">לא</option>
+            <option value="Yes">כן</option>
+          </select>
+        </div>
+
+        {hasFacebookPost === 'Yes' && (
+          <div className="mt-2">
+            <input
+              type="text"
+              placeholder="הכנס קישור של תיאור המקצוע"
+              name="facebookPostUrl"
+              value={formData.facebookPostUrl}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            />
+          </div>
+        )}
+
+        <div className="space-y-2">
+          <label htmlFor="insertRamakTraits" className="block text-xl font-semibold text-slate-700">
+            כיצד לאפיין את תכונות המקצוע?
+          </label>
+          <select
+            id="insertRamakTraits"
+            name="insertRamakTraits"
+            value={insertRamakTraits}
+            onChange={(e) => setInsertRamakTraits(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white text-gray-700"
+          >
+            <option value="No">תכונות כלליות</option>
+            <option value="Yes">תכונות שאלון RAMAK</option>
+          </select>
+        </div>
+
+        </div>
+        </div>
+        </div>
 
                     {/* Conditionally render RAMAK Questionnaire Section */}
                     {insertRamakTraits === 'Yes' && (
@@ -277,7 +351,7 @@ export default function AddJob() {
                             <div className="flex items-center mb-4">
                                 <input
                                     type="text"
-                                    placeholder="Enter requirement"
+                                    placeholder="הכנס תכונה"
                                     value={newRequirement}
                                     onChange={(e) => setNewRequirement(e.target.value)}
                                     className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500 focus:border-transparent mr-2"

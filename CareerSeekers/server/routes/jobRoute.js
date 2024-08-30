@@ -1,5 +1,5 @@
 import express from 'express';
-import { addJob, deleteJob, getAllJobsNames, getURLofJob,getJobsByNames } from '../controllers/jobController.js';
+import { addJob, deleteJob, getAllJobsNames, getURLofJob,getJobsByNames, updateJobById } from '../controllers/jobController.js';
 import { verifyToken } from '../utils/verifyUser.js';
 import { getAllJobs } from '../controllers/jobController.js';
 
@@ -11,5 +11,6 @@ router.get('/getalljobnames', verifyToken, getAllJobsNames);
 router.get('/getURLjobs', verifyToken, getURLofJob);
 router.get('/getAllJobs',verifyToken, getAllJobs);
 router.post('/getJobsByNames',verifyToken, getJobsByNames);
+router.put('/updatejob/:jobId', verifyToken, updateJobById);
 
 export default router;

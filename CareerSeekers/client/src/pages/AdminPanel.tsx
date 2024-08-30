@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaPlus, FaTrash, FaUsers } from 'react-icons/fa';
+import { FaPlus, FaTrash, FaUsers, FaEdit } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import AdminCard from '../components/adminpanel/AdminCard';
 
@@ -37,11 +37,16 @@ const AdminPanel: React.FC = () => {
                     />
                     {currentUser.email === managerEmail && (
                         <AdminCard
-                            title="ניהול משתמשים"
+                            title=" ניהול משתמשים במערכת"
                             icon={<FaUsers className="text-purple-500" />}
                             onClick={() => handleNavigation('/adminpanel/managepermissions')}
                         />
                     )}
+                    <AdminCard
+                        title="עדכון מקצוע קיים במסד הנתונים"
+                        icon={<FaEdit className="text-blue-500" />}
+                        onClick={() => handleNavigation('/adminpanel/updatejob')}
+                    />
                 </div>
             </div>
         </div>
