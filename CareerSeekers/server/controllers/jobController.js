@@ -118,39 +118,45 @@ export const getJobsByNames = async (req, res, next) => {
     }
 };
 
-// Get 3 jobs by jobName from arr of jobNames to present in myJobs page
-export const updateJobById = async (req, res, next) => {
-    const jobId = req.params.id;
-    const {
-        jobName,
-        description,
-        standardDay,
-        education,
-        technicalSkills,
-        workLifeBalance,
-        AverageSalary,
-        jobField
-    } = req.body;
 
+export const updateJobById = async (req, res, next) => {
     try {
-        const updatedJob = await Job.findByIdAndUpdate(jobId, {
-            jobName,
-            Description: description,
-            standardDay,
-            education,
-            technicalSkills,
-            workLifeBalance,
-            AverageSalary,
-            jobField
-        }, { new: true }); // 'new: true' returns the updated document
+        const { jobId } = req.params; // Get jobId from the URL parameters
+        const updatedData = req.body; // Get the updated data from the request body
+
+        // Find the job by ID and update it with the new data
+        const updatedJob = await Job.findByIdAndUpdate(jobId, updatedData, { new: true });
 
         if (!updatedJob) {
             return res.status(404).json({ success: false, message: 'Job not found' });
         }
 
+        // Return the updated job data
         res.json({ success: true, job: updatedJob });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: 'Error updating job' });
+        console.error('Error updating job:', err);
+        res.status(500).json({ success: false, message: 'Failed to update job' });
+    }
+}
+
+export const getJobDataById = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+
+        // Find the job by ID in the database
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            // If no job is found, return a 404 error
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        // Return the job data as JSON
+        return res.status(200).json(job);
+    } catch (error) {
+        console.error('Error fetching job data by ID:', error);
+        
+        // Pass the error to the next middleware
+        next(error);
     }
 };
