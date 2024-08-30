@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
 interface User {
     _id: string;
@@ -135,27 +135,28 @@ export default function ManagePermissions() {
             )}
 
             {showConfirm && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full">
-                        <p className="mb-6 text-lg">
-                            האם אתה בטוח שברצונך לשנות את התפקיד של <span className="font-semibold">{selectedUser?.username}</span> ל{newRole === 'Admin' ? 'מנהל' : 'משתמש רגיל'}?
-                        </p>
-                        <div className="flex justify-center space-x-4">
-                            <button
-                                onClick={handleRoleChange}
-                                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300"
-                            >
-                                אשר
-                            </button>
-                            <button
-                                onClick={() => setShowConfirm(false)}
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300"
-                            >
-                                בטל
-                            </button>
-                        </div>
-                    </div>
-                </div>
+             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+             <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full">
+                 <p className="mb-6 text-lg">
+                     האם אתה בטוח שברצונך לשנות את התפקיד של <span className="font-semibold">{selectedUser?.username}</span> ל{newRole === 'Admin' ? 'מנהל' : 'משתמש רגיל'}?
+                 </p>
+                 <div className="flex justify-center space-x-4 space-x-reverse">
+                     <button
+                         onClick={handleRoleChange}
+                         className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300"
+                     >
+                         אשר
+                     </button>
+                     <button
+                         onClick={() => setShowConfirm(false)}
+                         className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300"
+                     >
+                         בטל
+                     </button>
+                 </div>
+             </div>
+         </div>
+         
             )}
         </div>
     );
