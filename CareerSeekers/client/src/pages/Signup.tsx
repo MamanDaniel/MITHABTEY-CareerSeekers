@@ -67,7 +67,7 @@ export default function Signup() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3 mt-16" dir="rtl">
       <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
         <div className="flex justify-center mb-6">
           <img src={logoImage} alt="Company Logo" className="h-16 w-16" />

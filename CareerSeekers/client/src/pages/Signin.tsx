@@ -52,7 +52,7 @@ export default function Signin() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3" dir="rtl" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
+        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3 mt-16" dir="rtl" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
             <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
                 <div className="flex justify-center mb-6">
                     <img src={logoImage} alt="Company Logo" className="h-16 w-16" />
