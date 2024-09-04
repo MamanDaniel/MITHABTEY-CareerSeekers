@@ -22,6 +22,7 @@ import UpdateJob from './pages/UpdateJob'
 function App() {
   return (
     <BrowserRouter>
+      {/* UserWay accessibility widget */}
       <script src="https://cdn.userway.org/widget.js" data-account="tVWPiskjlm"></script>
       <Header />
       <Routes>

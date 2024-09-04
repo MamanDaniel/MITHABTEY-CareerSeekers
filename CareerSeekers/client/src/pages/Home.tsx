@@ -158,7 +158,7 @@ export default function Home() {
                         <div className="mt-1 flex flex-col space-y-2">
                             {sections.map((section) => (
                                 <Link key={section.id} to={section.id} smooth={true} duration={500} className="cursor-pointer text-gray-900 hover:text-gray-600 text-right">
-                                    {section.id}
+                                     {section.title || 'מידע כללי'}
                                 </Link>
                             ))}
                         </div>
