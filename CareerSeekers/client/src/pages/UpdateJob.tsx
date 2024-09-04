@@ -39,7 +39,7 @@ export default function EditJob() {
                 .then(data => {
                     setInitialData(data);
                 })
-                .catch(err => {
+                .catch(() => {
                     toast.error('Failed to fetch job.');
                 });
         }
