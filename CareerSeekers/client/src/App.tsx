@@ -17,6 +17,7 @@ import Contant from './pages/Contact'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import ManagePermissions from './pages/ManagePermissions.tsx'
+import UpdateJob from './pages/UpdateJob'
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
             <Route path='/adminpanel/addjob' element={<AddJob />} />
             <Route path='/adminpanel/deletejob' element={<DeleteJob />} />
             <Route path='/adminpanel/managepermissions' element={<ManagePermissions />} />
+            <Route path='/adminpanel/updatejob' element={<UpdateJob />} />
+            
           </Route>
         </Route>
       </Routes>
