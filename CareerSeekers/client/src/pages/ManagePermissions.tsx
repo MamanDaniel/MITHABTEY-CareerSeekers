@@ -1,4 +1,6 @@
 import  { useState, useEffect } from 'react';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
+
 
 interface User {
     _id: string;
@@ -21,7 +23,7 @@ export default function ManagePermissions() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('/server/user/userspermission', {
+                const response = await fetchWithAuth('/server/user/userspermission', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -49,7 +51,7 @@ export default function ManagePermissions() {
     const handleRoleChange = async () => {
         if (!selectedUser || !newRole) return;
         try {
-            const response = await fetch(`/server/user/updaterole/${selectedUser._id}`, {
+            const response = await fetchWithAuth(`/server/user/updaterole/${selectedUser._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

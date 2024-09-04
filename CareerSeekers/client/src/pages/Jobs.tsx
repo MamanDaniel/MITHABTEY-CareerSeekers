@@ -4,6 +4,7 @@ import SalaryChart from '../components/jobs/SalaryChart';
 import JobTable from '../components/jobs/JobTable';
 import PrerequisitesChart from '../components/jobs/PrerequisitesChart';
 import Select from 'react-select';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
 const Jobs: React.FC = () => {
     const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ const Jobs: React.FC = () => {
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                const res = await fetch('/server/job/getAllJobs');
+                const res = await fetchWithAuth('/server/job/getAllJobs');
                 const data = await res.json();
                 if (!res.ok) {
                     throw new Error('Failed to fetch jobs');

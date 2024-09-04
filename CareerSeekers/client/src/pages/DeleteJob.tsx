@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaTrash } from 'react-icons/fa';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
 
 export default function DeleteJob() {
     const [jobs, setJobs] = useState<any[]>([]);
@@ -8,14 +9,13 @@ export default function DeleteJob() {
     const [err, setError] = useState('');
 
     useEffect(() => {
-        fetch('/server/job/getalljobnames')
+        fetchWithAuth('/server/job/getalljobnames')
             .then(response => response.json())
             .then(data => {
                 setJobs(data.jobs);
                 setFilteredJobs(data.jobs);
             })
-            .catch(() => {
-                setError('Error fetching data');                            
+            .catch(() => {                     
             });
     }, []);
 

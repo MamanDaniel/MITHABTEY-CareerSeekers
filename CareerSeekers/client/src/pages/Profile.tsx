@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FaInfoCircle } from 'react-icons/fa';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
+
 import {
   updateUserStart,
   updateUserSuccess,
@@ -22,7 +24,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchTraits = async () => {
       try {
-        const res = await fetch(`/server/user/getUserTraits/`, {
+        const res = await fetchWithAuth(`/server/user/getUserTraits/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -88,7 +90,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/server/user/update/${currentUser._id}`, {
+      const res = await fetchWithAuth(`/server/user/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
