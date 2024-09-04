@@ -10,7 +10,6 @@ import section3Image from '../assets/job.jpg';
 import section4Image from '../assets/facebook.png';
 import managerImage from '../assets/manager.jpg';
 
-
 export default function Home() {
     const navigate = useNavigate();
     const [isNavOpen, setIsNavOpen] = useState(false);
@@ -19,11 +18,18 @@ export default function Home() {
         navigate('/RamakQuestionnaire');
     };
 
-    const sectionAnimation = (delay:any) => useSpring({
+    const sectionAnimation = (delay: number) => useSpring({
         from: { opacity: 0, transform: 'translateY(-50px)' },
         to: { opacity: 1, transform: 'translateY(0px)' },
         delay,
         config: { duration: 1000 },
+    });
+
+    const bounce = useSpring({
+        loop: { reverse: true },
+        from: { transform: 'translateY(0px)' },
+        to: { transform: 'translateY(10px)' },
+        config: { tension: 300, friction: 10 },
     });
 
     const sections = [
@@ -112,10 +118,12 @@ export default function Home() {
                                     to={sections[index + 1].id}
                                     smooth={true}
                                     duration={500}
-                                    className="absolute bottom-4 left-4 text-gray-900 hover:text-gray-600 cursor-pointer"
-                                    style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 1 }}
+                                    className="absolute bottom-4 text-gray-900 hover:text-gray-600 cursor-pointer"
+                                    style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}
                                 >
-                                    <FaArrowDown size={30} />
+                                    <animated.div style={bounce}>
+                                        <FaArrowDown size={30} />
+                                    </animated.div>
                                 </Link>
                             )}
                             {index === sections.length - 1 && (
@@ -123,12 +131,15 @@ export default function Home() {
                                     to={sections[0].id}
                                     smooth={true}
                                     duration={500}
-                                    className="absolute bottom-4 left-4 text-gray-900 hover:text-gray-600 cursor-pointer"
-                                    style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 1 }}
+                                    className="absolute bottom-4 text-gray-900 hover:text-gray-600 cursor-pointer"
+                                    style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}
                                 >
-                                    <FaArrowUp size={30} />
+                                    <animated.div style={bounce}>
+                                        <FaArrowUp size={30} />
+                                    </animated.div>
                                 </Link>
                             )}
+
                         </animated.div>
                     </Element>
                 ))}
@@ -142,13 +153,12 @@ export default function Home() {
                         <animated.div style={rotateAnimation} className="mr-2">
                             {isNavOpen ? <FaChevronUp /> : <FaChevronDown />}
                         </animated.div>
-                        
                     </button>
                     {isNavOpen && (
                         <div className="mt-1 flex flex-col space-y-2">
                             {sections.map((section) => (
                                 <Link key={section.id} to={section.id} smooth={true} duration={500} className="cursor-pointer text-gray-900 hover:text-gray-600 text-right">
-                                    {section.title || 'מידע כללי'}
+                                    {section.id}
                                 </Link>
                             ))}
                         </div>

@@ -22,6 +22,7 @@ import UpdateJob from './pages/UpdateJob'
 function App() {
   return (
     <BrowserRouter>
+      <script src="https://cdn.userway.org/widget.js" data-account="tVWPiskjlm"></script>
       <Header />
       <Routes>
         {/* Public route - all the Route inside this section do not require log in */}
@@ -48,7 +49,7 @@ function App() {
             <Route path='/adminpanel/deletejob' element={<DeleteJob />} />
             <Route path='/adminpanel/managepermissions' element={<ManagePermissions />} />
             <Route path='/adminpanel/updatejob' element={<UpdateJob />} />
-            
+
           </Route>
         </Route>
       </Routes>
