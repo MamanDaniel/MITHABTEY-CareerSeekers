@@ -2,6 +2,11 @@ import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+
+dotenv.config();
 
 export const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -49,3 +54,107 @@ export const signout = (req, res, next) => {
         next(error);
     }
 }
+
+export const google = async (req, res, next) => {
+    try {
+      const user = await User.findOne({ email: req.body.email });
+      // if user exists, sign in the user
+      if (user) {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+        const { password: pass, ...rest } = user._doc;
+        res
+          .cookie('access_token', token, { httpOnly: true })
+          .status(200)
+          .json(rest);
+      } else {
+        const generatedPassword =
+          Math.random().toString(36).slice(-8) +
+          Math.random().toString(36).slice(-8);
+        const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+        const newUser = new User({
+          username:
+            req.body.name.split(' ').join('').toLowerCase() +
+            Math.random().toString(36).slice(-4),
+          email: req.body.email,
+          password: hashedPassword,
+          avatar: req.body.photo,
+        });
+        await newUser.save();
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+        const { password: pass, ...rest } = newUser._doc;
+        res
+          .cookie('access_token', token, { httpOnly: true })
+          .status(200)
+          .json(rest);
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  export const forgotPassword = async (req, res, next) => {
+    const email = req.body.email;
+    try {
+      const user = await User.findOne({
+        email,
+      });
+      if (!user) {
+        return next(errorHandler(404, 'User not found'));
+      }
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET
+      );
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASSWORD,
+        },
+      });
+      var mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: 'בקשת איפוס סיסמה',
+        html: `
+          <div style="direction: rtl; text-align: right;">
+            <h2>בקשת איפוס סיסמה</h2>
+            <p>משתמש יקר,</p>
+            <p>קיבלנו בקשה לאיפוס הסיסמה שלך. אנא לחץ על הכפתור למטה כדי לאפס אותה:</p>
+            <a href="http://localhost:5173/resetpassword/${user._id}/${token}" style="display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;">אפס סיסמה</a>
+            <p>אם לא ביקשת לאפס את הסיסמה שלך, תוכל להתעלם מהאימייל הזה או ליצור קשר עם התמיכה במידה ויש לך חששות.</p>
+            <p>בברכה,<br>בברכה, מתחבטי מקצוע </p>
+          </div>
+        `,
+      };
+      
+      
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          res.status(200).json('Email sent: ' + info.response);
+        }
+      });
+    }
+    catch (error) {
+      next(error);
+    }
+  };
+
+  export const resetPassword = async (req, res, next) => {
+    const token = req.params.token;
+    const { password } = req.body;
+    const id = req.params.id;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      if (decoded.id === id) {
+        const hashedPassword = bcryptjs.hashSync(password, 12);
+        await User.findByIdAndUpdate(id, { password: hashedPassword });
+        res.status(200).json('Password reset successfully!');
+      }
+    }
+    catch (error) {
+      next(error);
+    }
+  }
+  
+

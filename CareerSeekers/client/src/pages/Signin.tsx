@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure, clearError } from '../redux/user/userSlice';
 import { RootState } from '../redux/store';
 import logoImage from '../assets/mithabteyLogo.png';
+import OAuth from "../components/OAuth";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
 export default function Signin() {
     const [formData, setFormData] = useState({});
@@ -50,7 +52,7 @@ export default function Signin() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
+        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3 my-16" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
             <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
                 <div className="flex justify-center mb-6">
                     <img src={logoImage} alt="Company Logo" className="h-16 w-16" />
@@ -65,7 +67,7 @@ export default function Signin() {
                             id="email"
                             onChange={handleChange}
                         />
-                        <svg className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12H8m0 0H6a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 00-2-2H8zm0 0V6a2 2 0 012-2h4a2 2 0 012 2v6m0 0h4m-6 4v2m0-6v6m0-6v6"></path></svg>
+                        <FaEnvelope className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" />
                     </div>
                     <div className="relative">
                         <input
@@ -75,7 +77,7 @@ export default function Signin() {
                             id="password"
                             onChange={handleChange}
                         />
-                        <svg className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11V7a4 4 0 10-8 0v4M8 11v6a4 4 0 108 0v-6m0 0h6a2 2 0 002-2V9a2 2 0 00-2-2h-6a2 2 0 00-2 2v2m0 0h-2"></path></svg>
+                        <FaLock className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" />
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
@@ -85,7 +87,7 @@ export default function Signin() {
                             </label>
                         </div>
                         <div className="text-sm">
-                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                            <a href="/forgotpassword" className="font-medium text-indigo-600 hover:text-indigo-500">
                                 Forgot Password?
                             </a>
                         </div>
@@ -96,6 +98,9 @@ export default function Signin() {
                     >
                         {loading ? 'Loading...' : 'Sign In'}
                     </button>
+                    
+                    {/* Sign In with Google */}
+                    <OAuth />
                 </form>
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>}
                 <div className="mt-6 text-center">

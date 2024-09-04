@@ -44,31 +44,31 @@ const JobTable: React.FC<Props> = ({ jobs, onJobClick }) => {
                     <thead>
                         <tr className="bg-gray-100">
                             <SortableHeader
-                                label="Job Name"
+                                label="שם מקצוע"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('jobName')}
                                 widthClass="w-1/4"
                             />
                             <SortableHeader
-                                label="Description"
+                                label="תיאור"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('Description')}
                                 widthClass="w-1/2"
                             />
                             <SortableHeader
-                                label="Average Salary"
+                                label="שכר ממוצע"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('AverageSalary')}
                                 widthClass="w-1/6"
                             />
                             <SortableHeader
-                                label="Job Field"
+                                label="תחום מקצוע"
                                 sortBy={sortBy}
                                 onClick={() => handleSort('jobField')}
                                 widthClass="w-1/6"
                             />
                             <th className="border border-gray-300 px-4 py-2 cursor-pointer w-1/6">
-                                Link to Facebook post
+                               קישור לפוסט בפייסבוק
                             </th>
                         </tr>
                     </thead>

@@ -1,4 +1,3 @@
-// PrerequisiteBar.tsx
 import React from 'react';
 
 interface PrerequisiteBarProps {
@@ -22,8 +21,8 @@ const PrerequisiteBar: React.FC<PrerequisiteBarProps> = ({ prerequisites }) => {
     };
 
     return (
-        <div>
-            <p className="mt-2"><strong>Prerequisites:</strong></p>
+        <div dir="rtl"> {/* Set text direction to right-to-left */}
+            <p className="mt-2"><strong>תכונות נדרשות למקצוע:</strong></p>
             <div className="relative w-full bg-gray-200 rounded-full h-4 flex mb-2 my-1">
                 {filteredPrerequisites.map(([key, value]) => {
                     const color = colors[key] || '#CCCCCC'; // Default color if key is not found
@@ -36,15 +35,16 @@ const PrerequisiteBar: React.FC<PrerequisiteBarProps> = ({ prerequisites }) => {
                                 backgroundColor: color,
                             }}
                         >
-                            <div className="absolute text-white text-xs ml-1 mt-0 whitespace-nowrap">{`${value}%`}</div>       
+                            <div className="absolute text-white text-xs mr-1 mt-0 whitespace-nowrap right-0">{`${value}%`}</div> {/* Align percentage text to the right */}
                         </div>
                     );
                 })}
             </div>
             <div className="flex flex-wrap gap-2">
                 {filteredPrerequisites.map(([key, value]) => {
+                    const color = colors[key] || '#000000'; // Use matching color for text, default to black if key is not found
                     return (
-                        <span key={key} className="text-sm font-bold text-stone-600">
+                        <span key={key} className="text-sm font-bold" style={{ color }}>
                             {`${key}: ${value}%`}
                         </span>
                     );

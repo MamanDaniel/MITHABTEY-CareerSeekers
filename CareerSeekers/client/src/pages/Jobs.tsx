@@ -20,7 +20,7 @@ const Jobs: React.FC = () => {
     const [options, setOptions] = useState<{ value: string, label: string }[]>([]);
 
     const jobFieldData: { [key: string]: { label: string, color: string } } = {
-        'Business': { label: 'ביזנס', color: 'rgba(117,169,255,0.6)' },
+        'Business': { label: 'עסקים', color: 'rgba(117,169,255,0.6)' },
         'Outdoor': { label: 'עבודה בחוץ', color: 'rgba(208,129,222,0.6)' },
         'Technology': { label: 'טכנולוגיה', color: 'rgba(148,223,215,0.6)' },
         'General Culture': { label: 'תרבות', color: 'rgba(247,127,167,0.6)' },

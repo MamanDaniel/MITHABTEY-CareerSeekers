@@ -13,19 +13,29 @@ import DeleteJob from './pages/DeleteJob'
 import Jobs from './pages/Jobs'
 import GeneticAlgorithm from './pages/GeneticAlgorithm'
 import GeneralProfessions from './pages/GeneralProfessions'
+import Contant from './pages/Contact'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
+import ManagePermissions from './pages/ManagePermissions.tsx'
+import UpdateJob from './pages/UpdateJob'
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
+        {/* Public route - all the Route inside this section do not require log in */}
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/contact" element={<Contant />} />
+        {/* Private route - all teh Route inside this section will not be available for logged in users */}
         <Route element={<PrivateRouteLoggedIn />}>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword/:id/:token" element={<ResetPassword />} />
         </Route>
-        {/* Private route - all the rout inside this section require log in */}
+        {/* Private route - all the Route inside this section require log in */}
         <Route element={<PrivateRouteNotLoggedIn />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/RamakQuestionnaire' element={<RamakQuestionnaire />} />
@@ -36,6 +46,9 @@ function App() {
             <Route path='/adminpanel' element={<AdminPanel />} />
             <Route path='/adminpanel/addjob' element={<AddJob />} />
             <Route path='/adminpanel/deletejob' element={<DeleteJob />} />
+            <Route path='/adminpanel/managepermissions' element={<ManagePermissions />} />
+            <Route path='/adminpanel/updatejob' element={<UpdateJob />} />
+            
           </Route>
         </Route>
       </Routes>

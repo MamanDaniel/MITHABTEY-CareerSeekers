@@ -11,7 +11,7 @@ const jobSchema = new mongoose.Schema({
         required: true
     },
     AverageSalary: {
-        type: Number, 
+        type: Number,
         required: true
     },
     jobField: {
@@ -29,13 +29,29 @@ const jobSchema = new mongoose.Schema({
         Technology: { type: Number, default: 0 }
     },
     facebookPostUrl: {
-        type: String, 
-        required: false 
+        type: String,
+        required: false
     },
-    GeneralRequirements:{
+    GeneralRequirements: {
         type: [String],
         required: false
     },
+    standardDay: {
+        type: String,
+        required: false
+    },
+    education: {
+        type: String,
+        required: false
+    },
+    technicalSkills: {
+        type: String, 
+        required: false
+    },
+    workLifeBalance: {
+        type: String,
+        required: false
+    }
 });
 
 const Job = mongoose.model('Job', jobSchema);
