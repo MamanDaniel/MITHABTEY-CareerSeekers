@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProfessionCard from '../components/SuitableJobs/ProfessionCard';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
+
 import { FaBriefcase, FaUsers, FaPalette, FaFlask, FaClipboardList, FaHandHoldingHeart, FaTree, FaLaptopCode } from 'react-icons/fa'; // Import job field icons
 
 // Define types for the job details
@@ -30,7 +32,7 @@ const GeneticAlgorithm = () => {
     useEffect(() => {
         const fetchUserTraitsAndJobs = async () => {
             try {
-                const userTraitsRes = await fetch('/server/user/getUserTraits', {
+                const userTraitsRes = await fetchWithAuth('/server/user/getUserTraits', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -45,7 +47,7 @@ const GeneticAlgorithm = () => {
                     return;
                 }
 
-                const professionsRes = await fetch('/server/geneticAlgorithm/getSuitableJobs', {
+                const professionsRes = await fetchWithAuth('/server/geneticAlgorithm/getSuitableJobs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -60,7 +62,7 @@ const GeneticAlgorithm = () => {
                 }
                 setProfessionsNames(professionsData);
 
-                const jobsRes = await fetch('/server/job/getJobsByNames', {
+                const jobsRes = await fetchWithAuth('/server/job/getJobsByNames', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

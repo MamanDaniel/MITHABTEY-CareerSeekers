@@ -67,17 +67,17 @@ export default function Signup() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3 my-16">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3 mt-16" dir="rtl">
       <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
         <div className="flex justify-center mb-6">
           <img src={logoImage} alt="Company Logo" className="h-16 w-16" />
         </div>
-        <h1 className="text-4xl text-center font-bold mb-8 text-gray-800">Sign Up</h1>
+        <h1 className="text-4xl text-center font-bold mb-8 text-gray-800">הרשמה לאתר</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative">
             <input
               type="text"
-              placeholder="Username"
+              placeholder="שם משתמש"
               className="w-full px-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               id="username"
               value={formData.username}
@@ -88,7 +88,7 @@ export default function Signup() {
           <div className="relative">
             <input
               type="email"
-              placeholder="Email"
+              placeholder="אימייל"
               className="w-full px-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               id="email"
               value={formData.email}
@@ -99,7 +99,7 @@ export default function Signup() {
           <div className="relative">
             <input
               type="password"
-              placeholder="Password"
+              placeholder="סיסמא"
               className="w-full px-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               id="password"
               value={formData.password}
@@ -111,18 +111,18 @@ export default function Signup() {
             type="submit"
             className="w-full bg-indigo-600 text-white py-3 rounded-lg uppercase font-semibold hover:bg-indigo-500 transition duration-300"
           >
-            {loading ? "Loading..." : "Sign Up"}
+            {loading ? "טוען..." : "הרשמה"}
           </button>
           <OAuth />
         </form>
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         {showFormMessage && !isFormValid() && (
-          <p className="text-red-500 text-center mt-4">Please fill in all fields</p>
+          <p className="text-red-500 text-center mt-4">עלייך למלא את כל השדות קודם</p>
         )}
         <p className="text-center mt-6">
-          Already have an account?{" "}
+         כבר יש לך משתמש?{" "}
           <a href="/signin" className="text-indigo-600 hover:underline">
-            Sign In
+            עבור להתחברות
           </a>
         </p>
       </div>

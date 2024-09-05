@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
+
 
 type QuestionProps = {
     question: string;
@@ -45,7 +47,7 @@ const RamakQuestionnaire: React.FC = () => {
     useEffect(() => {
         const fetchQuestionnaire = async () => {
             try {
-                const res = await fetch('/server/questionnaires/getQuestionnaire', {
+                const res = await fetchWithAuth('/server/questionnaires/getQuestionnaire', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -79,7 +81,7 @@ const RamakQuestionnaire: React.FC = () => {
     const calculateScore = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/server/questionnaires/calculateScore', {
+            const res = await fetchWithAuth('/server/questionnaires/calculateScore', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -87,7 +89,7 @@ const RamakQuestionnaire: React.FC = () => {
                 body: JSON.stringify({ answers })
             });
             const score = await res.json();
-            const updateRes = await fetch(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
+            const updateRes = await fetchWithAuth(`/server/questionnaires/updateUserTraits/${currentUser._id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -102,7 +104,7 @@ const RamakQuestionnaire: React.FC = () => {
                 return;
             }
             // update user professions
-            const geneticAlgorithm = await fetch('/server/geneticAlgorithm/findSuitableProfessions', {
+            const geneticAlgorithm = await fetchWithAuth('/server/geneticAlgorithm/findSuitableProfessions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

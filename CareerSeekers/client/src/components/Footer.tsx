@@ -12,18 +12,7 @@ export default function Footer() {
                             צור קשר
                         </a>
                     </li>
-                    <li>
-                        <a href="#"
-                            className="block font-sans text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500">
-                            השאלון שלנו
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            className="block font-sans text-base antialiased font-normal leading-relaxed transition-colors text-blue-gray-900 hover:text-blue-500 focus:text-blue-500">
-                            אודותינו
-                        </a>
-                    </li>
+                  
                     <img src={logo} alt="logo-ct" className="w-10 items-center my-2" />
                 </ul>
             </div>

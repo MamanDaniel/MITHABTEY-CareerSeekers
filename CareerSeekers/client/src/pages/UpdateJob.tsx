@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import JobForm from '../components/jobs/jobForm';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
 
 export default function EditJob() {
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function EditJob() {
 
     useEffect(() => {
         if (selectedJob !== null) {
-            fetch(`/server/job/jobData/${selectedJob}`, {
+            fetchWithAuth(`/server/job/jobData/${selectedJob}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -59,7 +60,7 @@ export default function EditJob() {
 
     const handleSubmit = async (formData: any) => {
         try {
-            const response = await fetch(`/server/job/updatejob/${selectedJob}`, {
+            const response = await fetchWithAuth(`/server/job/updatejob/${selectedJob}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

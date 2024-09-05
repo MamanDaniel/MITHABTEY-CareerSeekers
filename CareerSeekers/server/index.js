@@ -7,6 +7,7 @@ import jobRouter from './routes/jobRoute.js';
 import questionnairesRouter from './routes/questionnairesRouth.js';
 import geneticAlgorithmRouter from './routes/geneticAlgorithmRoute.js';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ mongoose.connect(process.env.MONGO).then(() => {
 }).catch((err) => {
   console.log(err);
 });
+
+const __dirname = path.resolve();
 
 const app = express();
 app.use(express.json());
@@ -38,6 +41,12 @@ app.use("/server/job", jobRouter);
 app.use("/server/questionnaires", questionnairesRouter);
 // server geneticAlgorithm route to geneticAlgorithm
 app.use("/server/geneticAlgorithm", geneticAlgorithmRouter);
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {

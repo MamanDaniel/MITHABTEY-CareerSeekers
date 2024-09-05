@@ -45,13 +45,13 @@ const jobSchema = new mongoose.Schema({
         required: false
     },
     technicalSkills: {
-        type: String,
+        type: String, 
         required: false
     },
     workLifeBalance: {
         type: String,
         required: false
-    },
+    }
 });
 
 const Job = mongoose.model('Job', jobSchema);
