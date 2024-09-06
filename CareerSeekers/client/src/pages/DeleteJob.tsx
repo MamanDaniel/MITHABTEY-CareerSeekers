@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaTrash } from 'react-icons/fa';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
 
 export default function DeleteJob() {
     const [jobs, setJobs] = useState<any[]>([]);
@@ -8,14 +9,14 @@ export default function DeleteJob() {
     const [err, setError] = useState('');
 
     useEffect(() => {
-        fetch('/server/job/getalljobnames')
+        fetchWithAuth('/server/job/getalljobnames')
             .then(response => response.json())
             .then(data => {
                 setJobs(data.jobs);
                 setFilteredJobs(data.jobs);
             })
             .catch(() => {
-                setError('Error fetching data');                            
+                setError('Error fetching data');
             });
     }, []);
 
@@ -41,11 +42,11 @@ export default function DeleteJob() {
                     setJobs(jobs.filter((job: any) => job._id !== jobId));
                     setFilteredJobs(filteredJobs.filter((job: any) => job._id !== jobId));
                 } else {
-                    setError('Error deleting job');                   
+                    setError('Error deleting job');
                 }
             })
             .catch(() => {
-                setError('Error deleting job');               
+                setError('Error deleting job');
             });
     };
 
@@ -70,7 +71,7 @@ export default function DeleteJob() {
                         {filteredJobs.map((job: any) => (
                             <div key={job._id} className="bg-white shadow-md rounded-lg p-4 flex justify-between items-center w-full max-w-xs">
                                 <span className="text-lg font-semibold">{job.jobName}</span>
-                                <button 
+                                <button
                                     onClick={() => handleDelete(job._id)}
                                     className="text-red-500 hover:text-red-700 transition-colors duration-200"
                                 >
@@ -84,5 +85,5 @@ export default function DeleteJob() {
                 )}
             </div>
         </div>
-    );  
+    );
 }

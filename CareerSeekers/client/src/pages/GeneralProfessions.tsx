@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select, { MultiValue } from 'react-select';
 import { FaArrowLeft, FaBriefcase, FaUsers, FaPalette, FaFlask, FaClipboardList, FaHandHoldingHeart, FaTree, FaLaptopCode } from 'react-icons/fa'; 
+import {fetchWithAuth} from '../utils/fetchWithAuth';
 
 interface Job {
     id: string;
@@ -44,8 +45,10 @@ const GeneralProfessions: React.FC = () => {
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                const res = await fetch('/server/job/getAllJobs');
+                const res = await fetchWithAuth('/server/job/getAllJobs');
                 const result = await res.json();
+
+            
 
                 if (!Array.isArray(result.data)) {
                     throw new Error('Invalid data format');

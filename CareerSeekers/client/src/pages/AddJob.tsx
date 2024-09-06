@@ -2,13 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import JobForm from '../components/jobs/jobForm';
+import {fetchWithAuth} from '../utils/fetchWithAuth';
+
 
 export default function AddJob() {
     const navigate = useNavigate();
 
     const handleSubmit = async (formData: any) => {
         try {
-            const response = await fetch('/server/job/addjob', {
+            const response = await fetchWithAuth('/server/job/addjob', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -32,7 +34,7 @@ export default function AddJob() {
 
     return (
         <div className="bg-gray-100 min-h-screen py-8 p-4" dir='rtl'>
-           <ToastContainer />
+            <ToastContainer />
             <div className="md:w-2/5 mx-auto bg-gray-100 rounded-lg shadow-lg overflow-hidden mt-20">
                 <h1 className="text-2xl font-bold text-center py-2 bg-slate-700 text-white">Add New Job</h1>
                 <JobForm onSubmit={handleSubmit} />
