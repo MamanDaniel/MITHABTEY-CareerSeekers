@@ -18,6 +18,7 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [avatar, setAvatar] = useState(currentUser.avatar); // Store avatar
   const [traits, setTraits] = useState({});
+  
   const dispatch = useDispatch();
 
   // Fetch user traits when the component mounts
@@ -200,7 +201,7 @@ export default function Profile() {
             <div className='-mt-2'><span className='text-sm text-gray-600 text-center mt'>בחר תמונה (תמיכה בפורמטים PNG, JPG, JPEG)</span></div>
 
             <button disabled={loading} className='bg-blue-600 text-white rounded-lg p-3 uppercase hover:bg-blue-700 transition disabled:opacity-70 mt-3'>
-              עדכון פרטים
+             {loading ? 'מעדכן...' : 'עדכן פרטים'}
             </button>
             {updateSuccess && <p className='text-green-600 text-center'>עדכון הצליח!</p>}
           </form>

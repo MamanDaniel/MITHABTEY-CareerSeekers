@@ -65,7 +65,7 @@ export default function ResetPassword() {
                     <div className="relative">
                         <input
                             type="password"
-                            placeholder="New Password"
+                            placeholder="סיסמא חדשה"
                             className="w-full px-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             id="password"
                             value={password}
