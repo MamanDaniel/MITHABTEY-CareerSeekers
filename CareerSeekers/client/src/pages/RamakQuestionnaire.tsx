@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {fetchWithAuth} from '../utils/fetchWithAuth';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
+import { FaSpinner } from 'react-icons/fa';
 
 
 type QuestionProps = {
@@ -100,23 +101,21 @@ const RamakQuestionnaire: React.FC = () => {
             if (data.success === false) {
                 setError('Failed to update user traits');
                 console.log(data.message);
-                setLoading(false);
                 return;
             }
             // update user professions
-            const geneticAlgorithm = await fetchWithAuth('/server/geneticAlgorithm/findSuitableProfessions', {
+            await fetchWithAuth('/server/geneticAlgorithm/findSuitableProfessions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ id: currentUser._id })
             });
-            const professions = await geneticAlgorithm.json();
-            console.log(professions);
             navigate('/geneticAlgorithm');
         } catch (err) {
             console.log(err);
             setError('Failed to calculate or update score');
+        } finally {
             setLoading(false);
         }
     };
@@ -124,7 +123,9 @@ const RamakQuestionnaire: React.FC = () => {
     const isComplete = Object.keys(answers).length === questions.length;
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="flex items-center space-x-2 mt-40 justify-center">
+            <FaSpinner className="animate-spin " />
+        </div>;
     }
 
     if (error) {
@@ -161,7 +162,13 @@ const RamakQuestionnaire: React.FC = () => {
                         onClick={calculateScore}
                         disabled={loading}
                     >
-                        {loading ? 'Calculating...' : 'מצא מקצועות'}
+                        {loading ? (
+                            <div className="flex items-center space-x-2 mt-40">
+                                <FaSpinner className="animate-spin" />
+                            </div>
+                        ) : (
+                            'מצא מקצועות'
+                        )}
                     </button>
                 )}
 

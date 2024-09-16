@@ -39,18 +39,18 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
+        <div className="min-h-screen flex items-center justify-center bg-cover bg-center p-3" dir="rtl" style={{ backgroundImage: "url('https://source.unsplash.com/random')" }}>
             <div className="bg-white p-10 rounded-xl shadow-lg max-w-md w-full">
                 <div className="flex justify-center mb-6">
                     <img src={logoImage} alt="Company Logo" className="h-16 w-16" />
                 </div>
-                <h1 className="text-4xl text-center font-bold mb-8 text-gray-800">Forgot Password</h1>
-                <p className="text-center text-gray-600 mb-4">Enter your email address to recover your password.</p>
+                <h1 className="text-4xl text-center font-bold mb-8 text-gray-800">איפוס סיסמא</h1>
+                <p className="text-center text-gray-600 mb-4">הכנס את המייל שלך על מנת לאפס את הסיסמא</p>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="relative">
                         <input
                             type="email"
-                            placeholder="Email"
+                            placeholder="מייל"
                             className="w-full px-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             id="email"
                             value={email}
@@ -63,14 +63,14 @@ export default function ForgotPassword() {
                         disabled={loading}
                         className="w-full bg-indigo-600 text-white py-3 rounded-lg uppercase font-semibold hover:bg-indigo-500 disabled:bg-indigo-300 transition duration-300"
                     >
-                        {loading ? 'Sending...' : 'Send Recovery Email'}
+                        {loading ? 'שולח...' : 'איפוס סיסמא'}
                     </button>
                 </form>
                 {message && <p className="text-center mt-4 text-indigo-600">{message}</p>}
                 <div className="mt-6 text-center">
                     <p className="text-gray-600">
-                        Remembered your password?{' '}
-                        <a href="/signin" className="text-indigo-600 hover:text-indigo-500 font-medium">Sign In</a>
+                       זוכר את הסיסמא שלך?{' '}
+                        <a href="/signin" className="text-indigo-600 hover:text-indigo-500 font-medium">התחבר</a>
                     </p>
                 </div>
             </div>
