@@ -119,7 +119,7 @@ export const google = async (req, res, next) => {
             <h2>בקשת איפוס סיסמה</h2>
             <p>משתמש יקר,</p>
             <p>קיבלנו בקשה לאיפוס הסיסמה שלך. אנא לחץ על הכפתור למטה כדי לאפס אותה:</p>
-            <a href="https://mithabtey-careerseekers.onrender.com/${user._id}/${token}" style="display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;">אפס סיסמה</a>
+            <a href="https://mithabtey-careerseekers.onrender.com/resetpassword/${user._id}/${token}" style="display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;">אפס סיסמה</a>
             <p>אם לא ביקשת לאפס את הסיסמה שלך, תוכל להתעלם מהאימייל הזה או ליצור קשר עם התמיכה במידה ויש לך חששות.</p>
             <p>בברכה,<br>בברכה, מתחבטי מקצוע </p>
           </div>
