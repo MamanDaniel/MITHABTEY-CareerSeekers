@@ -1,3 +1,11 @@
+/**
+ * jobMatchingController.js
+ * This file contains the controllers for finding suitable professions for the user
+ * It includes functions for finding suitable professions by genetic algorithm,
+ * getting suitable jobs of the user from the database, and getting user traits from the database
+ * It uses the User model from the models folder to interact with the database
+ * 
+ */
 import User from '../models/userModel.js';
 import { errorHandler } from "../utils/error.js";
 import { geneticAlgorithm } from "../controllers/geneticAlgorithmController.js"

@@ -1,3 +1,10 @@
+/**
+ * questionnairesController.js
+ * This file contains the controllers for the questionnaires in the application.
+ * It includes functions for getting a questionnaire by name, calculating the score of the questionnaire, and updating user traits in the database.
+ * It uses the Questionnaire model from the models folder to interact with the database.
+ * the calculation of the score is done by the calculateNormalizedScores function from the RAMAKcontroller.js file. 
+ */
 import Questionnaire from "../models/questionnaireModel.js";
 import { errorHandler } from "../utils/error.js";
 import { calculateNormalizedScores } from "../controllers/RAMAKcontroller.js";

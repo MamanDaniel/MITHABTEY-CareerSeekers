@@ -1,3 +1,8 @@
+/**
+ * verifyToken middleware
+ * it verifies the token of the user before accessing the routes 
+ * if the token is invalid or has expired it will return an error
+ */
 import { errorHandler } from "./error.js";
 import jwt from 'jsonwebtoken';
 

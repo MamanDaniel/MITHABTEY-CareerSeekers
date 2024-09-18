@@ -92,7 +92,7 @@ function geneticAlgorithm(personTraits, professionTraits, numGenerations, popula
     const finalSortedPopulation = [...finalFitnessScores].sort((a, b) => 
         b.averageMatch - a.averageMatch
     );
-
+    // Return the top 3 unique jobs from the best individual
     const uniqueJobs = [];
     for (const score of finalSortedPopulation) {
         for (const job of score.details) {
