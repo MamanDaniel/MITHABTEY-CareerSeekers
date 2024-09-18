@@ -1,5 +1,14 @@
 
-
+/**
+ * Fetch with authentication
+ * This function is used to make authenticated requests to the server.
+ * It adds the necessary headers to the request to include the user's authentication token.
+ * If the request fails due to an expired token, the user is redirected to the sign-in page.
+ * @param url - The URL to make the request to
+ * @param options - The request options
+ * @returns The response from the server
+ * @throws An error if the request fails
+ */
 export const fetchWithAuth = async (url: string, options: RequestInit = {}): Promise<Response> => {
 
 

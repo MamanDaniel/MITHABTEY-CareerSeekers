@@ -1,3 +1,15 @@
+/**
+ * @file App.tsx is the main file of the client side of the project.
+ * It contains the routing of the application and the main components of the application.
+ * The App component is the root component of the application and contains the routing logic.
+ * The App component uses the BrowserRouter, Routes, Route, and Navigate components from react-router-dom to define the routes of the application.
+ * The App component renders the Header, Footer, and the main pages of the application.
+ * The App component uses the PrivateRouteLoggedIn, PrivateRouteNotLoggedIn, and ValidateAdmin components to define the private routes of the application.
+ * The App component renders the Home, Signup, Signin, Profile, RamakQuestionnaire, AdminPanel, AddJob, DeleteJob, Jobs, GeneticAlgorithm, GeneralProfessions, Contant, ForgotPassword, ResetPassword, ManagePermissions, and UpdateJob components.
+ * The App component uses the BrowserRouter component to define the routing of the application.
+ * The App component uses the Routes component to define the routes of the application.
+ * The App component uses the Route component to define the individual routes of the application.
+ */
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import Signup from './pages/Signup'

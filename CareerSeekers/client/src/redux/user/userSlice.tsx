@@ -1,3 +1,14 @@
+/**
+ * @description - This file contains the userSlice, which is a slice of the Redux store that manages the user state.
+ * The userSlice contains actions for signing in, updating user information, and signing out.
+ * The userSlice also contains reducers to handle these actions and update the user state accordingly.
+ * The userSlice is used in the user reducer to manage the user state in the Redux store.
+ * The userSlice is exported and used in the Redux store configuration to create the Redux store.
+ * The userSlice is also used in the user actions to dispatch actions to update the user state.
+ * The userSlice is used in the user component to access the user state and dispatch actions to update the user state.
+ * The userSlice is used in the user component to handle user authentication and update the user state accordingly.
+ * The userSlice is used in the user component to handle user sign-in, sign-out, and user information updates.
+ */
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -5,7 +16,7 @@ const initialState = {
     error: null,
     loading: false,
 };
-
+// Create a userSlice with initial state, reducers, and actions
 const userSlice = createSlice({
     name: "user",
     initialState,
