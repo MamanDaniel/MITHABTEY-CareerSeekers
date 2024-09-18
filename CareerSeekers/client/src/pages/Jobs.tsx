@@ -1,3 +1,12 @@
+/**
+ * Jobs page
+ * This page displays information about jobs, including the number of jobs in each field, the average salary for each field, and the prerequisites for each job.
+ * The user can filter the jobs by job field and search for specific jobs.
+ * The user can also view the prerequisites for each job by clicking on the job in the table
+ * 
+ * 
+ */
+
 import React, { useState, useEffect } from 'react';
 import JobsFieldCountChart from '../components/jobs/JobsFieldCountChart';
 import SalaryChart from '../components/jobs/SalaryChart';

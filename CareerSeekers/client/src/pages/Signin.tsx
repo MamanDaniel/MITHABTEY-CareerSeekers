@@ -1,3 +1,16 @@
+/**
+ * Signin Component
+ * 
+ * This component represents a user sign-in form. It allows users to enter their email and password to authenticate with the server.
+ * It also includes options to reset the password and sign in using Google.
+ * 
+ * - Imports React hooks and Redux functions for state management.
+ * - Handles form data, submission, and error management.
+ * - Displays a form with email and password fields, a submit button, and a link to reset the password.
+ * - Includes OAuth authentication options and links to sign up if the user is not registered.
+ * 
+ * @returns JSX.Element - The rendered sign-in form component.
+ */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,20 +20,26 @@ import logoImage from '../assets/mithabteyLogo.png';
 import OAuth from "../components/OAuth";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 
+
 export default function Signin() {
+    // State to manage form input values
     const [formData, setFormData] = useState({});
+
+    // Redux hooks to access user state and dispatch actions
     const { loading, error } = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // Effect to clear errors when the component mounts and unmounts
     useEffect(() => {
-        dispatch(clearError());  // Clear the error when the component mounts
+        dispatch(clearError());
 
         return () => {
-            dispatch(clearError());  // Clear the error when the component unmounts
+            dispatch(clearError());
         };
     }, [dispatch]);
 
+    // Handle changes in form input fields
     const handleChange = (e: { target: { id: any; value: any; }; }) => {
         setFormData({
             ...formData,
@@ -28,6 +47,7 @@ export default function Signin() {
         });
     };
 
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -80,7 +100,6 @@ export default function Signin() {
                         <FaLock className="w-6 h-6 absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-400" />
                     </div>
                     <div className="flex items-center justify-between">
-                       
                         <div className="text-sm">
                             <a href="/forgotpassword" className="font-medium text-indigo-600 hover:text-indigo-500">
                                איפוס סיסמא?

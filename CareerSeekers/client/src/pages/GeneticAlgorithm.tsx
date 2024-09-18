@@ -1,8 +1,13 @@
+/*
+    This page displays the top 3 suitable jobs for the user based on their traits.
+    It fetches the user traits and suitable jobs using the genetic algorithm and displays them.
+    If no suitable jobs are found, the user is redirected to the RAMAK questionnaire.
+*/
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProfessionCard from '../components/SuitableJobs/ProfessionCard';
-import {fetchWithAuth} from '../utils/fetchWithAuth';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
 import { FaBriefcase, FaUsers, FaPalette, FaFlask, FaClipboardList, FaHandHoldingHeart, FaTree, FaLaptopCode } from 'react-icons/fa'; // Import job field icons
 
@@ -21,17 +26,20 @@ interface JobDetails {
 }
 
 const GeneticAlgorithm = () => {
-    const [professionsName, setProfessionsNames] = useState<{ job: string, percentage: number }[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const { currentUser } = useSelector((state: any) => state.user);
-    const [needRAMAK, setNeedRAMAK] = useState(false);
-    const [activeTab, setActiveTab] = useState<number | null>(null);
-    const [jobs, setJobs] = useState<JobDetails[]>([]);
+    // State variables
+    const [professionsName, setProfessionsNames] = useState<{ job: string, percentage: number }[]>([]); // Professions with percentage match
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState<string | null>(null); // Error state
+    const { currentUser } = useSelector((state: any) => state.user); // Access currentUser from Redux store
+    const [needRAMAK, setNeedRAMAK] = useState(false); // State to determine if RAMAK questionnaire is needed
+    const [activeTab, setActiveTab] = useState<number | null>(null); // State for active tab in job list
+    const [jobs, setJobs] = useState<JobDetails[]>([]); // State for job details
 
     useEffect(() => {
+        // Function to fetch user traits and suitable jobs
         const fetchUserTraitsAndJobs = async () => {
             try {
+                // Fetch user traits
                 const userTraitsRes = await fetchWithAuth('/server/user/getUserTraits', {
                     method: 'POST',
                     headers: {
@@ -41,12 +49,15 @@ const GeneticAlgorithm = () => {
                 });
                 const userTraitsData = await userTraitsRes.json();
                 const arrayData = Object.values<number>(userTraitsData).map((value: number) => ({ value }));
+                
+                // Check if all traits are zero
                 if (arrayData.every((trait) => trait.value === 0)) {
                     setNeedRAMAK(true);
                     setLoading(false);
                     return;
                 }
 
+                // Fetch suitable professions based on user traits
                 const professionsRes = await fetchWithAuth('/server/geneticAlgorithm/getSuitableJobs', {
                     method: 'POST',
                     headers: {
@@ -55,6 +66,8 @@ const GeneticAlgorithm = () => {
                     body: JSON.stringify({ id: currentUser._id })
                 });
                 const professionsData = await professionsRes.json();
+                
+                // Check if no suitable jobs are found
                 if (professionsData.message === 'Suitable jobs not found') {
                     setNeedRAMAK(true);
                     setLoading(false);
@@ -62,6 +75,7 @@ const GeneticAlgorithm = () => {
                 }
                 setProfessionsNames(professionsData);
 
+                // Fetch job details for the professions
                 const jobsRes = await fetchWithAuth('/server/job/getJobsByNames', {
                     method: 'POST',
                     headers: {
@@ -70,6 +84,8 @@ const GeneticAlgorithm = () => {
                     body: JSON.stringify({ jobNames: professionsData.map((profession: { job: any; }) => profession.job) })
                 });
                 const jobsData = await jobsRes.json();
+                
+                // Check if no job details are found
                 if (jobsData.message === 'Suitable jobs not found') {
                     setNeedRAMAK(true);
                     setLoading(false);
@@ -84,16 +100,19 @@ const GeneticAlgorithm = () => {
         };
 
         fetchUserTraitsAndJobs();
-    }, [currentUser._id, needRAMAK]); // Adding needRAMAK to dependencies
+    }, [currentUser._id, needRAMAK]); // Dependencies for useEffect hook
 
+    // Show loading state
     if (loading) {
         return <div>Loading...</div>;
     }
 
+    // Show error message
     if (error) {
         return <div>Error: {error}</div>;
     }
 
+    // Redirect to RAMAK questionnaire if needed
     if (needRAMAK) {
         return (
             <div
@@ -126,7 +145,7 @@ const GeneticAlgorithm = () => {
         Technology: <FaLaptopCode />,
     };
 
-    // Define a function to get the appropriate icon for each job field
+    // Function to get the appropriate icon for each job field
     const getJobFieldIcon = (jobField: string) => {
         return jobFieldIcons[jobField] || null;
     };
@@ -140,6 +159,7 @@ const GeneticAlgorithm = () => {
             
             <div className="grid grid-cols-1 gap-4 w-full md:w-3/6 mx-auto">
                 {professionsName.map((profession, index) => {
+                    // Find the job details for the current profession
                     const jobDetails = jobs.find(job => job.jobName === profession.job) || null;
                     
                     return (

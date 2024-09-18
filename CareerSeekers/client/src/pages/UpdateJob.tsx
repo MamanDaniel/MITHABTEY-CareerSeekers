@@ -1,26 +1,40 @@
+/**
+ * EditJob Component
+ * 
+ * This component allows users to edit job details. It includes functionality to search for jobs, select a job to edit, and update the job details.
+ * It handles fetching job data, searching through jobs, selecting a job, and submitting updates.
+ * 
+ * @returns JSX.Element - The rendered edit job component.
+ */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import JobForm from '../components/jobs/jobForm';
-import {fetchWithAuth} from '../utils/fetchWithAuth';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
+
 
 export default function EditJob() {
+    // Hook to programmatically navigate
     const navigate = useNavigate();
-    const [jobs, setJobs] = useState<any[]>([]); // Store all jobs
-    const [filteredJobs, setFilteredJobs] = useState<any[]>([]); // Store filtered jobs for search functionality
-    const [selectedJob, setSelectedJob] = useState<any>(null); // Store the selected job data
-    const [initialData, setInitialData] = useState<any>(null); // Store the data to be passed to JobForm
-    const [searchText, setSearchText] = useState<string>(''); // Store the search text
-    const [noResults, setNoResults] = useState<boolean>(false); // Track if no results found
 
+    // State to manage jobs data, filtered jobs, selected job, initial data for the form, search text, and no results found
+    const [jobs, setJobs] = useState<any[]>([]);
+    const [filteredJobs, setFilteredJobs] = useState<any[]>([]);
+    const [selectedJob, setSelectedJob] = useState<any>(null);
+    const [initialData, setInitialData] = useState<any>(null);
+    const [searchText, setSearchText] = useState<string>('');
+    const [noResults, setNoResults] = useState<boolean>(false);
+
+    /**
+     * Fetch all job data on component mount and initialize filtered jobs.
+     */
     useEffect(() => {
-        // Fetch all job data
         const fetchJobs = async () => {
             try {
                 const response = await fetch('/server/job/getalljobnames');
                 const data = await response.json();
                 setJobs(data.jobs);
-                setFilteredJobs(data.jobs); // Initialize filteredJobs with all jobs
+                setFilteredJobs(data.jobs);
             } catch (err) {
                 toast.error('Failed to fetch jobs.');
             }
@@ -28,6 +42,9 @@ export default function EditJob() {
         fetchJobs();
     }, []);
 
+    /**
+     * Fetch job data when a job is selected.
+     */
     useEffect(() => {
         if (selectedJob !== null) {
             fetchWithAuth(`/server/job/jobData/${selectedJob}`, {
@@ -46,18 +63,33 @@ export default function EditJob() {
         }
     }, [selectedJob]);
 
+    /**
+     * Handle search input changes and filter jobs based on the search text.
+     * 
+     * @param e - Event object from the input field change
+     */
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.toLowerCase();
         setSearchText(value);
         const filtered = jobs.filter(job => job.jobName.toLowerCase().includes(value));
         setFilteredJobs(filtered);
-        setNoResults(filtered.length === 0); // Update noResults based on the filtered result
+        setNoResults(filtered.length === 0);
     };
 
+    /**
+     * Handle job selection and set the selected job ID.
+     * 
+     * @param jobId - The ID of the selected job
+     */
     const handleJobSelect = (jobId: string) => {
         setSelectedJob(jobId);
     };
 
+    /**
+     * Handle form submission to update job details.
+     * 
+     * @param formData - The form data to be submitted
+     */
     const handleSubmit = async (formData: any) => {
         try {
             const response = await fetchWithAuth(`/server/job/updatejob/${selectedJob}`, {

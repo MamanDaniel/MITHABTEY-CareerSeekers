@@ -1,3 +1,11 @@
+/**
+ * AdminPanel Component
+ * 
+ * This component is responsible for rendering the admin dashboard, allowing the site administrator 
+ * to manage users and jobs in the system. The dashboard displays a set of actions such as adding, 
+ * deleting, and updating job information, as well as managing users (only available to the manager).
+ */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPlus, FaTrash, FaUsers, FaEdit } from 'react-icons/fa';
@@ -5,11 +13,18 @@ import { useSelector } from 'react-redux';
 import AdminCard from '../components/adminpanel/AdminCard';
 
 const AdminPanel: React.FC = () => {
-    const { currentUser } = useSelector((state: any) => state.user);
+    const { currentUser } = useSelector((state: any) => state.user);  // Retrieves the current user from the Redux store
     const navigate = useNavigate();
 
-    const managerEmail = import.meta.env.VITE_MANAGEREMAIL;
+    const managerEmail = import.meta.env.VITE_MANAGEREMAIL;  // The email of the site manager
 
+    /**
+     * handleNavigation
+     * 
+     * Navigates to a specified path when an admin card is clicked.
+     * 
+     * @param path - The route to navigate to
+     */
     const handleNavigation = (path: string) => {
         navigate(path);
     };
