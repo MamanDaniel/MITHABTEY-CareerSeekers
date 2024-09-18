@@ -1,3 +1,7 @@
+/**
+ * authController.js
+ * Contains the functions that handle the authentication of the users
+ */
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
@@ -5,9 +9,9 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
-
+// Load environment variables from .env file
 dotenv.config();
-
+// Create a new user in the database
 export const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcryptjs.hashSync(password, 12);
@@ -24,6 +28,7 @@ export const signup = async (req, res, next) => {
     }
 };
 
+// Sign in the user and send a token in a cookie
 export const signin = async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -47,6 +52,7 @@ export const signin = async (req, res, next) => {
     }
 }
 
+// Sign out the user by clearing the cookie
 export const signout = (req, res, next) => {
     try {
         res.clearCookie('access_token').json('User signed out successfully!');
@@ -55,6 +61,7 @@ export const signout = (req, res, next) => {
     }
 }
 
+// sign in / sign up with google account
 export const google = async (req, res, next) => {
     try {
       const user = await User.findOne({ email: req.body.email });
@@ -92,6 +99,9 @@ export const google = async (req, res, next) => {
     }
   };
 
+  // forgot password function
+  // send an email to the user with a link to reset the password
+  // based on the user email and node mailer API
   export const forgotPassword = async (req, res, next) => {
     const email = req.body.email;
     try {
@@ -140,6 +150,8 @@ export const google = async (req, res, next) => {
     }
   };
 
+  // reset password function 
+  // reset the user password based on the token sent in the email
   export const resetPassword = async (req, res, next) => {
     const token = req.params.token;
     const { password } = req.body;

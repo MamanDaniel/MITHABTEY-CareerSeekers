@@ -1,3 +1,11 @@
+/**
+ * Contact Component
+ * 
+ * This component provides users with options to contact or connect with the site administrators 
+ * through Facebook, email, and LinkedIn. It includes a link to join a Facebook group, 
+ * and displays icons for alternative contact methods.
+ */
+
 import React from 'react';
 import { FaFacebook, FaEnvelope, FaLinkedin } from 'react-icons/fa';
 
@@ -22,7 +30,7 @@ const Contact: React.FC = () => {
 
       {/* Contact Icons */}
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md text-center">
-        <h2 className="text-xl font-bold mb-4">אפשרויות נוספות ליצירת קשר </h2>
+        <h2 className="text-xl font-bold mb-4">אפשרויות נוספות ליצירת קשר</h2>
         
         {/* Email Link */}
         <div className="mb-4">

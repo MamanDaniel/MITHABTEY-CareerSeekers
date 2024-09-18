@@ -1,8 +1,14 @@
+/*
+* GeneralProfessions.tsx - Component for displaying general professions based on user's selected requirements.
+* This component fetches job data from the server and displays job cards with match percentage and missing requirements.
+* The user can select general requirements using react-select and view detailed information about each job.
+*/
 import React, { useEffect, useState } from 'react';
 import Select, { MultiValue } from 'react-select';
 import { FaArrowLeft, FaBriefcase, FaUsers, FaPalette, FaFlask, FaClipboardList, FaHandHoldingHeart, FaTree, FaLaptopCode } from 'react-icons/fa'; 
-import {fetchWithAuth} from '../utils/fetchWithAuth';
+import { fetchWithAuth } from '../utils/fetchWithAuth';
 
+// Define the Job interface to type-check job data
 interface Job {
     id: string;
     jobName: string;
@@ -17,6 +23,7 @@ interface Job {
     workLifeBalance: string;
 }
 
+// Define the OptionType for react-select
 interface OptionType {
     value: string;
     label: string;
@@ -34,26 +41,29 @@ const jobFieldIcons: { [key: string]: React.ReactNode } = {
     Technology: <FaLaptopCode />,
 };
 
+// GeneralProfessions Component
 const GeneralProfessions: React.FC = () => {
-    const [jobs, setJobs] = useState<Job[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedRequirements, setSelectedRequirements] = useState<string[]>([]);
-    const [uniqueRequirements, setUniqueRequirements] = useState<OptionType[]>([]);
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    // State variables
+    const [jobs, setJobs] = useState<Job[]>([]); // Jobs data
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState<string | null>(null); // Error state
+    const [selectedRequirements, setSelectedRequirements] = useState<string[]>([]); // Selected requirements
+    const [uniqueRequirements, setUniqueRequirements] = useState<OptionType[]>([]); // Unique requirements for select input
+    const [activeIndex, setActiveIndex] = useState<number | null>(null); // Index of active job card
 
     useEffect(() => {
+        // Fetch job data from the server
         const fetchAllJobs = async () => {
             try {
                 const res = await fetchWithAuth('/server/job/getAllJobs');
                 const result = await res.json();
 
-            
-
+                // Validate data format
                 if (!Array.isArray(result.data)) {
                     throw new Error('Invalid data format');
                 }
 
+                // Process job data
                 const jobsData = result.data.map((job: { GeneralRequirements: any; }) => ({
                     ...job,
                     GeneralRequirements: job.GeneralRequirements || []
@@ -61,6 +71,7 @@ const GeneralProfessions: React.FC = () => {
 
                 setJobs(jobsData);
 
+                // Extract unique requirements for the select input
                 const requirements: string[] = jobsData.reduce((acc: string[], job: Job) => {
                     job.GeneralRequirements.forEach(req => {
                         if (!acc.includes(req)) {
@@ -81,10 +92,21 @@ const GeneralProfessions: React.FC = () => {
         fetchAllJobs();
     }, []);
 
+    /**
+     * handleSelectChange - Updates selectedRequirements state based on user's selection.
+     *
+     * @param selectedOptions - Array of selected options from react-select
+     */
     const handleSelectChange = (selectedOptions: MultiValue<OptionType>) => {
         setSelectedRequirements(selectedOptions ? selectedOptions.map(opt => opt.value) : []);
     };
 
+    /**
+     * calculateMatchPercentage - Calculates the percentage of matched requirements.
+     *
+     * @param jobRequirements - Array of requirements for a job
+     * @returns Percentage of matched requirements
+     */
     const calculateMatchPercentage = (jobRequirements: string[]): number => {
         if (jobRequirements.length === 0) return 0;
 
@@ -93,6 +115,7 @@ const GeneralProfessions: React.FC = () => {
         return (matchCount / jobRequirements.length) * 100;
     };
 
+    // Filter and sort jobs based on match percentage
     const filteredJobs = jobs
         .filter(job => {
             const matchPercentage = calculateMatchPercentage(job.GeneralRequirements);
@@ -100,12 +123,14 @@ const GeneralProfessions: React.FC = () => {
         })
         .sort((a, b) => calculateMatchPercentage(b.GeneralRequirements) - calculateMatchPercentage(a.GeneralRequirements));
 
-    if (loading) return <p className="text-center">טוען...</p>;
-    if (error) return <p className="text-center text-red-500">{error}</p>;
+    if (loading) return <p className="text-center">טוען...</p>; // Display loading message
+    if (error) return <p className="text-center text-red-500">{error}</p>; // Display error message
 
     return (
         <div className="container mx-auto p-0 mt-24" dir="rtl"> 
             <h1 className="text-2xl font-bold mb-4 text-center">חיפוש מקצוע מהמאגר על פי תכונות אופי</h1>
+            
+            {/* React-Select component for selecting general requirements */}
             <Select
                 isMulti
                 options={uniqueRequirements}
@@ -114,6 +139,7 @@ const GeneralProfessions: React.FC = () => {
                 className="mb-4 sm:w-1/2 mx-auto min-[320px]:w-3/4"
             />
 
+            {/* Job cards */}
             <div className="mx-auto sm:w-5/6 min-[320px]:w-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 ">
                 {filteredJobs.map((job, index) => {
                     const matchPercentage = calculateMatchPercentage(job.GeneralRequirements);

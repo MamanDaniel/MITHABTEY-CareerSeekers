@@ -1,6 +1,15 @@
+/**
+ * jobController.js
+ * This file contains the controller functions for handling job-related requests.
+ * It includes functions for adding, deleting, and updating jobs, as well as getting job data.
+ * It also includes functions for getting all jobs, getting jobs by name, and getting job URLs.
+ * It uses the Job model from the models folder to interact with the database.
+ * It also includes error handling using the errorHandler utility function.
+ */
 import Job from '../models/jobModel.js';
 import { errorHandler } from "../utils/error.js";
 
+// Add a new job to the database
 export const addJob = async (req, res, next) => {
     try {
         const { jobName, Description, AverageSalary, jobField, Prerequisites, facebookPostUrl, GeneralRequirements, standardDay, education, technicalSkills, workLifeBalance } = req.body;
@@ -33,6 +42,7 @@ export const addJob = async (req, res, next) => {
     }
 };
 
+// delete a job from the database by ID
 export const deleteJob = async (req, res, next) => {
     try {
         const { jobId } = req.params;
@@ -55,6 +65,7 @@ export const deleteJob = async (req, res, next) => {
     }
 }
 
+// Get all job names
 export const getAllJobsNames = async (req, res, next) => {
     try {
         const jobs = await Job.find({}, 'jobName');
@@ -64,6 +75,7 @@ export const getAllJobsNames = async (req, res, next) => {
     }
 }
 
+// Get the URL of a job by job name
 export const getURLofJob = async (req, res, next) => {
     try {
         const jobs = await Job.find({ facebookPostUrl: { $exists: true } }, 'jobName facebookPostUrl -_id');

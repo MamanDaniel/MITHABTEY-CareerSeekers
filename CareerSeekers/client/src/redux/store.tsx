@@ -1,3 +1,11 @@
+/**
+ * This file is used to create the redux store and persist the user state
+ * The store is created using the configureStore function from the redux toolkit
+ * The user state is persisted using the persistReducer and persistStore functions from redux-persist
+ * The store is exported along with the persistor for use in the application
+ * The RootState and AppDispatch types are also exported for use in the application
+ * The rootReducer combines the user reducer using the combineReducers function
+ */
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import userReducer from './user/userSlice'
 import { persistReducer, persistStore } from 'redux-persist'

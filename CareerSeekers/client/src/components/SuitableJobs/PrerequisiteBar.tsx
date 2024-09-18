@@ -1,3 +1,10 @@
+/**
+ * PrerequisiteBar.tsx
+ * This component is used to display a bar chart of job prerequisites.
+ * It receives the prerequisites data as props.
+ * The chart displays the percentage of each prerequisite for the job.
+ * The chart uses Chart.js library for rendering.
+ */
 import React from 'react';
 
 interface PrerequisiteBarProps {

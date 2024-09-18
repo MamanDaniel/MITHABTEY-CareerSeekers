@@ -1,3 +1,9 @@
+/**
+ * JobFieldSelector.tsx
+ * This component is used to display a multi-select dropdown for job fields.
+ * It receives the list of job fields and the selected job fields as props.
+ * When the selection changes, it calls the onJobFieldChange function with the new selection.
+ */
 import React from 'react';
 
 type JobFieldSelectorProps = {

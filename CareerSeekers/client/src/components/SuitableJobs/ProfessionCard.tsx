@@ -1,3 +1,17 @@
+/**
+ * This component is responsible for rendering a single profession card.
+ * It displays the profession name, percentage match, and additional details when expanded.
+ * The component receives the profession data and job details as props.
+ * The job details are displayed when the card is expanded.
+ * The component also receives an icon for the job field.
+ * The card can be expanded or collapsed by clicking on it.
+ * The text direction is set to right-to-left for Hebrew text.
+ * The component uses the PrerequisiteBar component to display job prerequisites.
+ * The PrerequisiteBar component displays the percentage of each prerequisite for the job.
+ * The PrerequisiteBar component uses a color-coded bar to represent each prerequisite.
+ * The PrerequisiteBar component aligns the percentage text to the right for better readability.
+ * The PrerequisiteBar component displays the prerequisite name and percentage in a list below the bar.
+ */
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import PrerequisiteBar from './PrerequisiteBar';

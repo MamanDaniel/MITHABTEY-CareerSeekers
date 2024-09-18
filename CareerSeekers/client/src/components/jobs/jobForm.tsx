@@ -1,3 +1,9 @@
+/**
+ * This component is used to create a form for adding or editing a job.
+ * It receives the initial data and a function to call when the form is submitted.
+ * The form contains fields for the job name, description, average salary, job field, prerequisites,
+ * general requirements, standard day, education, technical skills, work-life balance, and Facebook post URL.
+ */
 import { useState } from 'react';
 
 type JobFormProps = {
@@ -131,7 +137,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
               required
             />
           </div>
-
+          {/* Description */}
           <div className="space-y-2">
             <label htmlFor="Description" className="block text-xl font-semibold text-slate-700">תיאור</label>
             <textarea
@@ -143,7 +149,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
               required
             />
           </div>
-
+          {/* Standard Day */}
           <div className="space-y-2">
             <label htmlFor="standardDay" className="block text-xl font-semibold text-slate-700">תיאור יום עבודה סטנדרטי במקצוע</label>
             <textarea
@@ -155,7 +161,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
               required
             />
           </div>
-
+          {/* Education  */}
           <div className="space-y-2">
             <label htmlFor="education" className="block text-xl font-semibold text-slate-700">השכלה</label>
             <textarea
@@ -167,7 +173,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
               required
             />
           </div>
-
+          {/* Technical Skills */}
           <div className="space-y-2">
             <label htmlFor="technicalSkills" className="block text-xl font-semibold text-slate-700">כישורים טכניים הנדרשים למקצוע</label>
             <textarea
@@ -179,7 +185,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
               required
             />
           </div>
-
+          {/* Work-Life Balance */}
           <div className="space-y-2">
             <label htmlFor="workLifeBalance" className="block text-xl font-semibold text-slate-700">איזון עבודה-חיים</label>
             <textarea
@@ -192,7 +198,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
             />
           </div>
 
-
+          {/* Average Salary */}
           <div className="space-y-2">
             <label htmlFor="AverageSalary" className="block text-xl font-semibold text-slate-700">שכר ממוצע</label>
             <input
@@ -205,7 +211,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
               required
             />
           </div>
-
+            {/* Job Field */}
           <div className="space-y-2">
             <label htmlFor="jobField" className="block text-xl font-semibold text-slate-700">תחום מקצועי</label>
             <select
@@ -228,7 +234,7 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
             </select>
           </div>
 
-
+          {/* Facebook Post URL */}
           <div>
             <div className="space-y-2">
               <label htmlFor="hasFacebookPost" className="block text-xl font-semibold text-slate-700">
@@ -258,7 +264,6 @@ export default function JobForm({ initialData, onSubmit, isEditMode = false }: J
                 />
               </div>
             )}
-
             <div className="space-y-2">
               <label htmlFor="insertRamakTraits" className="block text-xl font-semibold text-slate-700">
                 כיצד לאפיין את תכונות המקצוע?

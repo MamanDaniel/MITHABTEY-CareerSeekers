@@ -1,3 +1,8 @@
+/**
+ * @file questionnaireModel.js is a mongoose schema model for the questionnaire
+ * It includes the Questionnaire_Name and an array of questions.
+ * It uses the mongoose library to interact with the database.
+ */
 import mongoose from "mongoose";
 
 // Question schema for the questionnaire

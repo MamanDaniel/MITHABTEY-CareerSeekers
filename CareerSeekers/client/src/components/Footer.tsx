@@ -1,3 +1,9 @@
+/**
+ * Footer component
+ * This component is used to display the footer of the website.
+ * It includes links to contact information and the company logo.
+ * The footer is displayed at the bottom of the page.
+ */
 import logo from '../assets/mithabteyLogo.png';
 
 export default function Footer() {

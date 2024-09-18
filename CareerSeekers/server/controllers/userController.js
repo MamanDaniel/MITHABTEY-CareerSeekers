@@ -1,3 +1,10 @@
+/**
+ * userController.js
+ * This file contains the controllers for the users in the application.
+ * It includes functions for updating user information, updating user role, and getting users' information.
+ * It uses the User model from the models folder to interact with the database.
+ * It also includes error handling using the errorHandler utility function.
+ */
 import bcryptjs from 'bcryptjs';
 import User from '../models/userModel.js';
 import { errorHandler } from "../utils/error.js";

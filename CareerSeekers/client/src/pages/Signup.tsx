@@ -1,20 +1,43 @@
+/**
+ * Signup Component
+ * 
+ * This component represents a user sign-up form. It allows users to enter their username, email, and password to create a new account.
+ * It also includes options for OAuth authentication and links to sign in if the user already has an account.
+ * 
+ * - Manages form data, validation, and submission.
+ * - Handles loading state and error messages.
+ * - Redirects to the sign-in page upon successful sign-up.
+ * 
+ * @returns JSX.Element - The rendered sign-up form component.
+ */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import logoImage from '../assets/mithabteyLogo.png';
 import OAuth from "../components/OAuth";
 
+
 export default function Signup() {
+  // State to manage form input values
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
+
+  // State to manage error messages and loading state
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showFormMessage, setShowFormMessage] = useState(false);
+  
+  // Hook to programmatically navigate
   const navigate = useNavigate();
 
+  /**
+   * Handle input changes and update form data state.
+   * 
+   * @param e - Event object from the input field change
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({
@@ -24,6 +47,11 @@ export default function Signup() {
     setShowFormMessage(false); 
   };
 
+  /**
+   * Handle form submission, validate input, and send data to the server.
+   * 
+   * @param e - Form event object
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid()) {
@@ -54,6 +82,11 @@ export default function Signup() {
     }
   };
 
+  /**
+   * Validate form input fields to ensure all fields are filled.
+   * 
+   * @returns boolean - True if the form is valid, otherwise false
+   */
   const isFormValid = () => {
     return (
       formData.username.trim() !== "" &&
@@ -62,6 +95,7 @@ export default function Signup() {
     );
   };
 
+  // Effect to clear error messages on component mount
   useEffect(() => {
     setError(null);
   }, []);

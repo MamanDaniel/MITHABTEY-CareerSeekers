@@ -1,3 +1,12 @@
+/**
+ * ManagePermissions.tsx
+ * This component allows the admin to manage the permissions of the users.
+ * The admin can change the role of a user to either 'Admin' or 'Regular'.
+ * The admin can search for a user by their username.
+ * The admin can view the user's avatar, username, email, and role.
+ * The admin can change the role of a user by selecting a new role from a dropdown menu.
+ * 
+ */
 import  { useState, useEffect } from 'react';
 import {fetchWithAuth} from '../utils/fetchWithAuth';
 
@@ -72,13 +81,13 @@ export default function ManagePermissions() {
             setError('Failed to update role');
         }
     };
-
+    // This function is called when the admin selects a new role for a user
     const handleChangeRole = (user: User, role: string) => {
         setSelectedUser(user);
         setNewRole(role);
         setShowConfirm(true);
     };
-
+    // This function is called when the admin confirms the role change
     const filteredUsers = users.filter(user =>
         user.username.toLowerCase().includes(searchQuery.toLowerCase())
     );

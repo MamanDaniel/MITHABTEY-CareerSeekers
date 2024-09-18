@@ -1,10 +1,16 @@
+/**
+ * RamakQuestionnaire component displays a questionnaire for the RAMAK personality test.
+ * It fetches the questions from the server and allows the user to answer them.
+ * After answering all questions, the user's traits are updated and suitable professions are calculated.
+ * The user is then redirected to the genetic algorithm page.
+ */
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchWithAuth } from '../utils/fetchWithAuth';
 import { FaSpinner } from 'react-icons/fa';
 
-
+// Type definition for the props of the Question component
 type QuestionProps = {
     question: string;
     index: number;
@@ -13,6 +19,7 @@ type QuestionProps = {
     onAnswer: (index: number, answer: number) => void;
 };
 
+// Question component to render a single question with options
 const Question: React.FC<QuestionProps> = ({ question, index, totalQuestions, selectedAnswer, onAnswer }) => {
     return (
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
@@ -36,15 +43,18 @@ const Question: React.FC<QuestionProps> = ({ question, index, totalQuestions, se
     );
 };
 
+// Main component for the RAMAK questionnaire
 const RamakQuestionnaire: React.FC = () => {
+    // State to store questions, current question index, answers, loading status, and error message
     const [questions, setQuestions] = useState<string[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { currentUser } = useSelector((state: any) => state.user);
-    const navigate = useNavigate();
+    const { currentUser } = useSelector((state: any) => state.user); // Get current user from Redux store
+    const navigate = useNavigate(); // For navigation after completing the questionnaire
 
+    // Fetch the questionnaire data from the server
     useEffect(() => {
         const fetchQuestionnaire = async () => {
             try {
@@ -68,6 +78,7 @@ const RamakQuestionnaire: React.FC = () => {
         fetchQuestionnaire();
     }, []);
 
+    // Handle answer selection and update the question index
     const handleAnswer = (index: number, answer: number) => {
         const newAnswers = { ...answers };
         newAnswers[index] = answer === 2 ? 'Y' : answer === 0 ? 'N' : '?';
@@ -79,6 +90,7 @@ const RamakQuestionnaire: React.FC = () => {
         }
     };
 
+    // Calculate score and update user traits and professions
     const calculateScore = async () => {
         setLoading(true);
         try {
@@ -103,7 +115,7 @@ const RamakQuestionnaire: React.FC = () => {
                 console.log(data.message);
                 return;
             }
-            // update user professions
+            // Update user professions based on new traits
             await fetchWithAuth('/server/geneticAlgorithm/findSuitableProfessions', {
                 method: 'POST',
                 headers: {
@@ -111,7 +123,7 @@ const RamakQuestionnaire: React.FC = () => {
                 },
                 body: JSON.stringify({ id: currentUser._id })
             });
-            navigate('/geneticAlgorithm');
+            navigate('/geneticAlgorithm'); // Redirect to the genetic algorithm page
         } catch (err) {
             console.log(err);
             setError('Failed to calculate or update score');
@@ -120,12 +132,16 @@ const RamakQuestionnaire: React.FC = () => {
         }
     };
 
+    // Check if all questions have been answered
     const isComplete = Object.keys(answers).length === questions.length;
 
+    // Render loading spinner, error message, or the questionnaire
     if (loading) {
-        return <div className="flex items-center space-x-2 mt-40 justify-center">
-            <FaSpinner className="animate-spin " />
-        </div>;
+        return (
+            <div className="flex items-center space-x-2 mt-40 justify-center">
+                <FaSpinner className="animate-spin " />
+            </div>
+        );
     }
 
     if (error) {

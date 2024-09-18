@@ -1,13 +1,30 @@
+/**
+ * AddJob Component
+ * 
+ * This component is responsible for rendering a form that allows an admin to add a new job to the system.
+ * It handles form submission, sends a POST request to the server, and provides user feedback 
+ * through toast notifications based on the success or failure of the operation.
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import JobForm from '../components/jobs/jobForm';
 import {fetchWithAuth} from '../utils/fetchWithAuth';
 
-
 export default function AddJob() {
     const navigate = useNavigate();
 
+    /**
+     * handleSubmit
+     * 
+     * Handles the form submission for adding a new job. 
+     * It sends a POST request with the form data to the server.
+     * If the job is successfully added, it shows a success toast and navigates to the admin panel.
+     * If there is an error, it shows an error toast with the appropriate message.
+     * 
+     * @param formData - The form data that needs to be submitted
+     */
     const handleSubmit = async (formData: any) => {
         try {
             const response = await fetchWithAuth('/server/job/addjob', {

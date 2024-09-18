@@ -1,3 +1,13 @@
+/**
+ * index.js
+ * This file is the main entry point for the server. 
+ * It includes the configuration for the server and the routes for the application.
+ * It uses the express library to create the server and define the routes.
+ * It uses the mongoose library to connect to the MongoDB database.
+ * It uses the dotenv library to load environment variables from a .env file.
+ * It uses the userRouter, authRouter, jobRouter, questionnairesRouter, and geneticAlgorithmRouter to define the routes for the application.
+ * It listens on port 3000 or the port specified in the environment variable. 
+ */
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
