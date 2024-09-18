@@ -1,3 +1,13 @@
+/**
+ * This component is responsible for handling the OAuth process with Google.
+ * It uses Firebase authentication to sign in with Google.
+ * The component dispatches the signInSuccess action when the user successfully signs in.
+ * The component redirects the user to the home page after successful sign-in.
+ * The component displays a button with the Google icon to initiate the sign-in process.
+ * The component handles the sign-in process by calling the signInWithPopup method from Firebase auth.
+ * The component sends a POST request to the server with the user's name, email, and photo after successful sign-in.
+ * The component dispatches the signInSuccess action with the user data received from the server.
+ */
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
@@ -8,14 +18,14 @@ import { FcGoogle } from 'react-icons/fc'; // Import Google icon from react-icon
 export default function OAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  // Handle Google sign-in process
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
 
       const result = await signInWithPopup(auth, provider);
-
+      // Send user data to the server
       const res = await fetch('/server/auth/google', {
         method: 'POST',
         headers: {
@@ -43,7 +53,7 @@ export default function OAuth() {
       onClick={handleGoogleClick}
     >
       המשך עם חשבון גוגל
-
+      {/* Google icon */}
       <FcGoogle className="mr-2" size={24} />
     </button>
   );

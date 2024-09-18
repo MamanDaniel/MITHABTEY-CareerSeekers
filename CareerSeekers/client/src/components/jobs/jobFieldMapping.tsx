@@ -1,4 +1,7 @@
-// constants.ts
+/**
+ * This file contains the mapping of job fields to their hebrew translation and color.
+ * The color is used to color the job field in the job field filter.
+ */
 export const jobFields: { [key: string]: { hebrew: string; color: string } } = {
     'Business': {
         hebrew: 'עסקים',

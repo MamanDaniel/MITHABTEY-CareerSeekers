@@ -1,3 +1,8 @@
+/**
+ * PrivateRoute.tsx
+ * This component is used to define private routes in the application.
+ * It checks if the user is logged in and redirects to the appropriate page based on the user's authentication status.
+ */
 import { useSelector } from "react-redux"
 import { Outlet, Navigate, useLocation } from "react-router-dom"
 

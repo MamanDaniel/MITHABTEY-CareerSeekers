@@ -1,3 +1,11 @@
+/**
+ * AdminCard component
+ * this component is a card that represents an admin action
+ * @param title - the title of the card
+ * @param icon - the icon of the card
+ * @param onClick - the function to call when the card is clicked
+ * @returns - the AdminCard component
+ */
 import React from 'react';
 
 interface AdminCardProps {

@@ -1,3 +1,10 @@
+/**
+ * PrerequisitesChart.tsx
+ * This component is used to display a doughnut chart of job prerequisites.
+ * It receives the data for the chart and the job name as props.
+ * The chart displays the percentage of each prerequisite for the job.
+ * The chart uses Chart.js library for rendering.
+ */
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
