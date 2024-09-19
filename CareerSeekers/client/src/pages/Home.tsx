@@ -209,23 +209,25 @@ export default function Home() {
                     </Element>
                 ))}
                 {/* Floating navigation button */}
-                <div className="absolute top-4 right-4 z-10">
-                    <animated.div
-                        style={{ 
-                            transform: rotateAnimation.transform,
-                            cursor: 'pointer',
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            backgroundColor: 'white',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
+                <div className="fixed bottom-10 right-10 flex flex-col space-y-2 bg-white p-1 rounded shadow-lg" dir="rtl">
+                    <button
                         onClick={() => setIsNavOpen(!isNavOpen)}
+                        className="flex items-center justify-between rounded-md bg-indigo-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                        {isNavOpen ? <FaChevronUp size={20} /> : <FaChevronDown size={20} />}
-                    </animated.div>
+                        <span>ניווט</span>
+                        <animated.div style={rotateAnimation} className="mr-2">
+                            {isNavOpen ? <FaChevronUp /> : <FaChevronDown />}
+                        </animated.div>
+                    </button>
+                    {isNavOpen && (
+                        <div className="mt-1 flex flex-col space-y-2">
+                            {sections.map((section) => (
+                                <Link key={section.id} to={section.id} smooth={true} duration={500} className="cursor-pointer text-gray-900 hover:text-gray-600 text-right">
+                                     {section.title || 'מידע כללי'}
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
