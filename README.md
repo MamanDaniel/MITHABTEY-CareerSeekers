@@ -21,6 +21,29 @@ This project spanned two semesters, with the first focusing on research and the 
 - **Profile Management**: Users can edit their profiles and save job listings.
 - **Notifications**: Users are notified when new jobs matching their traits are available.
 
+## Tech Stack
+
+- **Frontend**: React.js, TypeScript, Tailwind CSS
+- **Backend**: Node.js, MongoDB, JWT for authentication
+- **Hosting**: Deployed on Render
+
+## Research Process
+
+During the research phase of the project, we analyzed various job search platforms like **Truity** and **CareerExplorer**, both internationally and in Israel, and identified that most platforms fail to incorporate personality traits when matching users with jobs. We decided to use the **RAMAK questionnaire** due to its accuracy and relevance to the Israeli job market, as recommended by occupational psychologist **Ra'anan Hess**.
+
+We also explored various personality trait models, including the **Big Five** and the **Holland Code (RIASEC)**. However, we selected the RAMAK questionnaire for its modern approach to matching work domains with personality traits.
+
+## Future Improvements
+
+- **Course Integration**: Connect users to relevant online courses for skill development.
+- **Mentorship**: Integrate mentorship programs for career advice and guidance.
+- **Advanced Analytics**: Provide users with feedback on their job search activity and career progress over time.
+
+## Documentation
+
+For a detailed explanation of the project, including the **User Guide** and **Maintenance Guide**, please refer to the [full project documentation](https://docs.google.com/document/d/e/2PACX-1vSm_E2YrwwV3mTLDtL7RYLfZG3Zpe28KjU9sEvL6o273UzoaMAnx4pkGrSuJP6XEM_PM9Rip4VN80ij/pub).
+
+
 ## Job Pages
 
 ### Home Page
@@ -62,28 +85,5 @@ In this page, the user fills in their answers to the questionnaire. After comple
 
 
 
-## Tech Stack
 
-- **Frontend**: React.js, TypeScript, Tailwind CSS
-- **Backend**: Node.js, MongoDB, JWT for authentication
-- **Hosting**: Deployed on Render
 
-## Research Process
-
-During the research phase of the project, we analyzed various job search platforms like **Truity** and **CareerExplorer**, both internationally and in Israel, and identified that most platforms fail to incorporate personality traits when matching users with jobs. We decided to use the **RAMAK questionnaire** due to its accuracy and relevance to the Israeli job market, as recommended by occupational psychologist **Ra'anan Hess**.
-
-We also explored various personality trait models, including the **Big Five** and the **Holland Code (RIASEC)**. However, we selected the RAMAK questionnaire for its modern approach to matching work domains with personality traits.
-
-## Future Improvements
-
-- **Course Integration**: Connect users to relevant online courses for skill development.
-- **Mentorship**: Integrate mentorship programs for career advice and guidance.
-- **Advanced Analytics**: Provide users with feedback on their job search activity and career progress over time.
-
-## Documentation
-
-For a detailed explanation of the project, including the **User Guide** and **Maintenance Guide**, please refer to the [full project documentation](https://docs.google.com/document/d/e/2PACX-1vSm_E2YrwwV3mTLDtL7RYLfZG3Zpe28KjU9sEvL6o273UzoaMAnx4pkGrSuJP6XEM_PM9Rip4VN80ij/pub).
-
-## License
-
-This project is licensed under the MIT License.
