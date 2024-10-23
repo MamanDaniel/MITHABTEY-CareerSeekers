@@ -24,14 +24,16 @@ This project spanned two semesters, with the first focusing on research and the 
 ## Job Pages
 
 ### The Most 3 Suit Jobs Page
-(![The most 3 suit jobs Page](https://github.com/user-attachments/assets/335f97e1-3450-41b3-aede-447610fcba88)
-)
 On this page, users view the three jobs that best suit them after filling out the RAMAK questionnaire.
 
+![The most 3 suit jobs Page](https://github.com/user-attachments/assets/335f97e1-3450-41b3-aede-447610fcba88)
+
+
 ### RAMAK Questionnaire Page
+In this page, the user fills in their answers to the questionnaire. After completing all questions, a calculation is made that describes their traits and the three jobs that best suit them.
 ![RAMAK questionnaire Page](https://github.com/user-attachments/assets/3a77be94-3ab6-4278-a50b-ae88908eddad)
 
-In this page, the user fills in their answers to the questionnaire. After completing all questions, a calculation is made that describes their traits and the three jobs that best suit them.
+
 
 ## Tech Stack
 
