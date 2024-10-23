@@ -23,7 +23,7 @@ This project spanned two semesters, with the first focusing on research and the 
 
 ## Job Pages
 
-###Home Page
+### Home Page
 This page serves as the landing page for your site, which is part of the project for the Facebook group "מתחבטי מקצוע."  From this page the user can navigate to all pages in the project.  In this page, the user also can read about the Facebook group and its manager.
 ![Home](https://github.com/user-attachments/assets/17982283-18f2-45ce-92b7-b9a77fa08e70)
 
