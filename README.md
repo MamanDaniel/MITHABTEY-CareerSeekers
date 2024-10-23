@@ -23,6 +23,33 @@ This project spanned two semesters, with the first focusing on research and the 
 
 ## Job Pages
 
+###Home Page
+This page serves as the landing page for your site, which is part of the project for the Facebook group "מתחבטי מקצוע."  From this page the user can navigate to all pages in the project.  In this page, the user also can read about the Facebook group and its manager.
+![Home](https://github.com/user-attachments/assets/17982283-18f2-45ce-92b7-b9a77fa08e70)
+
+
+### Searching Job By Traits Page
+In this page users can explore job opportunities by inserting traits to filter them, and see the percentage of matching between traits that the user inserted to the job`s traits. In addition, the user can view the job details.
+![Searching Job By Traits Page](https://github.com/user-attachments/assets/a13d9c82-bf78-408b-87b1-c02268854414)
+
+
+### Information of jobs that are characterized by RAMAK questionnaire Page
+In this page the user can view information about professions that exist in the system for the RAMAK questionnaire. The user can make a comparison between the different fields that this questionnaire has and see details for a specific job.
+![Information of jobs that are characterized by RAMAK questionnaire Page](https://github.com/user-attachments/assets/28ecb65a-df44-45d7-906a-b7894c3a9161)
+
+
+### Admin Panel Page
+Admin landing page. In this page the admin can choose whether to navigate to add a job, delete a job, manage users permission or update a profession.
+![Admin Panel Page](https://github.com/user-attachments/assets/47e21c8f-322d-4457-9b42-704a7333f3bf)
+
+
+### Users Permissions Page
+On this page, the main administrator (Irit only) can update user permissions.
+The permissions for the users are for the benefit of providing help to the main administrator in order to add / delete / edit professions.
+![Admin Panel Page](https://github.com/user-attachments/assets/fede49ba-255c-44a8-be45-b9f17771946f)
+
+
+
 ### The Most 3 Suit Jobs Page
 On this page, users view the three jobs that best suit them after filling out the RAMAK questionnaire.
 
