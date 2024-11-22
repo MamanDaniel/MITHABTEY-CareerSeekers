@@ -46,6 +46,9 @@ For a detailed explanation of the project, including the **User Guide** and **Ma
 
 ## Job Pages
 
+### Review
+https://github.com/user-attachments/assets/ccfe246c-a1f8-41b1-b324-29069336f20b
+
 ### Home Page
 This page serves as the landing page for your site, which is part of the project for the Facebook group "מתחבטי מקצוע."  From this page the user can navigate to all pages in the project.  In this page, the user also can read about the Facebook group and its manager.
 ![Home](https://github.com/user-attachments/assets/17982283-18f2-45ce-92b7-b9a77fa08e70)
